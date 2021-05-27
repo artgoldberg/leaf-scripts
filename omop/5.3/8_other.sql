@@ -29,17 +29,17 @@ DECLARE @sql NVARCHAR(MAX)     =
     , name              = CONVERT(NVARCHAR(1),NULL) /* Not in OMOP */
     , race              = c_race.concept_name
     , religion          = CONVERT(NVARCHAR(1),NULL) /* Not in OMOP */
-    FROM [dbo].[person] AS P
-        LEFT JOIN dbo.concept AS c_gender
+    FROM [cdm_std].[person] AS P
+        LEFT JOIN cdm_std.concept AS c_gender
             ON P.gender_concept_id = c_gender.concept_id
-        LEFT JOIN dbo.concept AS c_race
+        LEFT JOIN cdm_std.concept AS c_race
             ON P.race_concept_id = c_race.concept_id
-        LEFT JOIN dbo.concept AS c_ethnicity
+        LEFT JOIN cdm_std.concept AS c_ethnicity
             ON p.ethnicity_concept_id = c_ethnicity.concept_id
-        LEFT JOIN dbo.[location] AS L
+        LEFT JOIN cdm_std.[location] AS L
             ON P.location_id = L.location_id
-        LEFT JOIN dbo.death AS D
+        LEFT JOIN cdm_std.death AS D
             ON P.person_id = D.person_id'
 
-INSERT INTO dbo.DemographicQuery ([Lock],[SqlStatement],[Shape],[LastChanged],[ChangedBy])
+INSERT INTO app.DemographicQuery ([Lock],[SqlStatement],[Shape],[LastChanged],[ChangedBy])
 SELECT 'X', @sql, @demog_query_shape, GETDATE(), @user
