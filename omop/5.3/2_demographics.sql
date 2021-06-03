@@ -3,6 +3,11 @@
  * Demographics
  */
 
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
 BEGIN
 
     DECLARE @yes BIT = 1
@@ -228,12 +233,12 @@ BEGIN
     * Set ParentId based on ExternalIds
     */
     UPDATE LeafDB.app.Concept
-    SET ParentId = P.Id
-    FROM LeafDB.app.Concept AS C
+    SET ParentId = PARENT.Id
+    FROM LeafDB.app.Concept AS CHILD
         INNER JOIN (SELECT P.Id, P.ParentId, P.ExternalId
-                    FROM LeafDB.app.Concept AS P) AS P
-                        ON C.ExternalParentID = P.ExternalID
-    WHERE C.ParentId IS NULL
+                    FROM LeafDB.app.Concept AS P) AS PARENT
+                        ON CHILD.ExternalParentID = PARENT.ExternalID
+    WHERE CHILD.ParentId IS NULL
 
     /**
     * Set RootIds
