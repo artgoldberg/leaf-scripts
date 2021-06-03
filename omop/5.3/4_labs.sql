@@ -32,7 +32,7 @@ BEGIN
             , concept_id
             , concept_code
             , concept_name
-        FROM cdm_std.concept AS C
+        FROM omop.cdm_std.concept AS C
         WHERE C.vocabulary_id = 'LOINC'
               AND C.concept_id = 36206173 /* Root = 'Laboratory' */
         UNION ALL
@@ -43,9 +43,9 @@ BEGIN
             , C.concept_id
             , C.concept_code
             , C.concept_name
-        FROM X INNER JOIN cdm_std.concept_relationship AS CR
+        FROM X INNER JOIN omop.cdm_std.concept_relationship AS CR
                 ON X.concept_id = CR.concept_id_2
-            INNER JOIN cdm_std.concept AS C
+            INNER JOIN omop.cdm_std.concept AS C
                 ON CR.concept_id_1 = C.concept_id
         WHERE C.vocabulary_id = 'LOINC'
             AND CR.relationship_id = 'Is a'
@@ -72,7 +72,7 @@ BEGIN
 
     /**
      * Loop through each parent, find descendants, and back-fill 
-     * any missing relationships in cdm_std.concept_ancestor
+     * any missing relationships in omop.cdm_std.concept_ancestor
      */
     DECLARE @row_id INT     = 1
     DECLARE @max_row_id INT = (SELECT MAX(row_id) FROM #P)
@@ -122,10 +122,10 @@ BEGIN
         /**
          * Insert descendants into concept_ancestor table
          */
-        INSERT INTO cdm_std.concept_ancestor (ancestor_concept_id, descendant_concept_id, min_levels_of_separation, max_levels_of_separation)
+        INSERT INTO omop.cdm_std.concept_ancestor (ancestor_concept_id, descendant_concept_id, min_levels_of_separation, max_levels_of_separation)
         SELECT root_concept_id, concept_id, min_levels_of_separation, max_levels_of_separation
         FROM X2
-        WHERE NOT EXISTS (SELECT 1 FROM cdm_std.concept_ancestor AS L
+        WHERE NOT EXISTS (SELECT 1 FROM omop.cdm_std.concept_ancestor AS L
                             WHERE L.ancestor_concept_id = root_concept_id
                                 AND L.descendant_concept_id = concept_id)
 
@@ -139,15 +139,15 @@ BEGIN
     DECLARE @yes BIT = 1
     DECLARE @no  BIT = 0
     
-    DECLARE @sqlset_person               INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'cdm_std.person')
-    DECLARE @sqlset_visit_occurrence     INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'cdm_std.visit_occurrence') 
-    DECLARE @sqlset_condition_occurrence INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'cdm_std.condition_occurrence') 
-    DECLARE @sqlset_death                INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'cdm_std.death') 
-    DECLARE @sqlset_device_exposure      INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'cdm_std.device_exposure') 
-    DECLARE @sqlset_drug_exposure        INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'cdm_std.drug_exposure') 
-    DECLARE @sqlset_measurement          INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'cdm_std.measurement') 
-    DECLARE @sqlset_observation          INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'cdm_std.observation') 
-    DECLARE @sqlset_procedure_occurrence INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'cdm_std.procedure_occurrence')
+    DECLARE @sqlset_person               INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.person')
+    DECLARE @sqlset_visit_occurrence     INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.visit_occurrence') 
+    DECLARE @sqlset_condition_occurrence INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.condition_occurrence') 
+    DECLARE @sqlset_death                INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.death') 
+    DECLARE @sqlset_device_exposure      INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.device_exposure') 
+    DECLARE @sqlset_drug_exposure        INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.drug_exposure') 
+    DECLARE @sqlset_measurement          INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.measurement') 
+    DECLARE @sqlset_observation          INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.observation') 
+    DECLARE @sqlset_procedure_occurrence INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.procedure_occurrence')
     
     DECLARE @lab_root NVARCHAR(50) = 'lab'
     
@@ -165,7 +165,7 @@ BEGIN
     , SqlSetWhere                   = '/* ' + REPLACE(REPLACE(X.concept_name, 'WITH',''),'SET','') + ' */ ' +
                                             CASE WHEN EXISTS (SELECT 1 FROM #L AS X2 WHERE X2.parent_concept_id = X.concept_id)
                                                     THEN 'EXISTS (SELECT 1 ' +
-                                                        '         FROM cdm_std.concept_ancestor AS @CA ' +
+                                                        '         FROM omop.cdm_std.concept_ancestor AS @CA ' +
                                                         '         WHERE @CA.descendant_concept_id = @.measurement_concept_id ' + 
                                                         '               AND @CA.ancestor_concept_id = ' + CONVERT(NVARCHAR(20), X.concept_id) + ')'
                                                     ELSE '@.measurement_concept_id = ' + CONVERT(NVARCHAR(20), X.concept_id)
@@ -192,7 +192,7 @@ BEGIN
     /**
      * Add temporary index on measurement_concept_id
      */
-    CREATE NONCLUSTERED INDEX IDX_TEMP_measurement_concept_id ON [cdm_std].[measurement] ([measurement_concept_id]) INCLUDE ([person_id])
+    CREATE NONCLUSTERED INDEX IDX_TEMP_measurement_concept_id ON [omop].[cdm_std].[measurement] ([measurement_concept_id]) INCLUDE ([person_id])
     CREATE NONCLUSTERED INDEX IDX_X_0 ON #X ([IsParent]) INCLUDE ([concept_id])
     CREATE NONCLUSTERED INDEX IDX_X_1 ON #X ([row_id])
     CREATE NONCLUSTERED INDEX IDX_X_2 ON #X ([concept_id])
@@ -203,7 +203,7 @@ BEGIN
     DELETE #X
     FROM #X AS X
     WHERE X.IsParent = @no
-        AND NOT EXISTS (SELECT 1 FROM cdm_std.measurement AS M WHERE M.measurement_concept_id = X.concept_id)
+        AND NOT EXISTS (SELECT 1 FROM omop.cdm_std.measurement AS M WHERE M.measurement_concept_id = X.concept_id)
 
     /**
      * DELETE parents with no data
@@ -212,9 +212,9 @@ BEGIN
     FROM #X AS X
     WHERE X.IsParent = @yes
           AND NOT EXISTS (SELECT 1
-                          FROM cdm_std.measurement AS M
+                          FROM omop.cdm_std.measurement AS M
                           WHERE EXISTS (SELECT 1 
-                                        FROM cdm_std.concept_ancestor AS CA 
+                                        FROM omop.cdm_std.concept_ancestor AS CA 
                                         WHERE CA.descendant_concept_id = M.measurement_concept_id 
                                               AND CA.ancestor_concept_id = X.concept_id))
 
@@ -261,10 +261,10 @@ BEGIN
         IF @is_parent = 0
             UPDATE #X
             SET UiDisplayPatientCount = (SELECT COUNT(DISTINCT person_id)
-                                        FROM cdm_std.measurement AS M
+                                        FROM omop.cdm_std.measurement AS M
                                         WHERE M.measurement_concept_id = @concept_id)
               , IsNumeric             = CASE WHEN EXISTS (SELECT 1 
-                                                          FROM cdm_std.measurement AS M
+                                                          FROM omop.cdm_std.measurement AS M
                                                           WHERE M.measurement_concept_id = @concept_id
                                                                 AND M.value_as_number IS NOT NULL)
                                             THEN 1 ELSE 0
@@ -276,9 +276,9 @@ BEGIN
         ELSE
             UPDATE #X
             SET UiDisplayPatientCount = (SELECT COUNT(DISTINCT person_id)
-                                         FROM cdm_std.measurement AS M
+                                         FROM omop.cdm_std.measurement AS M
                                          WHERE EXISTS (SELECT 1 
-                                                       FROM cdm_std.concept_ancestor AS CA 
+                                                       FROM omop.cdm_std.concept_ancestor AS CA 
                                                        WHERE CA.descendant_concept_id = M.measurement_concept_id 
                                                              AND CA.ancestor_concept_id = @concept_id))
             FROM #X AS X
@@ -287,7 +287,7 @@ BEGIN
         SET @row_id += 1
     END
     
-    DROP INDEX IDX_TEMP_measurement_concept_id ON [cdm_std].[measurement]
+    DROP INDEX IDX_TEMP_measurement_concept_id ON [omop].[cdm_std].[measurement]
 
     /**
      * For concepts with multiple parents, set ancestry
@@ -379,9 +379,9 @@ BEGIN
         , cnt                            = COUNT(DISTINCT m.person_id)
     INTO #Y
     FROM #X AS X
-         INNER JOIN cdm_std.measurement AS M
+         INNER JOIN omop.cdm_std.measurement AS M
             ON X.concept_id = M.measurement_concept_id
-         INNER JOIN cdm_std.concept AS C
+         INNER JOIN omop.cdm_std.concept AS C
             ON C.concept_id = M.value_as_concept_id
     WHERE X.IsParent = @no
           AND M.value_as_concept_id IS NOT NULL
