@@ -1,3 +1,5 @@
+#! /usr/bin/env bash
+# comment: use command ./run_leaf_omop_scripts.sh
 # run the leaf-scripts
 MSDW2_PROD="10.95.46.175:1433"
 LEAF_SVC_UID="sql_svc_leaf"
