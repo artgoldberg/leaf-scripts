@@ -9,6 +9,11 @@
  *         the Visualize and Patient List screens.
  */
 
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
 DECLARE @user NVARCHAR(20)     = 'bootstrap_omop.sql'
 DECLARE @demog_query_shape INT = 3
 DECLARE @sql NVARCHAR(MAX)     = 
