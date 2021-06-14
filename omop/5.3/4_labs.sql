@@ -23,6 +23,8 @@ BEGIN
     /**
      * Use a top-down recursive CTE, to LOINC parents to children
      */
+    -- X contains concept hierarchy; for each concept it has:
+    -- parent_concept_id, parent_concept_name, depth, concept_id, concept_code, concept_name
     ; WITH X AS
     (
         SELECT
