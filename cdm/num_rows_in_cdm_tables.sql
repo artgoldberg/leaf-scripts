@@ -1,5 +1,5 @@
-IF OBJECT_ID(N'#TableRowCounts', N'U') IS NOT NULL
-   DROP TABLE #TableRowCounts;
+IF OBJECT_ID(N'tempdb..#TableRowCounts') IS NOT NULL
+	DROP TABLE #TableRowCounts
 CREATE TABLE #TableRowCounts(
 	[TableName] VARCHAR(128),
 	[RowCount] INT);
