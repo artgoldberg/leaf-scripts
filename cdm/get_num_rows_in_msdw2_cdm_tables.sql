@@ -75,5 +75,6 @@ BEGIN
 
   SET @row_id += 1
 END
+GO
 
 SELECT * FROM #TableRowCounts
