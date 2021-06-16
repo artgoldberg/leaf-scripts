@@ -142,5 +142,7 @@ cdm_phi.vocabulary,123
 results_phi.ACHILLES_analysis,264
 results_phi.cohort,0
 results_phi.cohort_definition,0
+etl_metadata.etl_record_source,0
+etl_metadata.etl_source_system,0
 results_deid.cohort,0
 results_deid.cohort_definition,0
