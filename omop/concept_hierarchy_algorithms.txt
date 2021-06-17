@@ -1,0 +1,140 @@
+Algorithms to create Leaf concept hierarchies from CDM databases
+
+We describe the algorithms used in this repo to create Leaf concept hierarchies from CDM databases.
+
+Consider a clinical domain named DOMAIN.
+
+I: From an existing OHDSI omop clinical domain's concept hierarchy
+
+This section describes the algorithm used by the scripts in `leaf-scripts/omop/5.3` which create
+concept hierarchies from an existing OHDSI omop clinical domain and concept table.
+
+  ### Define a Leaf clinical domain concept set in `app.ConceptSqlSet` for DOMAIN
+  The concept set contains DOMAIN's fully qualified table or view name, date column and attributes that
+  indicate whether DOMAIN is encounter-based or event-based. `1_sqlsets.sql` does this.
+
+  ### Define DOMAIN's concept hierarchy
+  concept_set_id <- the primary key in app.ConceptSqlSet for DOMAIN
+
+  1. Use this CTE query to obtain the name, id, count, and "id as a string" for all concepts in DOMAIN being
+  added to the hierarchy. DB_AND_SCHEMA refers to the database and schema that stores the CDM:
+
+    WITH domain_concepts AS
+      SELECT concept.concept_name, concept.concept_id, cnt = COUNT(DISTINCT person_id),
+        concept_id_string = CONVERT(NVARCHAR(50), concept.concept_id)
+      FROM <DB_AND_SCHEMA>.<DOMAIN> AS domain INNER JOIN <DB_AND_SCHEMA>.concept AS concept
+        ON domain.<DOMAIN>_concept_id = concept.concept_id
+      WHERE domain.<DOMAIN>_concept_id != 0
+      GROUP BY concept.concept_name, concept.concept_id 
+
+  root_name <- a string name for DOMAIN's root, used only by these algorithms
+
+  2. insert a root for DOMAIN into `LeafDB.app.Concept``, with these attributes:
+    IsNumeric             = @no # roots cannot be numeric
+    IsRoot                = @yes  # boolean, indicating that this is a root
+    IsParent              = @yes  # boolean, indicating this root will be a parent to other concepts
+    SqlSetId              = concept_set_id  # Foreign key to the ConceptSqlSet for DOMAIN
+    SqlSetWhere           = NULL  # TO BE COMPLETED
+    SqlFieldNumeric       = NULL  # roots cannot be numeric
+    UiDisplayName         = # a string, which Leaf will display to users in the concept hierarchy
+                            # and index for search
+    UiDisplayText         = # a string, which Leaf displays for the concept in the query builder area of the GUI
+    UiDisplayUnits        = NULL  # roots are not numeric
+    UiNumericDefaultText  = NULL  # roots are not numeric
+    UiDisplayPatientCount = (SELECT COUNT(DISTINCT person_id) FROM <DB_AND_SCHEMA>.<DOMAIN>)
+                            # count of unique patients described in DOMAIN
+                            # This field should be updated by the stored procedure LeafDB.app.sp_CalculatePatientCounts
+                            # whenever the clinical database changes.
+    ExternalId            = root_name
+    ExternalParentId      = NULL  # The root doesn't have a parent.
+
+  3. Using the table of concepts in DOMAIN found above, insert an entry in `LeafDB.app.Concept``, with these attributes:
+    IsNumeric             = # boolean, indicating whether the concept is numeric, like age or blood pressure
+    IsParent              = # boolean, indicating whether the concept is a parent of other concepts
+    IsRoot                = @no # boolean, indicating that this is not a root
+    SqlSetId              = concept_set_id  # Foreign key to the ConceptSqlSet for DOMAIN
+    SqlSetWhere           = # A string storing an SQL expression template that selects records in the DOMAIN which
+                            # use the concept. E.g., in this expression
+                            '@.<DOMAIN>_concept_id = ' + domain_concepts.concept_id_string
+                            # '@' will be replaced with DOMAIN, <DOMAIN>_concept_id is the field in DOMAIN which
+                            # stores concept ids, and 'domain_concepts' is bound to a record in the CTE obtained
+                            # in step 1.
+    SqlFieldNumeric       = # A string storing an SQL expression template for the DOMAIN's numerical value, if it
+                            # is numeric. E.g., in this expression
+                            '@.numerical_field_name'
+                            # '@' will be replaced with DOMAIN and 'numerical_field_name' is the field in DOMAIN
+                            # that stores the numerical value. Examples include
+                            '(DATEDIFF(DAY, @.birth_datetime, GETDATE()) / 365.25)'
+                            # for current age, and
+                            '@.value_as_number'
+                            # for measurements in `measurement.value_as_number`.
+    UiDisplayName         = domain_concepts.concept_name  # The concept's name in Leaf
+    UiDisplayText         = # Text that indicates the concept is statisfied, such as
+                            'Had diagnosis of ' + domain_concepts.concept_name
+                            # for conditions.
+    UiDisplayUnits        = # Units for numerical values, such as
+                            'years old'
+                            # for age.
+    UiNumericDefaultText  = # Default text for numerical values if a Leaf user doesn't specify specific value(s),
+                            # such as
+                            'of any result'
+                            # for measurements.
+    UiDisplayPatientCount = # Count of unique patients that satisfy the concept (without user refinements), initialized as
+                            domain_concepts.cnt
+                            # This field should be updated by the stored procedure LeafDB.app.sp_CalculatePatientCounts
+                            # whenever the clinical database changes.
+    ExternalId            = # A unique string that identifies this concept in the DOMAIN, which should be tied to a source
+                            # system ID, such as an Epic `MEDICATION_ID` or internal clinic ID.
+    ExternalParentId      = # The ExternalId for this concept's parent
+
+  4. Set the ParentId for concepts in DOMAIN, by using the ExternalId and ExternalParentId values set above,
+  which is achieved by:
+
+    UPDATE LeafDB.app.Concept
+    SET ParentId = PARENT.Id
+    FROM LeafDB.app.Concept AS CHILD
+        INNER JOIN (SELECT P.Id, P.ParentId, P.ExternalId
+                    FROM LeafDB.app.Concept AS P) AS PARENT
+                        ON CHILD.ExternalParentID = PARENT.ExternalID
+    WHERE CHILD.ParentId IS NULL
+
+  5. Set RootId, the unique identifier for the DOMAIN's root concept, for concepts in DOMAIN. This
+  is achieved by:
+
+    # Recursively descend the concept hierarchy from any roots (IsRoot = 1) to find each concept's root.
+    ; WITH roots AS
+    (
+        SELECT RootId           = C.Id
+            , RootUiDisplayName = C.UiDisplayName
+            , C.IsRoot
+            , C.Id
+            , C.ParentId
+            , C.UiDisplayName
+        FROM LeafDB.app.Concept AS C
+        WHERE C.IsRoot = 1
+
+        UNION ALL
+
+        SELECT roots.RootId
+            , roots.RootUiDisplayName
+            , C2.IsRoot
+            , C2.Id
+            , C2.ParentId
+            , C2.UiDisplayName
+        FROM roots
+            INNER JOIN LeafDB.app.Concept AS C2
+                ON C2.ParentId = roots.Id
+    )
+
+    # Set the root for concepts that do not have it set.
+    UPDATE LeafDB.app.Concept
+    SET RootId = roots.RootId
+    FROM LeafDB.app.Concept AS C
+        INNER JOIN roots
+            ON C.Id = roots.Id
+    WHERE C.RootId IS NULL
+
+
+II: From a flat list of concepts, such as a list of Epic concepts
+
+TBD.
