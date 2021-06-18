@@ -1,21 +1,21 @@
 /**
  * Labs
  * Notes - This script creates Leaf concepts representing laboratory
- *         tests based on a modified LOINC hierarchy. It does so by 
+ *         tests based on a modified LOINC hierarchy. It does so by
  *         'pruning' the LOINC tree to show only tests present in the
  *         dbo.measurement table and simplifies their display names and
  *         so on along the way.
  *
- *         Importantly, the script build Leaf concepts' SQL by leveraging 
- *         the OMOP `dbo.concept_ancestor` table. As this table contains *many* 
- *         but not *all* necessary ancestor-descendent relationships needed, 
- *         the script begins by recursively back-filling any missing relationships 
- *         present in the `dbo.concept_relationship` (of 'Is a' type) and inserting 
- *         them in the `dbo.concept_ancestor` table.  
- *         
- *         Because of this (and other processes downstream, including patient count 
- *         calculation) the script may take time to run, depending on the specifics 
- *         of database size, hardware, etc. Where possible, the script  
+ *         Importantly, the script build Leaf concepts' SQL by leveraging
+ *         the OMOP `dbo.concept_ancestor` table. As this table contains *many*
+ *         but not *all* necessary ancestor-descendent relationships needed,
+ *         the script begins by recursively back-filling any missing relationships
+ *         present in the `dbo.concept_relationship` (of 'Is a' type) and inserting
+ *         them in the `dbo.concept_ancestor` table.
+ *
+ *         Because of this (and other processes downstream, including patient count
+ *         calculation) the script may take time to run, depending on the specifics
+ *         of database size, hardware, etc. Where possible, the script
  *         manages its own temporary indices and cleans up after itself.
  */
 BEGIN
@@ -73,7 +73,7 @@ BEGIN
     FROM P
 
     /**
-     * Loop through each parent, find descendants, and back-fill 
+     * Loop through each parent, find descendants, and back-fill
      * any missing relationships in omop.cdm_std.concept_ancestor
      */
     DECLARE @row_id INT     = 1
@@ -83,7 +83,7 @@ BEGIN
     WHILE @row_id <= @max_row_id
     BEGIN
         SET @concept_id = (SELECT TOP 1 parent_concept_id FROM #P WHERE row_id = @row_id)
-        
+
         /**
          * Recurse to find all descendant concepts
          */
@@ -95,7 +95,7 @@ BEGIN
                         , root_depth          = L.depth - 1
                         , parent_concept_id
                         , parent_concept_name
-                        , depth            
+                        , depth
                         , concept_id
                         , concept_code
                         , concept_name
@@ -108,7 +108,7 @@ BEGIN
                         , X.root_depth
                         , parent_concept_id   = X.concept_id
                         , parent_concept_name = X.concept_name
-                        , depth               = X.depth + 1                  
+                        , depth               = X.depth + 1
                         , L.concept_id
                         , L.concept_code
                         , L.concept_name
@@ -133,26 +133,26 @@ BEGIN
 
         SET @row_id += 1
     END
-    
-    
+
+
     /**
      * Initialize Leaf-related params
      */
     DECLARE @yes BIT = 1
     DECLARE @no  BIT = 0
-    
+
     DECLARE @sqlset_person               INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.person')
-    DECLARE @sqlset_visit_occurrence     INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.visit_occurrence') 
-    DECLARE @sqlset_condition_occurrence INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.condition_occurrence') 
-    DECLARE @sqlset_death                INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.death') 
-    DECLARE @sqlset_device_exposure      INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.device_exposure') 
-    DECLARE @sqlset_drug_exposure        INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.drug_exposure') 
-    DECLARE @sqlset_measurement          INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.measurement') 
-    DECLARE @sqlset_observation          INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.observation') 
+    DECLARE @sqlset_visit_occurrence     INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.visit_occurrence')
+    DECLARE @sqlset_condition_occurrence INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.condition_occurrence')
+    DECLARE @sqlset_death                INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.death')
+    DECLARE @sqlset_device_exposure      INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.device_exposure')
+    DECLARE @sqlset_drug_exposure        INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.drug_exposure')
+    DECLARE @sqlset_measurement          INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.measurement')
+    DECLARE @sqlset_observation          INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.observation')
     DECLARE @sqlset_procedure_occurrence INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.procedure_occurrence')
-    
+
     DECLARE @lab_root NVARCHAR(50) = 'lab'
-    
+
     SELECT DISTINCT
       RootId                        = NULL
     , ParentId                      = NULL
@@ -168,7 +168,7 @@ BEGIN
                                             CASE WHEN EXISTS (SELECT 1 FROM #L AS X2 WHERE X2.parent_concept_id = X.concept_id)
                                                     THEN 'EXISTS (SELECT 1 ' +
                                                         '         FROM omop.cdm_std.concept_ancestor AS @CA ' +
-                                                        '         WHERE @CA.descendant_concept_id = @.measurement_concept_id ' + 
+                                                        '         WHERE @CA.descendant_concept_id = @.measurement_concept_id ' +
                                                         '               AND @CA.ancestor_concept_id = ' + CONVERT(NVARCHAR(20), X.concept_id) + ')'
                                                     ELSE '@.measurement_concept_id = ' + CONVERT(NVARCHAR(20), X.concept_id)
                                             END
@@ -180,13 +180,13 @@ BEGIN
     , UiNumericDefaultText          = CONVERT(NVARCHAR(50), NULL)
     , AddDateTime                   = GETDATE()
     , ContentLastUpdateDateTime     = GETDATE()
-    
+
     , concept_id
     , concept_name
     , concept_code
     , parent_concept_id
     , parent_concept_name
-    
+
     , row_id = 0
     INTO #X
     FROM #L AS X
@@ -198,7 +198,7 @@ BEGIN
     CREATE NONCLUSTERED INDEX IDX_X_0 ON #X ([IsParent]) INCLUDE ([concept_id])
     CREATE NONCLUSTERED INDEX IDX_X_1 ON #X ([row_id])
     CREATE NONCLUSTERED INDEX IDX_X_2 ON #X ([concept_id])
-    
+
     /**
      * DELETE non-parents with no data
      */
@@ -215,9 +215,9 @@ BEGIN
     WHERE X.IsParent = @yes
           AND NOT EXISTS (SELECT 1
                           FROM omop.cdm_std.measurement AS M
-                          WHERE EXISTS (SELECT 1 
-                                        FROM omop.cdm_std.concept_ancestor AS CA 
-                                        WHERE CA.descendant_concept_id = M.measurement_concept_id 
+                          WHERE EXISTS (SELECT 1
+                                        FROM omop.cdm_std.concept_ancestor AS CA
+                                        WHERE CA.descendant_concept_id = M.measurement_concept_id
                                               AND CA.ancestor_concept_id = X.concept_id))
 
     /**
@@ -239,8 +239,8 @@ BEGIN
 
     UPDATE #X
     SET row_id = Y.row_id
-    FROM #X AS X 
-        INNER JOIN Y 
+    FROM #X AS X
+        INNER JOIN Y
             ON X.concept_id = Y.concept_id
 
     /**
@@ -250,7 +250,7 @@ BEGIN
     SET @concept_id = 0
     SET @max_row_id = (SELECT MAX(row_id) FROM #X)
     DECLARE @is_parent BIT = @no
-    
+
     /**
      * Calculate UiDisplayCount and IsNumeric serially
      */
@@ -258,14 +258,14 @@ BEGIN
     BEGIN
         SET @concept_id = (SELECT TOP 1 concept_id FROM #X WHERE row_id = @row_id)
         SET @is_parent  = (SELECT TOP 1 IsParent FROM #X WHERE row_id = @row_id)
-        
+
         /* If non-parent */
         IF @is_parent = 0
             UPDATE #X
             SET UiDisplayPatientCount = (SELECT COUNT(DISTINCT person_id)
                                         FROM omop.cdm_std.measurement AS M
                                         WHERE M.measurement_concept_id = @concept_id)
-              , IsNumeric             = CASE WHEN EXISTS (SELECT 1 
+              , IsNumeric             = CASE WHEN EXISTS (SELECT 1
                                                           FROM omop.cdm_std.measurement AS M
                                                           WHERE M.measurement_concept_id = @concept_id
                                                                 AND M.value_as_number IS NOT NULL)
@@ -273,22 +273,22 @@ BEGIN
                                         END
             FROM #X AS X
             WHERE X.concept_id = @concept_id
-        
+
         /* Else if parent */
         ELSE
             UPDATE #X
             SET UiDisplayPatientCount = (SELECT COUNT(DISTINCT person_id)
                                          FROM omop.cdm_std.measurement AS M
-                                         WHERE EXISTS (SELECT 1 
-                                                       FROM omop.cdm_std.concept_ancestor AS CA 
-                                                       WHERE CA.descendant_concept_id = M.measurement_concept_id 
+                                         WHERE EXISTS (SELECT 1
+                                                       FROM omop.cdm_std.concept_ancestor AS CA
+                                                       WHERE CA.descendant_concept_id = M.measurement_concept_id
                                                              AND CA.ancestor_concept_id = @concept_id))
             FROM #X AS X
             WHERE X.concept_id = @concept_id
-        
+
         SET @row_id += 1
     END
-    
+
     DROP INDEX IDX_TEMP_measurement_concept_id ON [omop].[cdm_std].[measurement]
 
     /**
@@ -314,10 +314,10 @@ BEGIN
     )
     , D AS
     (
-        SELECT DISTINCT UiDisplayName, concept_id, max_parent_id 
+        SELECT DISTINCT UiDisplayName, concept_id, max_parent_id
         FROM C
     )
-    
+
     DELETE #X
     FROM #X AS X
         INNER JOIN D
@@ -328,7 +328,7 @@ BEGIN
      * Set numeric lab test-specific column values
      */
     UPDATE #X
-    SET UiNumericDefaultText = 'of any result' 
+    SET UiNumericDefaultText = 'of any result'
     , SqlFieldNumeric      = '@.value_as_number'
     WHERE IsNumeric = 1
 
@@ -373,7 +373,7 @@ BEGIN
      * Find value_as_concept lab tests
      * (e.g., tests with 'Positive' or 'Negative' results)
      */
-    SELECT 
+    SELECT
           concept_id					 = X.concept_id
         , concept_name				     = X.concept_name
         , measurement_concept_id         = M.value_as_concept_id
@@ -389,7 +389,7 @@ BEGIN
           AND M.value_as_concept_id IS NOT NULL
     GROUP BY  X.concept_id, X.concept_name, M.value_as_concept_id, C.concept_name
 
-    /** 
+    /**
      * Update IsParent flag for Concepts with child `value_as_concept_id` Concepts
      */
     UPDATE #X
@@ -457,7 +457,7 @@ BEGIN
                     FROM LeafDB.app.Concept AS P) AS P
                             ON C.ExternalParentID = P.ExternalID
     WHERE C.ParentId IS NULL
-    
+
     /**
      * Set RootIds
      */
@@ -471,9 +471,9 @@ BEGIN
             , C.UiDisplayName
         FROM LeafDB.app.Concept AS C
         WHERE C.IsRoot = 1
-    
+
         UNION ALL
-    
+
         SELECT roots.RootId
             , roots.RootUiDisplayName
             , C2.IsRoot
@@ -484,7 +484,7 @@ BEGIN
             INNER JOIN LeafDB.app.Concept AS C2
                 ON C2.ParentId = roots.Id
     )
-    
+
     UPDATE LeafDB.app.Concept
     SET RootId = roots.RootId
     FROM LeafDB.app.Concept AS C
