@@ -4,7 +4,7 @@ We describe the algorithms used in this repo to create Leaf concept hierarchies 
 
 Consider a clinical domain named DOMAIN.
 
-I: From an existing OHDSI omop clinical domain's concept hierarchy
+I: Create Leaf concept hierarchies from an existing OHDSI omop clinical domain's concept hierarchy
 
 This section describes the algorithm used by the scripts in `leaf-scripts/omop/5.3` which create
 concept hierarchies from an existing OHDSI omop clinical domain and concept table.
@@ -16,7 +16,7 @@ concept hierarchies from an existing OHDSI omop clinical domain and concept tabl
   ### Define DOMAIN's concept hierarchy
   concept_set_id <- the primary key in app.ConceptSqlSet for DOMAIN
 
-  1. Use this CTE query to obtain the name, id, count, and "id as a string" for all concepts in DOMAIN being
+  1. Use this CTE query to obtain the name, id, count, and the id as a string for all concepts in DOMAIN being
   added to the hierarchy. DB_AND_SCHEMA refers to the database and schema that stores the CDM:
 
     WITH domain_concepts AS
@@ -34,13 +34,13 @@ concept hierarchies from an existing OHDSI omop clinical domain and concept tabl
     IsRoot                = @yes  # boolean, indicating that this is a root
     IsParent              = @yes  # boolean, indicating this root will be a parent to other concepts
     SqlSetId              = concept_set_id  # Foreign key to the ConceptSqlSet for DOMAIN
-    SqlSetWhere           = NULL  # TO BE COMPLETED
-    SqlFieldNumeric       = NULL  # roots cannot be numeric
+    SqlSetWhere           = NULL  # typically NULL, as roots typically don't select particular concepts
+    SqlFieldNumeric       = NULL  # same reason as SqlSetWhere
     UiDisplayName         = # a string, which Leaf will display to users in the concept hierarchy
                             # and index for search
     UiDisplayText         = # a string, which Leaf displays for the concept in the query builder area of the GUI
-    UiDisplayUnits        = NULL  # roots are not numeric
-    UiNumericDefaultText  = NULL  # roots are not numeric
+    UiDisplayUnits        = NULL  # same reason as SqlSetWhere
+    UiNumericDefaultText  = NULL  # same reason as SqlSetWhere
     UiDisplayPatientCount = (SELECT COUNT(DISTINCT person_id) FROM <DB_AND_SCHEMA>.<DOMAIN>)
                             # count of unique patients described in DOMAIN
                             # This field should be updated by the stored procedure LeafDB.app.sp_CalculatePatientCounts
@@ -69,9 +69,10 @@ concept hierarchies from an existing OHDSI omop clinical domain and concept tabl
                             '@.value_as_number'
                             # for measurements in `measurement.value_as_number`.
     UiDisplayName         = domain_concepts.concept_name  # The concept's name in Leaf
-    UiDisplayText         = # Text that indicates the concept is statisfied, such as
+    UiDisplayText         = # Text concept displayed in the query builder area of the Leaf GUI that indicates
+                            # the concept is statisfied, such as
                             'Had diagnosis of ' + domain_concepts.concept_name
-                            # for conditions.
+                            # for conditions. See more detail at the leaf-scripts repo.
     UiDisplayUnits        = # Units for numerical values, such as
                             'years old'
                             # for age.
@@ -87,8 +88,8 @@ concept hierarchies from an existing OHDSI omop clinical domain and concept tabl
                             # system ID, such as an Epic `MEDICATION_ID` or internal clinic ID.
     ExternalParentId      = # The ExternalId for this concept's parent
 
-  4. Set the ParentId for concepts in DOMAIN, by using the ExternalId and ExternalParentId values set above,
-  which is achieved by:
+  4. Set the ParentId for concepts in DOMAIN that do not have it set, by using the ExternalId and
+  ExternalParentId values set in step 3 above, which is achieved by:
 
     UPDATE LeafDB.app.Concept
     SET ParentId = PARENT.Id
