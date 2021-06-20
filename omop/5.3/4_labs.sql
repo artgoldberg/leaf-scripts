@@ -25,7 +25,7 @@ BEGIN
      */
     -- X contains concept hierarchy; for each concept it has:
     -- parent_concept_id, parent_concept_name, depth, concept_id, concept_code, concept_name
-    ; WITH X AS
+    ; WITH LOINC_concepts AS
     (
         SELECT
               parent_concept_id   = CONVERT(INT, NULL)
@@ -37,28 +37,30 @@ BEGIN
         FROM omop.cdm_std.concept AS C
         WHERE C.vocabulary_id = 'LOINC'
               AND C.concept_id = 36206173 /* Root = 'Laboratory' */
+
         UNION ALL
+
         SELECT
-              parent_concept_id   = X.concept_id
-            , parent_concept_name = X.concept_name
-            , depth               = X.depth + 1
+              parent_concept_id   = LOINC_concepts.concept_id
+            , parent_concept_name = LOINC_concepts.concept_name
+            , depth               = LOINC_concepts.depth + 1
             , C.concept_id
             , C.concept_code
             , C.concept_name
-        FROM X INNER JOIN omop.cdm_std.concept_relationship AS CR
-                ON X.concept_id = CR.concept_id_2
+        FROM LOINC_concepts INNER JOIN omop.cdm_std.concept_relationship AS CR
+                ON LOINC_concepts.concept_id = CR.concept_id_2
             INNER JOIN omop.cdm_std.concept AS C
                 ON CR.concept_id_1 = C.concept_id
         WHERE C.vocabulary_id = 'LOINC'
             AND CR.relationship_id = 'Is a'
-            AND C.concept_id != X.concept_id
+            AND C.concept_id != LOINC_concepts.concept_id
     )
     SELECT parent_concept_id, parent_concept_name, depth = MIN(depth), concept_id, concept_code, concept_name
-    INTO #L
-    FROM X
+    INTO #LOINC_concepts
+    FROM LOINC_concepts
     GROUP BY parent_concept_id, parent_concept_name, concept_id, concept_code, concept_name
 
-    CREATE NONCLUSTERED INDEX IDX_TEMP ON #L ([parent_concept_id],[depth])
+    CREATE NONCLUSTERED INDEX IDX_TEMP ON #LOINC_concepts ([parent_concept_id],[depth])
 
     /**
      * Find all unique parent LOINC concept_ids
@@ -66,7 +68,7 @@ BEGIN
     ; WITH P AS
     (
         SELECT DISTINCT parent_concept_id
-        FROM #L
+        FROM #LOINC_concepts
     )
     SELECT parent_concept_id, row_id = ROW_NUMBER() OVER (ORDER BY (SELECT 1))
     INTO #P
@@ -80,59 +82,59 @@ BEGIN
     DECLARE @max_row_id INT = (SELECT MAX(row_id) FROM #P)
     DECLARE @concept_id INT = (SELECT TOP 1 parent_concept_id FROM #P WHERE row_id = @row_id)
 
-    WHILE @row_id <= @max_row_id
-    BEGIN
-        SET @concept_id = (SELECT TOP 1 parent_concept_id FROM #P WHERE row_id = @row_id)
-
-        /**
-         * Recurse to find all descendant concepts
-         */
-        ; WITH X AS
-        (
-                SELECT
-                        root_concept_id     = L.parent_concept_id
-                        , root_concept_name   = L.parent_concept_name
-                        , root_depth          = L.depth - 1
-                        , parent_concept_id
-                        , parent_concept_name
-                        , depth
-                        , concept_id
-                        , concept_code
-                        , concept_name
-                FROM #L AS L
-                WHERE L.parent_concept_id = @concept_id
-                UNION ALL
-                SELECT
-                        X.root_concept_id
-                        , X.root_concept_name
-                        , X.root_depth
-                        , parent_concept_id   = X.concept_id
-                        , parent_concept_name = X.concept_name
-                        , depth               = X.depth + 1
-                        , L.concept_id
-                        , L.concept_code
-                        , L.concept_name
-                FROM X INNER JOIN #L AS L
-                        ON X.concept_id = L.parent_concept_id
-        )
-        , X2 AS
-        (
-                SELECT root_concept_id, concept_id, min_levels_of_separation = MIN(depth - root_depth), max_levels_of_separation = MAX(depth - root_depth)
-                FROM X
-                GROUP BY root_concept_id, concept_id
-        )
-        /**
-         * Insert descendants into concept_ancestor table
-         */
-        INSERT INTO omop.cdm_std.concept_ancestor (ancestor_concept_id, descendant_concept_id, min_levels_of_separation, max_levels_of_separation)
-        SELECT root_concept_id, concept_id, min_levels_of_separation, max_levels_of_separation
-        FROM X2
-        WHERE NOT EXISTS (SELECT 1 FROM omop.cdm_std.concept_ancestor AS L
-                            WHERE L.ancestor_concept_id = root_concept_id
-                                AND L.descendant_concept_id = concept_id)
-
-        SET @row_id += 1
-    END
+--    WHILE @row_id <= @max_row_id
+--    BEGIN
+--        SET @concept_id = (SELECT TOP 1 parent_concept_id FROM #P WHERE row_id = @row_id)
+--
+--        /**
+--         * Recurse to find all descendant concepts
+--         */
+--        ; WITH X AS
+--        (
+--                SELECT
+--                        root_concept_id     = L.parent_concept_id
+--                        , root_concept_name   = L.parent_concept_name
+--                        , root_depth          = L.depth - 1
+--                        , parent_concept_id
+--                        , parent_concept_name
+--                        , depth
+--                        , concept_id
+--                        , concept_code
+--                        , concept_name
+--                FROM #LOINC_concepts AS L
+--                WHERE L.parent_concept_id = @concept_id
+--                UNION ALL
+--                SELECT
+--                        X.root_concept_id
+--                        , X.root_concept_name
+--                        , X.root_depth
+--                        , parent_concept_id   = X.concept_id
+--                        , parent_concept_name = X.concept_name
+--                        , depth               = X.depth + 1
+--                        , L.concept_id
+--                        , L.concept_code
+--                        , L.concept_name
+--                FROM X INNER JOIN #LOINC_concepts AS L
+--                        ON X.concept_id = L.parent_concept_id
+--        )
+--        , X2 AS
+--        (
+--                SELECT root_concept_id, concept_id, min_levels_of_separation = MIN(depth - root_depth), max_levels_of_separation = MAX(depth - root_depth)
+--                FROM X
+--                GROUP BY root_concept_id, concept_id
+--        )
+--        /**
+--         * Insert descendants into concept_ancestor table
+--         */
+--        INSERT INTO omop.cdm_std.concept_ancestor (ancestor_concept_id, descendant_concept_id, min_levels_of_separation, max_levels_of_separation)
+--        SELECT root_concept_id, concept_id, min_levels_of_separation, max_levels_of_separation
+--        FROM X2
+--        WHERE NOT EXISTS (SELECT 1 FROM omop.cdm_std.concept_ancestor AS L
+--                            WHERE L.ancestor_concept_id = root_concept_id
+--                                AND L.descendant_concept_id = concept_id)
+--
+--        SET @row_id += 1
+--    END
 
 
     /**
@@ -160,12 +162,12 @@ BEGIN
     , ExternalParentId              = @lab_root + ':' + CONVERT(NVARCHAR(20), X.parent_concept_id)
     , IsPatientCountAutoCalculated  = @yes
     , IsNumeric                     = @no
-    , IsParent                      = CASE WHEN EXISTS (SELECT 1 FROM #L AS X2 WHERE X2.parent_concept_id = X.concept_id) THEN 1 ELSE 0 END
+    , IsParent                      = CASE WHEN EXISTS (SELECT 1 FROM #LOINC_concepts AS X2 WHERE X2.parent_concept_id = X.concept_id) THEN 1 ELSE 0 END
     , IsRoot                        = CASE WHEN X.parent_concept_id IS NULL THEN 1 ELSE 0 END
     , IsSpecializable               = @no
     , SqlSetId                      = @sqlset_measurement
     , SqlSetWhere                   = '/* ' + REPLACE(REPLACE(X.concept_name, 'WITH',''),'SET','') + ' */ ' +
-                                            CASE WHEN EXISTS (SELECT 1 FROM #L AS X2 WHERE X2.parent_concept_id = X.concept_id)
+                                            CASE WHEN EXISTS (SELECT 1 FROM #LOINC_concepts AS X2 WHERE X2.parent_concept_id = X.concept_id)
                                                     THEN 'EXISTS (SELECT 1 ' +
                                                         '         FROM omop.cdm_std.concept_ancestor AS @CA ' +
                                                         '         WHERE @CA.descendant_concept_id = @.measurement_concept_id ' +
@@ -189,7 +191,7 @@ BEGIN
 
     , row_id = 0
     INTO #X
-    FROM #L AS X
+    FROM #LOINC_concepts AS X
 
     /**
      * Add temporary index on measurement_concept_id
