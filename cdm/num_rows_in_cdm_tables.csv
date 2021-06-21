@@ -1,5 +1,5 @@
 "TableName","RowCount"
-cdm.care_site,0
+cdm.care_site,82751
 cdm.cdm_source,0
 cdm.concept,7832821
 cdm.concept_ancestor,84887977
@@ -9,7 +9,7 @@ cdm.concept_synonym,8968142
 cdm.condition_era,0
 cdm.condition_occurrence,117833887
 cdm.cost,0
-cdm.death,12906754
+cdm.death,35178
 cdm.device_exposure,0
 cdm.domain,48
 cdm.dose_era,0
@@ -25,11 +25,11 @@ cdm.note,0
 cdm.note_nlp,0
 cdm.observation,145992630
 cdm.payer_plan_period,0
-cdm.person,0
+cdm.person,12906754
 cdm.prj_cohort,600
 cdm.prj_cohort_definition,3
 cdm.procedure_occurrence,158562511
-cdm.provider,0
+cdm.provider,1191876
 cdm.provider_attribute_xtn,0
 cdm.relationship,618
 cdm.specimen,0
@@ -45,7 +45,7 @@ cdm_deid.concept_class,428
 cdm_deid.concept_relationship,54815924
 cdm_deid.concept_synonym,8968142
 cdm_deid.condition_occurrence,0
-cdm_deid.death,12906754
+cdm_deid.death,35178
 cdm_deid.domain,48
 cdm_deid.drug_exposure,0
 cdm_deid.drug_strength,2845534
@@ -55,7 +55,7 @@ cdm_deid.location,0
 cdm_deid.measurement,0
 cdm_deid.medication_administration_xtn,0
 cdm_deid.observation,0
-cdm_deid.observation_period,0
+cdm_deid.observation_period,12906754
 cdm_deid.past_medical_history_xtn,0
 cdm_deid.patient_demographics_xtn,0
 cdm_deid.person,0
@@ -77,7 +77,7 @@ cdm_std.concept_class,428
 cdm_std.concept_relationship,54815924
 cdm_std.concept_synonym,8968142
 cdm_std.condition_occurrence,0
-cdm_std.death,12906754
+cdm_std.death,35178
 cdm_std.domain,48
 cdm_std.drug_exposure,0
 cdm_std.drug_strength,2845534
@@ -85,10 +85,10 @@ cdm_std.fact_relationship,0
 cdm_std.location,14181381
 cdm_std.measurement,0
 cdm_std.observation,0
-cdm_std.observation_period,0
-cdm_std.person,0
+cdm_std.observation_period,12906754
+cdm_std.person,5252990
 cdm_std.procedure_occurrence,0
-cdm_std.provider,0
+cdm_std.provider,749813
 cdm_std.relationship,618
 cdm_std.visit_occurrence,0
 cdm_std.vocabulary,123
@@ -102,8 +102,8 @@ cdm_phi.concept_relationship,54815924
 cdm_phi.concept_synonym,8968142
 cdm_phi.condition_occurrence,0
 cdm_phi.condition_occurrence_version_xtn,0
-cdm_phi.death,12906754
-cdm_phi.death_version_xtn,12906754
+cdm_phi.death,35178
+cdm_phi.death_version_xtn,35178
 cdm_phi.domain,48
 cdm_phi.drug_exposure,0
 cdm_phi.drug_exposure_version_xtn,0
@@ -118,7 +118,7 @@ cdm_phi.measurement,0
 cdm_phi.measurement_version_xtn,0
 cdm_phi.medication_administration_xtn,0
 cdm_phi.observation,0
-cdm_phi.observation_period,0
+cdm_phi.observation_period,12906754
 cdm_phi.observation_version_xtn,0
 cdm_phi.past_medical_history_xtn,0
 cdm_phi.patient_demographics_xtn,0
