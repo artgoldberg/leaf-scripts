@@ -7,7 +7,7 @@ cdm.concept_class,428
 cdm.concept_relationship,54815924
 cdm.concept_synonym,8968142
 cdm.condition_era,0
-cdm.condition_occurrence,117833887
+cdm.condition_occurrence,0
 cdm.cost,0
 cdm.death,35178
 cdm.device_exposure,0
@@ -35,7 +35,7 @@ cdm.relationship,618
 cdm.specimen,0
 cdm.survey_conduct,0
 cdm.visit_detail,0
-cdm.visit_occurrence,60817408
+cdm.visit_occurrence,130624141
 cdm.vocabulary,213
 cdm_deid.care_site,0
 cdm_deid.care_site_location_xtn,0
@@ -90,7 +90,7 @@ cdm_std.person,5252990
 cdm_std.procedure_occurrence,0
 cdm_std.provider,749813
 cdm_std.relationship,618
-cdm_std.visit_occurrence,0
+cdm_std.visit_occurrence,3842
 cdm_std.vocabulary,123
 cdm_phi.care_site,0
 cdm_phi.care_site_location_xtn,0
@@ -135,8 +135,8 @@ cdm_phi.provider_version_xtn,0
 cdm_phi.relationship,618
 cdm_phi.social_history_xtn,0
 cdm_phi.surgical_history_xtn,0
-cdm_phi.visit_occurrence,0
-cdm_phi.visit_occurrence_version_xtn,0
+cdm_phi.visit_occurrence,3842
+cdm_phi.visit_occurrence_version_xtn,3842
 cdm_phi.vital_sign_xtn,0
 cdm_phi.vocabulary,123
 results_phi.ACHILLES_analysis,264
