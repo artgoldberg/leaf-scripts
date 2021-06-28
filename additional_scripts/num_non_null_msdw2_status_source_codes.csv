@@ -1,8 +1,8 @@
 "SchemaName","Source","NumNonNullRows"
-cdm,Condition,0
-cdm,Drug,0
-cdm,Labs,0
-cdm,Procedures,0
+cdm,Condition,1
+cdm,Drug,1
+cdm,Labs,1
+cdm,Procedures,1
 cdm_std,Condition,0
 cdm_std,Drug,0
 cdm_std,Labs,0
