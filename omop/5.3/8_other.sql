@@ -20,7 +20,7 @@ DECLARE @sql NVARCHAR(MAX)     =
     'SELECT
       personId          = CONVERT(NVARCHAR(10),P.person_id)
     , addressPostalCode = L.zip
-    , addressState      = L.[state]
+    , addressState      = CONVERT(NVARCHAR(20), L.[state])
     , birthDate         = P.birth_datetime
     , deceasedDateTime  = D.death_datetime
     , ethnicity         = c_ethnicity.concept_name
@@ -28,7 +28,7 @@ DECLARE @sql NVARCHAR(MAX)     =
     , deceasedBoolean   = CONVERT(BIT, CASE WHEN D.person_id IS NULL THEN 1 ELSE 0 END)
     , hispanicBoolean   = CONVERT(BIT, CASE WHEN c_ethnicity.concept_name = ''Hispanic or Latino'' THEN 1 ELSE 0 END)
     , marriedBoolean    = CONVERT(BIT, 0)
-    , language          = CONVERT(NVARCHAR(1),NULL) /* Not in OMOP */
+    , [language]        = CONVERT(NVARCHAR(1),NULL) /* Not in OMOP */
     , maritalStatus     = CONVERT(NVARCHAR(1),NULL) /* Not in OMOP */
     , mrn               = CONVERT(NVARCHAR(1),NULL) /* Not in OMOP */
     , name              = CONVERT(NVARCHAR(1),NULL) /* Not in OMOP */
