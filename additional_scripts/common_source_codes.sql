@@ -12,11 +12,11 @@ IF OBJECT_ID(N'tempdb..#SourceData') IS NOT NULL
 CREATE TABLE #SourceData(
     SchemaName NVARCHAR(50)
     , [Source] NVARCHAR(200)
+    , NumUses INT
     , EpicConceptId INT
     , EpicConceptCode NVARCHAR(50)
     , EpicConceptName NVARCHAR(255)
-    , EpicConceptValue NVARCHAR(300)
-    , NumUses INT);
+    , EpicConceptValue NVARCHAR(300));
 
 /*
  * Enumerate non-NULL source ids, codes, names and values in important clinical domains
@@ -25,30 +25,30 @@ CREATE TABLE #SourceData(
 INSERT INTO #SourceData
 SELECT SchemaName = 'cdm'
     , [Source] = 'Condition'
-    , EpicConceptId = condition_status_concept_id
+    , EpicConceptId = condition_source_concept_id
     , EpicConceptCode = ''
     , EpicConceptName = ''
     , EpicConceptValue = condition_source_value
     , NumUses = COUNT(*)
 FROM cdm.condition_occurrence
-WHERE condition_status_concept_id IS NOT NULL
+WHERE condition_source_concept_id IS NOT NULL
     AND condition_source_value IS NOT NULL
-GROUP BY condition_status_concept_id, condition_source_value
+GROUP BY condition_source_concept_id, condition_source_value
 
 INSERT INTO #SourceData
 SELECT SchemaName = 'cdm_std'
     , [Source] = 'Condition'
-    , EpicConceptId = condition_status_concept_id
+    , EpicConceptId = condition_source_concept_id
     , EpicConceptCode = condition_source_concept_code
     , EpicConceptName = condition_source_concept_name
     , EpicConceptValue = condition_source_value
     , NumUses = COUNT(*)
 FROM cdm_std.condition_occurrence
-WHERE condition_status_concept_id IS NOT NULL
+WHERE condition_source_concept_id IS NOT NULL
     AND condition_source_concept_code IS NOT NULL
     AND condition_source_concept_name IS NOT NULL
     AND condition_source_value IS NOT NULL
-GROUP BY condition_status_concept_id
+GROUP BY condition_source_concept_id
 	, condition_source_concept_code
 	, condition_source_concept_name
 	, condition_source_value
