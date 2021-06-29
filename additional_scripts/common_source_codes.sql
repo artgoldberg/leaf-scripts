@@ -25,11 +25,11 @@ CREATE TABLE #SourceData(
 INSERT INTO #SourceData
 SELECT SchemaName = 'cdm'
     , [Source] = 'Condition'
+    , NumUses = COUNT(*)
     , EpicConceptId = condition_source_concept_id
     , EpicConceptCode = ''
     , EpicConceptName = ''
     , EpicConceptValue = condition_source_value
-    , NumUses = COUNT(*)
 FROM cdm.condition_occurrence
 WHERE condition_source_concept_id IS NOT NULL
     AND condition_source_value IS NOT NULL
@@ -38,11 +38,11 @@ GROUP BY condition_source_concept_id, condition_source_value
 INSERT INTO #SourceData
 SELECT SchemaName = 'cdm_std'
     , [Source] = 'Condition'
+    , NumUses = COUNT(*)
     , EpicConceptId = condition_source_concept_id
     , EpicConceptCode = condition_source_concept_code
     , EpicConceptName = condition_source_concept_name
     , EpicConceptValue = condition_source_value
-    , NumUses = COUNT(*)
 FROM cdm_std.condition_occurrence
 WHERE condition_source_concept_id IS NOT NULL
     AND condition_source_concept_code IS NOT NULL
@@ -57,11 +57,11 @@ GROUP BY condition_source_concept_id
 INSERT INTO #SourceData
 SELECT SchemaName = 'cdm'
     , [Source] = 'Drug'
+    , NumUses = COUNT(*)
     , EpicConceptId = drug_source_concept_id
     , EpicConceptCode = ''
     , EpicConceptName = ''
     , EpicConceptValue = drug_source_value
-    , NumUses = COUNT(*)
 FROM cdm.drug_exposure
 WHERE drug_source_concept_id IS NOT NULL
     AND drug_source_value IS NOT NULL
@@ -70,11 +70,11 @@ GROUP BY drug_source_concept_id, drug_source_value
 INSERT INTO #SourceData
 SELECT SchemaName = 'cdm_std'
     , [Source] = 'Drug'
+    , NumUses = COUNT(*)
     , EpicConceptId = drug_source_concept_id
     , EpicConceptCode = drug_source_concept_code
     , EpicConceptName = drug_source_concept_name
     , EpicConceptValue = drug_source_value
-    , NumUses = COUNT(*)
 FROM cdm_std.drug_exposure
 WHERE drug_source_concept_id IS NOT NULL
     AND drug_source_concept_code IS NOT NULL
@@ -89,11 +89,11 @@ GROUP BY drug_source_concept_id
 INSERT INTO #SourceData
 SELECT SchemaName = 'cdm'
     , [Source] = 'Labs'
+    , NumUses = COUNT(*)
     , EpicConceptId = measurement_source_concept_id
     , EpicConceptCode = ''
     , EpicConceptName = ''
     , EpicConceptValue = measurement_source_value
-    , NumUses = COUNT(*)
 FROM cdm.measurement
 WHERE measurement_source_concept_id IS NOT NULL
     AND measurement_source_value IS NOT NULL
@@ -102,11 +102,11 @@ GROUP BY measurement_source_concept_id, measurement_source_value
 INSERT INTO #SourceData
 SELECT SchemaName = 'cdm_std'
     , [Source] = 'Labs'
+    , NumUses = COUNT(*)
     , EpicConceptId = measurement_source_concept_id
     , EpicConceptCode = measurement_source_concept_code
     , EpicConceptName = measurement_source_concept_name
     , EpicConceptValue = measurement_source_value
-    , NumUses = COUNT(*)
 FROM cdm_std.measurement
 WHERE measurement_source_concept_id IS NOT NULL
     AND measurement_source_concept_code IS NOT NULL
@@ -121,11 +121,11 @@ GROUP BY measurement_source_concept_id
 INSERT INTO #SourceData
 SELECT SchemaName = 'cdm'
     , [Source] = 'Procedures'
+    , NumUses = COUNT(*)
     , EpicConceptId = procedure_source_concept_id
     , EpicConceptCode = ''
     , EpicConceptName = ''
     , EpicConceptValue = procedure_source_value
-    , NumUses = COUNT(*)
 FROM cdm.procedure_occurrence
 WHERE procedure_source_concept_id IS NOT NULL
     AND procedure_source_value IS NOT NULL
@@ -134,11 +134,11 @@ GROUP BY procedure_source_concept_id, procedure_source_value
 INSERT INTO #SourceData
 SELECT SchemaName = 'cdm_std'
     , [Source] = 'Procedures'
+    , NumUses = COUNT(*)
     , EpicConceptId = procedure_source_concept_id
     , EpicConceptCode = procedure_source_concept_code
     , EpicConceptName = procedure_source_concept_name
     , EpicConceptValue = procedure_source_value
-    , NumUses = COUNT(*)
 FROM cdm_std.procedure_occurrence
 WHERE procedure_source_concept_id IS NOT NULL
     AND procedure_source_concept_code IS NOT NULL
