@@ -17,6 +17,7 @@ CREATE TABLE #SourceData(
     , EpicConceptCode NVARCHAR(50)
     , EpicConceptName NVARCHAR(255)
     , EpicConceptValue NVARCHAR(300));
+GO
 
 /*
  * Enumerate non-NULL source ids, codes, names and values in important clinical domains
@@ -148,6 +149,7 @@ GROUP BY procedure_source_concept_id
 	, procedure_source_concept_code
 	, procedure_source_concept_name
 	, procedure_source_value
+GO
 
 SELECT *
 FROM #SourceData

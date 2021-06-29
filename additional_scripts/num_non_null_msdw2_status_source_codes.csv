@@ -1,5 +1,5 @@
 "SchemaName","Source","NumNonNullRows"
-cdm,Condition,1
+cdm,Condition,0
 cdm,Drug,1
 cdm,Labs,1
 cdm,Procedures,162298361
