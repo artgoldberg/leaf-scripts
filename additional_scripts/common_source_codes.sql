@@ -151,7 +151,7 @@ GROUP BY procedure_source_concept_id
 
 SELECT *
 FROM #SourceData
-WHERE 1000 <= NumUses
+WHERE 100000 <= NumUses
 ORDER BY SchemaName
     , [Source]
     , EpicConceptValue
