@@ -1,4 +1,137 @@
 "SchemaName","Source","NumUses","EpicConceptId","EpicConceptCode","EpicConceptName","EpicConceptValue"
+cdm,Condition,150501,0,"","",Acne vulgaris
+cdm,Condition,218508,0,"","",AIDS
+cdm,Condition,133024,0,"","",AIDS (acquired immune deficiency syndrome)
+cdm,Condition,104583,0,"","",Allergic rhinitis due to pollen
+cdm,Condition,245048,0,"","",Anemia
+cdm,Condition,398609,0,"","",Annual physical exam
+cdm,Condition,487056,0,"","",Anxiety
+cdm,Condition,111369,0,"","","Anxiety disorder, unspecified"
+cdm,Condition,139371,0,"","",Arthritis
+cdm,Condition,407982,0,"","",Asthma
+cdm,Condition,732652,0,"","",Asymptomatic human immunodeficiency virus (HIV) infection status
+cdm,Condition,275474,0,"","",Atherosclerotic heart disease of native coronary artery without angina pectoris
+cdm,Condition,206337,0,"","",Atrial fibrillation
+cdm,Condition,306549,0,"","",CAD (coronary artery disease)
+cdm,Condition,174390,0,"","",Chest pain
+cdm,Condition,155257,0,"","","Chest pain, unspecified"
+cdm,Condition,122472,0,"","","Chest pain, unspecified type"
+cdm,Condition,119462,0,"","",Chronic atrial fibrillation
+cdm,Condition,237032,0,"","",Chronic rhinitis
+cdm,Condition,116254,0,"","","CKD (chronic kidney disease) stage 3, GFR 30-59 ml/min"
+cdm,Condition,139683,0,"","",Constipation
+cdm,Condition,100313,0,"","","Constipation, unspecified constipation type"
+cdm,Condition,105565,0,"","",COPD (chronic obstructive pulmonary disease)
+cdm,Condition,233175,0,"","",Coronary artery disease involving native coronary artery of native heart without angina pectoris
+cdm,Condition,390195,0,"","",Cough
+cdm,Condition,118136,0,"","",COVID-19
+cdm,Condition,317404,0,"","",Depression
+cdm,Condition,362267,0,"","",Diabetes mellitus
+cdm,Condition,111955,0,"","",Dizziness
+cdm,Condition,104317,0,"","",Dizziness and giddiness
+cdm,Condition,139018,0,"","",DM (diabetes mellitus)
+cdm,Condition,150076,0,"","",DOE (dyspnea on exertion)
+cdm,Condition,229332,0,"","",Dyslipidemia
+cdm,Condition,134025,0,"","",Dysuria
+cdm,Condition,105313,0,"","",Elevated prostate specific antigen (PSA)
+cdm,Condition,227162,0,"","",Encounter for antineoplastic chemotherapy
+cdm,Condition,115960,0,"","",Encounter for antineoplastic immunotherapy
+cdm,Condition,291328,0,"","",Encounter for general adult medical examination without abnormal findings
+cdm,Condition,127571,0,"","",Encounter for gynecological examination (general) (routine) without abnormal findings
+cdm,Condition,122766,0,"","",Encounter for HIV counseling
+cdm,Condition,370983,0,"","",Encounter for immunization
+cdm,Condition,209972,0,"","",Encounter for long-term (current) use of medications
+cdm,Condition,263006,0,"","",Encounter for long-term (current) use of other medications
+cdm,Condition,167656,0,"","",Encounter for observation for suspected exposure to other biological agents ruled out
+cdm,Condition,257928,0,"","",Encounter for routine child health examination without abnormal findings
+cdm,Condition,109547,0,"","",Encounter for supervision of normal first pregnancy in third trimester
+cdm,Condition,180436,0,"","",Encounter for therapeutic drug monitoring
+cdm,Condition,230437,0,"","",Encounter for vaccination
+cdm,Condition,109710,0,"","",End stage renal disease
+cdm,Condition,225366,0,"","",ERRONEOUS ENCOUNTER--DISREGARD
+cdm,Condition,1321713,0,"","",Essential (primary) hypertension
+cdm,Condition,2123951,0,"","",Essential hypertension
+cdm,Condition,177364,0,"","","Essential hypertension, benign"
+cdm,Condition,105050,0,"","",Fatigue
+cdm,Condition,205669,0,"","",Gastroesophageal reflux disease without esophagitis
+cdm,Condition,151903,0,"","",Gastro-esophageal reflux disease without esophagitis
+cdm,Condition,127784,0,"","","Gastroesophageal reflux disease, esophagitis presence not specified"
+cdm,Condition,217046,0,"","",Generalized anxiety disorder
+cdm,Condition,347612,0,"","",GERD (gastroesophageal reflux disease)
+cdm,Condition,123546,0,"","",HCC (hepatocellular carcinoma)
+cdm,Condition,348248,0,"","",HIV (human immunodeficiency virus infection)
+cdm,Condition,153162,0,"","",HIV disease
+cdm,Condition,126948,0,"","",HLD (hyperlipidemia)
+cdm,Condition,592715,0,"","",HTN (hypertension)
+cdm,Condition,429810,0,"","",Human immunodeficiency virus (HIV) disease
+cdm,Condition,248991,0,"","",Hypercholesteremia
+cdm,Condition,223883,0,"","",Hypercholesterolemia
+cdm,Condition,710325,0,"","",Hyperlipidemia
+cdm,Condition,253810,0,"","","Hyperlipidemia, unspecified"
+cdm,Condition,289076,0,"","","Hyperlipidemia, unspecified hyperlipidemia type"
+cdm,Condition,760723,0,"","",Hypertension
+cdm,Condition,123713,0,"","",Hypothyroid
+cdm,Condition,170907,0,"","",Hypothyroidism
+cdm,Condition,103686,0,"","","Hypothyroidism, unspecified type"
+cdm,Condition,125396,0,"","",Insomnia
+cdm,Condition,141542,0,"","",Kidney replaced by transplant
+cdm,Condition,139342,0,"","",Low back pain
+cdm,Condition,149226,0,"","",Lumbar radiculopathy
+cdm,Condition,119356,0,"","","Major depressive disorder, recurrent episode, moderate"
+cdm,Condition,164052,0,"","",Malignant neoplasm of prostate
+cdm,Condition,132644,0,"","",Mild intermittent asthma without complication
+cdm,Condition,689951,0,"","",Mixed hyperlipidemia
+cdm,Condition,133185,0,"","",Morbid (severe) obesity due to excess calories
+cdm,Condition,189703,0,"","",Morbid obesity
+cdm,Condition,158040,0,"","",Multiple myeloma
+cdm,Condition,173187,0,"","",Multiple myeloma not having achieved remission
+cdm,Condition,127084,0,"","","Multiple myeloma, remission status unspecified"
+cdm,Condition,167442,0,"","",Multiple sclerosis
+cdm,Condition,120692,0,"","",Neck pain
+cdm,Condition,632500,0,"","",Need for immunization against influenza
+cdm,Condition,121329,0,"","",Need for prophylactic vaccination and inoculation against influenza
+cdm,Condition,199769,0,"","",Need for prophylactic vaccination with combined diphtheria-tetanus-pertussis (DTP) vaccine
+cdm,Condition,118517,0,"","",Need for vaccination for Strep pneumoniae
+cdm,Condition,131958,0,"","",Need for vaccination for viral hepatitis
+cdm,Condition,109252,0,"","",Neoplasm of uncertain behavior of skin
+cdm,Condition,180866,0,"","",Obesity
+cdm,Condition,112868,0,"","",Obesity (BMI 30-39.9)
+cdm,Condition,111450,0,"","","Obesity, unspecified"
+cdm,Condition,129239,0,"","",Obstructive sleep apnea (adult) (pediatric)
+cdm,Condition,181886,0,"","",OSA (obstructive sleep apnea)
+cdm,Condition,105124,0,"","",Osteopenia
+cdm,Condition,167189,0,"","",Osteoporosis
+cdm,Condition,147485,0,"","",Other chest pain
+cdm,Condition,132930,0,"","",Other chronic pain
+cdm,Condition,131204,0,"","",Other fatigue
+cdm,Condition,197096,0,"","",Other general counseling and advice for contraceptive management
+cdm,Condition,162022,0,"","",Other hyperlipidemia
+cdm,Condition,124999,0,"","",Other specified counseling
+cdm,Condition,112227,0,"","",Other specified hypothyroidism
+cdm,Condition,101981,0,"","",Other specified symptoms and signs involving the circulatory and respiratory systems
+cdm,Condition,358115,0,"","",Palpitations
+cdm,Condition,273198,0,"","",Paroxysmal atrial fibrillation
+cdm,Condition,111903,0,"","","Peripheral vascular disease, unspecified"
+cdm,Condition,279375,0,"","",Prediabetes
+cdm,Condition,100973,0,"","",Pre-diabetes
+cdm,Condition,117072,0,"","",Preventative health care
+cdm,Condition,185531,0,"","",Prostate cancer
+cdm,Condition,125228,0,"","",PTSD (post-traumatic stress disorder)
+cdm,Condition,291337,0,"","",Pure hypercholesterolemia
+cdm,Condition,162956,0,"","","Pure hypercholesterolemia, unspecified"
+cdm,Condition,323910,0,"","",Routine general medical examination at a health care facility
+cdm,Condition,106385,0,"","",Routine infant or child health check
+cdm,Condition,131669,0,"","",Screen for STD (sexually transmitted disease)
+cdm,Condition,102514,0,"","",Screening for HIV (human immunodeficiency virus)
+cdm,Condition,434941,0,"","",Shortness of breath
+cdm,Condition,197638,0,"","",SOB (shortness of breath)
+cdm,Condition,119439,0,"","",Syncope and collapse
+cdm,Condition,114125,0,"","",Thyroid nodule
+cdm,Condition,269238,0,"","","Type 2 diabetes mellitus without complication, without long-term current use of insulin"
+cdm,Condition,206430,0,"","",Type 2 diabetes mellitus without complications
+cdm,Condition,689981,0,"","",Vitamin D deficiency
+cdm,Condition,172449,0,"","","Vitamin D deficiency, unspecified"
+cdm,Condition,370410,0,"","",Well woman exam with routine gynecological exam
 cdm,Procedures,496571,0,"","","6-TEST"
 cdm,Procedures,117842,0,"","",ABS NEUTROPHIL COUNT
 cdm,Procedures,585015,0,"","",ADD TO PRIMARY INPATIENT SERVICE TEAM
@@ -188,965 +321,250 @@ cdm,Procedures,969329,0,"","",VITAMIN D 25-OH (FOR DEFICIENCY SCREENING)
 cdm,Procedures,1626071,0,"","",X-RAY CHEST 1 VIEW PORTABLE
 cdm,Procedures,1237733,0,"","",X-RAY CHEST PA AND LATERAL ONLY
 cdm,Procedures,123221,0,"","",X-RAY CHEST PA OR AP
-cdm_std,Procedures,293584,0,No matching concept,No matching concept,"2019 NOVEL CORONAVIRUS (COVID-19), NAA"
-cdm_std,Procedures,293584,0,*Unspecified,*Unspecified,"2019 NOVEL CORONAVIRUS (COVID-19), NAA"
-cdm_std,Procedures,1802476,0,*Unspecified,*Unspecified,"6-TEST"
-cdm_std,Procedures,1802476,0,No matching concept,No matching concept,"6-TEST"
-cdm_std,Procedures,152996,0,No matching concept,No matching concept,"6-TEST - VEN"
-cdm_std,Procedures,152996,0,*Unspecified,*Unspecified,"6-TEST - VEN"
-cdm_std,Procedures,294728,0,*Unspecified,*Unspecified,ABO CONFIRMATORY
-cdm_std,Procedures,294728,0,No matching concept,No matching concept,ABO CONFIRMATORY
-cdm_std,Procedures,354048,0,No matching concept,No matching concept,ABS NEUTROPHIL COUNT
-cdm_std,Procedures,354048,0,*Unspecified,*Unspecified,ABS NEUTROPHIL COUNT
-cdm_std,Procedures,114504,0,*Unspecified,*Unspecified,ACETAMINOPHEN
-cdm_std,Procedures,114504,0,No matching concept,No matching concept,ACETAMINOPHEN
-cdm_std,Procedures,114824,0,No matching concept,No matching concept,ACTH
-cdm_std,Procedures,114824,0,*Unspecified,*Unspecified,ACTH
-cdm_std,Procedures,1915108,0,No matching concept,No matching concept,ADD TO PRIMARY INPATIENT SERVICE TEAM
-cdm_std,Procedures,1915108,0,*Unspecified,*Unspecified,ADD TO PRIMARY INPATIENT SERVICE TEAM
-cdm_std,Procedures,1281016,0,*Unspecified,*Unspecified,ADENINE-SALINE RED CELLS
-cdm_std,Procedures,1281016,0,No matching concept,No matching concept,ADENINE-SALINE RED CELLS
-cdm_std,Procedures,160404,0,No matching concept,No matching concept,ADMINISTER CYANOCOBALAMIN INJ
-cdm_std,Procedures,160404,0,*Unspecified,*Unspecified,ADMINISTER CYANOCOBALAMIN INJ
-cdm_std,Procedures,108112,0,*Unspecified,*Unspecified,ADMINISTER DTAP TOXOIDS PEDS
-cdm_std,Procedures,108112,0,No matching concept,No matching concept,ADMINISTER DTAP TOXOIDS PEDS
-cdm_std,Procedures,153716,0,No matching concept,No matching concept,"ADMINISTER DTAP/HEPB/IPV VACCINE,IM"
-cdm_std,Procedures,153716,0,*Unspecified,*Unspecified,"ADMINISTER DTAP/HEPB/IPV VACCINE,IM"
-cdm_std,Procedures,1170380,0,*Unspecified,*Unspecified,ADMINISTER FLU VACCINE
-cdm_std,Procedures,1170380,0,No matching concept,No matching concept,ADMINISTER FLU VACCINE
-cdm_std,Procedures,578992,0,No matching concept,No matching concept,"ADMINISTER FLU VACCINE,QUADRIVALENT 6 MONTHS & OLDER(VACCINE FOR CHILDREN,IM,NO PRESERVATIVE"
-cdm_std,Procedures,578992,0,*Unspecified,*Unspecified,"ADMINISTER FLU VACCINE,QUADRIVALENT 6 MONTHS & OLDER(VACCINE FOR CHILDREN,IM,NO PRESERVATIVE"
-cdm_std,Procedures,233660,0,*Unspecified,*Unspecified,"ADMINISTER HEP A VACC, PED/ADOL, 2 DOSE"
-cdm_std,Procedures,233660,0,No matching concept,No matching concept,"ADMINISTER HEP A VACC, PED/ADOL, 2 DOSE"
-cdm_std,Procedures,104880,0,No matching concept,No matching concept,ADMINISTER HEPATITIS B VACCINE(ADULT)
-cdm_std,Procedures,104880,0,*Unspecified,*Unspecified,ADMINISTER HEPATITIS B VACCINE(ADULT)
-cdm_std,Procedures,148796,0,*Unspecified,*Unspecified,ADMINISTER HEPB VACC PED/ADOL 3 DOSE IM
-cdm_std,Procedures,148796,0,No matching concept,No matching concept,ADMINISTER HEPB VACC PED/ADOL 3 DOSE IM
-cdm_std,Procedures,171580,0,No matching concept,No matching concept,"ADMINISTER HIB VACCINE, PRP-T, IM"
-cdm_std,Procedures,171580,0,*Unspecified,*Unspecified,"ADMINISTER HIB VACCINE, PRP-T, IM"
-cdm_std,Procedures,140520,0,*Unspecified,*Unspecified,"ADMINISTER HIGH DOSE INFLUENZA VIRUS VACCINE, IM"
-cdm_std,Procedures,140520,0,No matching concept,No matching concept,"ADMINISTER HIGH DOSE INFLUENZA VIRUS VACCINE, IM"
-cdm_std,Procedures,101260,0,No matching concept,No matching concept,ADMINISTER LIDOCAINE INJECTION
-cdm_std,Procedures,101260,0,*Unspecified,*Unspecified,ADMINISTER LIDOCAINE INJECTION
-cdm_std,Procedures,141612,0,*Unspecified,*Unspecified,"ADMINISTER MENINGOCOCCAL VACCINE, IM"
-cdm_std,Procedures,141612,0,No matching concept,No matching concept,"ADMINISTER MENINGOCOCCAL VACCINE, IM"
-cdm_std,Procedures,156244,0,No matching concept,No matching concept,ADMINISTER MMR VACCINE
-cdm_std,Procedures,156244,0,*Unspecified,*Unspecified,ADMINISTER MMR VACCINE
-cdm_std,Procedures,568712,0,*Unspecified,*Unspecified,ADMINISTER PNEUMOCOCCAL CONJ VACCINE 13 VALENT
-cdm_std,Procedures,568712,0,No matching concept,No matching concept,ADMINISTER PNEUMOCOCCAL CONJ VACCINE 13 VALENT
-cdm_std,Procedures,276728,0,No matching concept,No matching concept,"ADMINISTER ROTOVIRUS VACCINE, PENTAVAL, 3 DOSE, ORAL"
-cdm_std,Procedures,276728,0,*Unspecified,*Unspecified,"ADMINISTER ROTOVIRUS VACCINE, PENTAVAL, 3 DOSE, ORAL"
-cdm_std,Procedures,438576,0,*Unspecified,*Unspecified,"ADMINISTER TDAP VACCINE >7 YO, IM"
-cdm_std,Procedures,438576,0,No matching concept,No matching concept,"ADMINISTER TDAP VACCINE >7 YO, IM"
-cdm_std,Procedures,139720,0,No matching concept,No matching concept,ADMINISTER TRIAMCINOLONE INJECTION
-cdm_std,Procedures,139720,0,*Unspecified,*Unspecified,ADMINISTER TRIAMCINOLONE INJECTION
-cdm_std,Procedures,131568,0,*Unspecified,*Unspecified,ADMINISTER VARICELLA VIRUS VACCINE
-cdm_std,Procedures,131568,0,No matching concept,No matching concept,ADMINISTER VARICELLA VIRUS VACCINE
-cdm_std,Procedures,668584,0,No matching concept,No matching concept,ADMIT TO INPATIENT
-cdm_std,Procedures,668584,0,*Unspecified,*Unspecified,ADMIT TO INPATIENT
-cdm_std,Procedures,1310060,0,*Unspecified,*Unspecified,ALBUMIN-BLD
-cdm_std,Procedures,1310060,0,No matching concept,No matching concept,ALBUMIN-BLD
-cdm_std,Procedures,339568,0,No matching concept,No matching concept,ALCOHOL (QUANT) SERUM
-cdm_std,Procedures,339568,0,*Unspecified,*Unspecified,ALCOHOL (QUANT) SERUM
-cdm_std,Procedures,1168604,0,*Unspecified,*Unspecified,ALK PHOSPHATASE-BLD
-cdm_std,Procedures,1168604,0,No matching concept,No matching concept,ALK PHOSPHATASE-BLD
-cdm_std,Procedures,109164,0,No matching concept,No matching concept,ALMOND-F20
-cdm_std,Procedures,109164,0,*Unspecified,*Unspecified,ALMOND-F20
-cdm_std,Procedures,654424,0,*Unspecified,*Unspecified,ALPHA FETO PROTEIN
-cdm_std,Procedures,654424,0,No matching concept,No matching concept,ALPHA FETO PROTEIN
-cdm_std,Procedures,1521060,0,No matching concept,No matching concept,ALT (SGPT)
-cdm_std,Procedures,1521060,0,*Unspecified,*Unspecified,ALT (SGPT)
-cdm_std,Procedures,226168,0,*Unspecified,*Unspecified,AMMONIA-BLD
-cdm_std,Procedures,226168,0,No matching concept,No matching concept,AMMONIA-BLD
-cdm_std,Procedures,1661132,0,No matching concept,No matching concept,AMYLASE-BLD
-cdm_std,Procedures,1661132,0,*Unspecified,*Unspecified,AMYLASE-BLD
-cdm_std,Procedures,309680,0,*Unspecified,*Unspecified,ANA SCREEN W/TITER
-cdm_std,Procedures,309680,0,No matching concept,No matching concept,ANA SCREEN W/TITER
-cdm_std,Procedures,377780,0,*Unspecified,*Unspecified,ANESTHESIA INTUBATION
-cdm_std,Procedures,377780,0,No matching concept,No matching concept,ANESTHESIA INTUBATION
-cdm_std,Procedures,143104,0,*Unspecified,*Unspecified,ANTI DNA DS QUANT
-cdm_std,Procedures,143104,0,No matching concept,No matching concept,ANTI DNA DS QUANT
-cdm_std,Procedures,177756,0,No matching concept,No matching concept,ANTI HEPATITIS B SURFACE AB QUANT
-cdm_std,Procedures,177756,0,*Unspecified,*Unspecified,ANTI HEPATITIS B SURFACE AB QUANT
-cdm_std,Procedures,132484,0,*Unspecified,*Unspecified,ANTIBODY IDENTIFICATION
-cdm_std,Procedures,132484,0,No matching concept,No matching concept,ANTIBODY IDENTIFICATION
-cdm_std,Procedures,143164,0,No matching concept,No matching concept,ANTI-CARDIOLIPIN ANTIBODY
-cdm_std,Procedures,143164,0,*Unspecified,*Unspecified,ANTI-CARDIOLIPIN ANTIBODY
-cdm_std,Procedures,391024,0,*Unspecified,*Unspecified,ANTIMICROBIAL SUSC. ONLY
-cdm_std,Procedures,391024,0,No matching concept,No matching concept,ANTIMICROBIAL SUSC. ONLY
-cdm_std,Procedures,285400,0,No matching concept,No matching concept,APPENDECTOMY;
-cdm_std,Procedures,285400,0,*Unspecified,*Unspecified,APPENDECTOMY;
-cdm_std,Procedures,3106780,0,*Unspecified,*Unspecified,APTT
-cdm_std,Procedures,3106780,0,No matching concept,No matching concept,APTT
-cdm_std,Procedures,130160,0,No matching concept,No matching concept,ARTERIAL BLOOD GAS (POCT)
-cdm_std,Procedures,130160,0,*Unspecified,*Unspecified,ARTERIAL BLOOD GAS (POCT)
-cdm_std,Procedures,345928,0,*Unspecified,*Unspecified,ARTERIAL BLOOD GAS WITH LACTATE (POCT)
-cdm_std,Procedures,345928,0,No matching concept,No matching concept,ARTERIAL BLOOD GAS WITH LACTATE (POCT)
-cdm_std,Procedures,684812,0,No matching concept,No matching concept,ARTERIAL PANEL (ICU)
-cdm_std,Procedures,684812,0,*Unspecified,*Unspecified,ARTERIAL PANEL (ICU)
-cdm_std,Procedures,1564880,0,No matching concept,No matching concept,AST (SGOT)
-cdm_std,Procedures,1564880,0,*Unspecified,*Unspecified,AST (SGOT)
-cdm_std,Procedures,16024424,0,*Unspecified,*Unspecified,BASIC METABOLIC PANEL
-cdm_std,Procedures,16024424,0,No matching concept,No matching concept,BASIC METABOLIC PANEL
-cdm_std,Procedures,126824,0,No matching concept,No matching concept,BETA-2-MICROGLOBULIN
-cdm_std,Procedures,126824,0,*Unspecified,*Unspecified,BETA-2-MICROGLOBULIN
-cdm_std,Procedures,2027404,0,*Unspecified,*Unspecified,BILIRUBIN DIRECT
-cdm_std,Procedures,2027404,0,No matching concept,No matching concept,BILIRUBIN DIRECT
-cdm_std,Procedures,1009704,0,No matching concept,No matching concept,BILIRUBIN TOTAL
-cdm_std,Procedures,1009704,0,*Unspecified,*Unspecified,BILIRUBIN TOTAL
-cdm_std,Procedures,336364,0,*Unspecified,*Unspecified,"BILIRUBIN, TOTAL (+ H INDEX)"
-cdm_std,Procedures,336364,0,No matching concept,No matching concept,"BILIRUBIN, TOTAL (+ H INDEX)"
-cdm_std,Procedures,286648,0,No matching concept,No matching concept,BILIRUBIN-BLD DIRECT (+ H INDEX)
-cdm_std,Procedures,286648,0,*Unspecified,*Unspecified,BILIRUBIN-BLD DIRECT (+ H INDEX)
-cdm_std,Procedures,471380,0,*Unspecified,*Unspecified,BILIRUBIN-NEONATAL
-cdm_std,Procedures,471380,0,No matching concept,No matching concept,BILIRUBIN-NEONATAL
-cdm_std,Procedures,105952,0,*Unspecified,*Unspecified,BIRCH
-cdm_std,Procedures,105952,0,No matching concept,No matching concept,BIRCH
-cdm_std,Procedures,2624804,0,No matching concept,No matching concept,"BLD SMEAR, MICROSCOPIC"
-cdm_std,Procedures,2624804,0,*Unspecified,*Unspecified,"BLD SMEAR, MICROSCOPIC"
-cdm_std,Procedures,138424,0,*Unspecified,*Unspecified,BLOOD GAS ELECTROLYTES PROFILE- VENOUS
-cdm_std,Procedures,138424,0,No matching concept,No matching concept,BLOOD GAS ELECTROLYTES PROFILE- VENOUS
-cdm_std,Procedures,1577900,0,No matching concept,No matching concept,"BLOOD GAS, ART"
-cdm_std,Procedures,1577900,0,*Unspecified,*Unspecified,"BLOOD GAS, ART"
-cdm_std,Procedures,923028,0,*Unspecified,*Unspecified,"BLOOD GAS, VEN"
-cdm_std,Procedures,923028,0,No matching concept,No matching concept,"BLOOD GAS, VEN"
-cdm_std,Procedures,4326292,0,No matching concept,No matching concept,BLOOD GAS/ELEC PROF-ART (POCT)
-cdm_std,Procedures,4326292,0,*Unspecified,*Unspecified,BLOOD GAS/ELEC PROF-ART (POCT)
-cdm_std,Procedures,237300,0,*Unspecified,*Unspecified,BLOOD GAS/ELEC PROF-CAP
-cdm_std,Procedures,237300,0,No matching concept,No matching concept,BLOOD GAS/ELEC PROF-CAP
-cdm_std,Procedures,239940,0,No matching concept,No matching concept,BLOOD GAS/ELEC PROF-VEN
-cdm_std,Procedures,239940,0,*Unspecified,*Unspecified,BLOOD GAS/ELEC PROF-VEN
-cdm_std,Procedures,1486664,0,*Unspecified,*Unspecified,BLOOD GAS/ELEC PROF-VEN (POCT)
-cdm_std,Procedures,1486664,0,No matching concept,No matching concept,BLOOD GAS/ELEC PROF-VEN (POCT)
-cdm_std,Procedures,501384,0,No matching concept,No matching concept,BLOOD GAS/ELEC/OXIMETRY PROFILE- ARTERIAL
-cdm_std,Procedures,501384,0,*Unspecified,*Unspecified,BLOOD GAS/ELEC/OXIMETRY PROFILE- ARTERIAL
-cdm_std,Procedures,147644,0,*Unspecified,*Unspecified,BLOOD GAS/ELEC/OXIMETRY PROF-VEN
-cdm_std,Procedures,147644,0,No matching concept,No matching concept,BLOOD GAS/ELEC/OXIMETRY PROF-VEN
-cdm_std,Procedures,199660,0,No matching concept,No matching concept,BLOOD GAS/ELECTROLYTE PROFILE- ART
-cdm_std,Procedures,199660,0,*Unspecified,*Unspecified,BLOOD GAS/ELECTROLYTE PROFILE- ART
-cdm_std,Procedures,257204,0,*Unspecified,*Unspecified,BLOOD GAS-CORD BLOOD ARTERIAL
-cdm_std,Procedures,257204,0,No matching concept,No matching concept,BLOOD GAS-CORD BLOOD ARTERIAL
-cdm_std,Procedures,315056,0,No matching concept,No matching concept,BLOOD GAS-CORD BLOOD VENOUS
-cdm_std,Procedures,315056,0,*Unspecified,*Unspecified,BLOOD GAS-CORD BLOOD VENOUS
-cdm_std,Procedures,158012,0,*Unspecified,*Unspecified,BLOOD GROUP AND RH
-cdm_std,Procedures,158012,0,No matching concept,No matching concept,BLOOD GROUP AND RH
-cdm_std,Procedures,225648,0,No matching concept,No matching concept,BLOOD OCCULT FECES
-cdm_std,Procedures,225648,0,*Unspecified,*Unspecified,BLOOD OCCULT FECES
-cdm_std,Procedures,150124,0,*Unspecified,*Unspecified,BONE AGE STUDY
-cdm_std,Procedures,150124,0,No matching concept,No matching concept,BONE AGE STUDY
-cdm_std,Procedures,1500128,0,No matching concept,No matching concept,BRAIN NATRIURETIC PEPTIDE
-cdm_std,Procedures,1500128,0,*Unspecified,*Unspecified,BRAIN NATRIURETIC PEPTIDE
-cdm_std,Procedures,123132,0,*Unspecified,*Unspecified,BV/VAGINITIS PNL DNA PRB
-cdm_std,Procedures,123132,0,No matching concept,No matching concept,BV/VAGINITIS PNL DNA PRB
-cdm_std,Procedures,231344,0,No matching concept,No matching concept,C DIFFICILE TOXIN A&B
-cdm_std,Procedures,231344,0,*Unspecified,*Unspecified,C DIFFICILE TOXIN A&B
-cdm_std,Procedures,1564352,0,*Unspecified,*Unspecified,C REACTIVE PROTEIN
-cdm_std,Procedures,1564352,0,No matching concept,No matching concept,C REACTIVE PROTEIN
-cdm_std,Procedures,1011016,0,No matching concept,No matching concept,C REACTIVE PROTEIN HS
-cdm_std,Procedures,1011016,0,*Unspecified,*Unspecified,C REACTIVE PROTEIN HS
-cdm_std,Procedures,196768,0,*Unspecified,*Unspecified,CA - 125
-cdm_std,Procedures,196768,0,No matching concept,No matching concept,CA - 125
-cdm_std,Procedures,175428,0,No matching concept,No matching concept,CA 19-9
-cdm_std,Procedures,175428,0,*Unspecified,*Unspecified,CA 19-9
-cdm_std,Procedures,163544,0,*Unspecified,*Unspecified,CA 27-29
-cdm_std,Procedures,163544,0,No matching concept,No matching concept,CA 27-29
-cdm_std,Procedures,1743108,0,No matching concept,No matching concept,CALCIUM-BLD
-cdm_std,Procedures,1743108,0,*Unspecified,*Unspecified,CALCIUM-BLD
-cdm_std,Procedures,182452,0,*Unspecified,*Unspecified,"CALCIUM-IONIZED, VEN"
-cdm_std,Procedures,182452,0,No matching concept,No matching concept,"CALCIUM-IONIZED, VEN"
-cdm_std,Procedures,909504,0,No matching concept,No matching concept,"CALCIUM-IONIZED-WB, ART"
-cdm_std,Procedures,909504,0,*Unspecified,*Unspecified,"CALCIUM-IONIZED-WB, ART"
-cdm_std,Procedures,112036,0,*Unspecified,*Unspecified,CARBON DIOXIDE-BLD
-cdm_std,Procedures,112036,0,No matching concept,No matching concept,CARBON DIOXIDE-BLD
-cdm_std,Procedures,509460,0,No matching concept,No matching concept,CARCINOEMBRYONIC ANTIGEN(AKA CEA)
-cdm_std,Procedures,509460,0,*Unspecified,*Unspecified,CARCINOEMBRYONIC ANTIGEN(AKA CEA)
-cdm_std,Procedures,883180,0,*Unspecified,*Unspecified,CARDIAC CATH (CVI)
-cdm_std,Procedures,883180,0,No matching concept,No matching concept,CARDIAC CATH (CVI)
-cdm_std,Procedures,592624,0,*Unspecified,*Unspecified,CARDIAC PROFILE
-cdm_std,Procedures,592624,0,No matching concept,No matching concept,CARDIAC PROFILE
-cdm_std,Procedures,104232,0,No matching concept,No matching concept,CASHEW NUT
-cdm_std,Procedures,104232,0,*Unspecified,*Unspecified,CASHEW NUT
-cdm_std,Procedures,10479140,0,*Unspecified,*Unspecified,CBC+PLATELET
-cdm_std,Procedures,10479140,0,No matching concept,No matching concept,CBC+PLATELET
-cdm_std,Procedures,34450124,0,No matching concept,No matching concept,CBC+PLT+DIFF
-cdm_std,Procedures,34450124,0,*Unspecified,*Unspecified,CBC+PLT+DIFF
-cdm_std,Procedures,114680,0,*Unspecified,*Unspecified,CELIAC SEROLOGY (IGA) WITH REFLEX TESTING
-cdm_std,Procedures,114680,0,No matching concept,No matching concept,CELIAC SEROLOGY (IGA) WITH REFLEX TESTING
-cdm_std,Procedures,134012,0,No matching concept,No matching concept,CENTRAL LINE - CONTINUE
-cdm_std,Procedures,134012,0,*Unspecified,*Unspecified,CENTRAL LINE - CONTINUE
-cdm_std,Procedures,161664,0,*Unspecified,*Unspecified,CESAREAN SECTION
-cdm_std,Procedures,161664,0,No matching concept,No matching concept,CESAREAN SECTION
-cdm_std,Procedures,3076340,0,No matching concept,No matching concept,CHEM 7
-cdm_std,Procedures,3076340,0,*Unspecified,*Unspecified,CHEM 7
-cdm_std,Procedures,555016,0,*Unspecified,*Unspecified,CHEM 8+ (POCT)
-cdm_std,Procedures,555016,0,No matching concept,No matching concept,CHEM 8+ (POCT)
-cdm_std,Procedures,1552040,0,No matching concept,No matching concept,"CHLAMYDIA/GC DNA AMP, SWAB OR URINE"
-cdm_std,Procedures,1552040,0,*Unspecified,*Unspecified,"CHLAMYDIA/GC DNA AMP, SWAB OR URINE"
-cdm_std,Procedures,106328,0,*Unspecified,*Unspecified,CHLAMYDIA/GC DNA PROBE
-cdm_std,Procedures,106328,0,No matching concept,No matching concept,CHLAMYDIA/GC DNA PROBE
-cdm_std,Procedures,207908,0,No matching concept,No matching concept,CHLAMYDIA/GONOCOCCUS NAA
-cdm_std,Procedures,207908,0,*Unspecified,*Unspecified,CHLAMYDIA/GONOCOCCUS NAA
-cdm_std,Procedures,262320,0,*Unspecified,*Unspecified,"CHOLESTEROL-TOTAL, SERUM"
-cdm_std,Procedures,262320,0,No matching concept,No matching concept,"CHOLESTEROL-TOTAL, SERUM"
-cdm_std,Procedures,1923968,0,No matching concept,No matching concept,CK (CPK)
-cdm_std,Procedures,1923968,0,*Unspecified,*Unspecified,CK (CPK)
-cdm_std,Procedures,159464,0,*Unspecified,*Unspecified,CK MB
-cdm_std,Procedures,159464,0,No matching concept,No matching concept,CK MB
-cdm_std,Procedures,439904,0,No matching concept,No matching concept,CK-MB MASS
-cdm_std,Procedures,439904,0,*Unspecified,*Unspecified,CK-MB MASS
-cdm_std,Procedures,153388,0,No matching concept,No matching concept,"CMV DNA PCR, QUANT, BLOOD"
-cdm_std,Procedures,153388,0,*Unspecified,*Unspecified,"CMV DNA PCR, QUANT, BLOOD"
-cdm_std,Procedures,143124,0,*Unspecified,*Unspecified,CMV IGG AB
-cdm_std,Procedures,143124,0,No matching concept,No matching concept,CMV IGG AB
-cdm_std,Procedures,611408,0,No matching concept,No matching concept,COLONOSCOPY
-cdm_std,Procedures,611408,0,*Unspecified,*Unspecified,COLONOSCOPY
-cdm_std,Procedures,164316,0,*Unspecified,*Unspecified,COMP.METABOLIC+PREALBUMIN
-cdm_std,Procedures,164316,0,No matching concept,No matching concept,COMP.METABOLIC+PREALBUMIN
-cdm_std,Procedures,159740,0,No matching concept,No matching concept,COMPLEMENT C3
-cdm_std,Procedures,159740,0,*Unspecified,*Unspecified,COMPLEMENT C3
-cdm_std,Procedures,172252,0,*Unspecified,*Unspecified,COMPLEMENT C4
-cdm_std,Procedures,172252,0,No matching concept,No matching concept,COMPLEMENT C4
-cdm_std,Procedures,19028716,0,No matching concept,No matching concept,COMPREHENSIVE METABOLIC PANEL
-cdm_std,Procedures,19028716,0,*Unspecified,*Unspecified,COMPREHENSIVE METABOLIC PANEL
-cdm_std,Procedures,544380,0,*Unspecified,*Unspecified,CORD BLOOD EVALUATION
-cdm_std,Procedures,544380,0,No matching concept,No matching concept,CORD BLOOD EVALUATION
-cdm_std,Procedures,228904,0,No matching concept,No matching concept,"CORTISOL, AM OR PM (RANDOM) SERUM"
-cdm_std,Procedures,228904,0,*Unspecified,*Unspecified,"CORTISOL, AM OR PM (RANDOM) SERUM"
-cdm_std,Procedures,224652,0,*Unspecified,*Unspecified,COVID-19 ANTIBODY ASSAY
-cdm_std,Procedures,224652,0,No matching concept,No matching concept,COVID-19 ANTIBODY ASSAY
-cdm_std,Procedures,610920,0,No matching concept,No matching concept,CPK AND CPK-MB
-cdm_std,Procedures,610920,0,*Unspecified,*Unspecified,CPK AND CPK-MB
-cdm_std,Procedures,1700924,0,*Unspecified,*Unspecified,CREATININE-SERUM
-cdm_std,Procedures,1700924,0,No matching concept,No matching concept,CREATININE-SERUM
-cdm_std,Procedures,447552,0,No matching concept,No matching concept,CREATININE-URINE RANDOM
-cdm_std,Procedures,447552,0,*Unspecified,*Unspecified,CREATININE-URINE RANDOM
-cdm_std,Procedures,153968,0,*Unspecified,*Unspecified,"CREATININE-WB, VEN"
-cdm_std,Procedures,153968,0,No matching concept,No matching concept,"CREATININE-WB, VEN"
-cdm_std,Procedures,137080,0,*Unspecified,*Unspecified,CSF-CELL COUNT AND DIFF
-cdm_std,Procedures,137080,0,No matching concept,No matching concept,CSF-CELL COUNT AND DIFF
-cdm_std,Procedures,835628,0,No matching concept,No matching concept,CT ABDOMEN & PELVIS W CONTRAST
-cdm_std,Procedures,835628,0,*Unspecified,*Unspecified,CT ABDOMEN & PELVIS W CONTRAST
-cdm_std,Procedures,134060,0,*Unspecified,*Unspecified,CT ABDOMEN & PELVIS W/WO CONTRAST
-cdm_std,Procedures,134060,0,No matching concept,No matching concept,CT ABDOMEN & PELVIS W/WO CONTRAST
-cdm_std,Procedures,491936,0,No matching concept,No matching concept,CT ABDOMEN & PELVIS WO CONTRAST
-cdm_std,Procedures,491936,0,*Unspecified,*Unspecified,CT ABDOMEN & PELVIS WO CONTRAST
-cdm_std,Procedures,195788,0,*Unspecified,*Unspecified,CT ANGIO CHEST W CONTRAST
-cdm_std,Procedures,195788,0,No matching concept,No matching concept,CT ANGIO CHEST W CONTRAST
-cdm_std,Procedures,120372,0,No matching concept,No matching concept,CT ANGIO CHEST W/WO CONTRAST
-cdm_std,Procedures,120372,0,*Unspecified,*Unspecified,CT ANGIO CHEST W/WO CONTRAST
-cdm_std,Procedures,183580,0,*Unspecified,*Unspecified,CT CHEST & ABDOMEN & PELVIS W CONTRAST
-cdm_std,Procedures,183580,0,No matching concept,No matching concept,CT CHEST & ABDOMEN & PELVIS W CONTRAST
-cdm_std,Procedures,179776,0,No matching concept,No matching concept,CT CHEST W CONTRAST
-cdm_std,Procedures,179776,0,*Unspecified,*Unspecified,CT CHEST W CONTRAST
-cdm_std,Procedures,543468,0,*Unspecified,*Unspecified,CT CHEST WO CONTRAST
-cdm_std,Procedures,543468,0,No matching concept,No matching concept,CT CHEST WO CONTRAST
-cdm_std,Procedures,1624880,0,No matching concept,No matching concept,CT HEAD WO CONTRAST
-cdm_std,Procedures,1624880,0,*Unspecified,*Unspecified,CT HEAD WO CONTRAST
-cdm_std,Procedures,130392,0,*Unspecified,*Unspecified,CT NECK W CONTRAST
-cdm_std,Procedures,130392,0,No matching concept,No matching concept,CT NECK W CONTRAST
-cdm_std,Procedures,131176,0,No matching concept,No matching concept,CT SINUSES WO CONTRAST
-cdm_std,Procedures,131176,0,*Unspecified,*Unspecified,CT SINUSES WO CONTRAST
-cdm_std,Procedures,211720,0,*Unspecified,*Unspecified,CT SPINE CERVICAL WO CONTRAST
-cdm_std,Procedures,211720,0,No matching concept,No matching concept,CT SPINE CERVICAL WO CONTRAST
-cdm_std,Procedures,239608,0,No matching concept,No matching concept,"CULTURE, BODY FLUID, AEROBIC AND ANAEROBIC"
-cdm_std,Procedures,239608,0,*Unspecified,*Unspecified,"CULTURE, BODY FLUID, AEROBIC AND ANAEROBIC"
-cdm_std,Procedures,115940,0,*Unspecified,*Unspecified,CULTURE-AFB RESPIRATORY
-cdm_std,Procedures,115940,0,No matching concept,No matching concept,CULTURE-AFB RESPIRATORY
-cdm_std,Procedures,116760,0,No matching concept,No matching concept,CULTURE-ANAEROBIC
-cdm_std,Procedures,116760,0,*Unspecified,*Unspecified,CULTURE-ANAEROBIC
-cdm_std,Procedures,3343844,0,*Unspecified,*Unspecified,CULTURE-BLOOD
-cdm_std,Procedures,3343844,0,No matching concept,No matching concept,CULTURE-BLOOD
-cdm_std,Procedures,243780,0,No matching concept,No matching concept,"CULTURE-FUNGUS, OTHER"
-cdm_std,Procedures,243780,0,*Unspecified,*Unspecified,"CULTURE-FUNGUS, OTHER"
-cdm_std,Procedures,113984,0,*Unspecified,*Unspecified,CULTURE-GENITAL
-cdm_std,Procedures,113984,0,No matching concept,No matching concept,CULTURE-GENITAL
-cdm_std,Procedures,173524,0,No matching concept,No matching concept,CULTURE-OTHER
-cdm_std,Procedures,173524,0,*Unspecified,*Unspecified,CULTURE-OTHER
-cdm_std,Procedures,277804,0,*Unspecified,*Unspecified,CULTURE-RESPIRATORY
-cdm_std,Procedures,277804,0,No matching concept,No matching concept,CULTURE-RESPIRATORY
-cdm_std,Procedures,145088,0,No matching concept,No matching concept,CULTURE-STOOL
-cdm_std,Procedures,145088,0,*Unspecified,*Unspecified,CULTURE-STOOL
-cdm_std,Procedures,508324,0,*Unspecified,*Unspecified,CULTURE-THROAT
-cdm_std,Procedures,508324,0,No matching concept,No matching concept,CULTURE-THROAT
-cdm_std,Procedures,3679072,0,No matching concept,No matching concept,CULTURE-URINE BACTERIAL
-cdm_std,Procedures,3679072,0,*Unspecified,*Unspecified,CULTURE-URINE BACTERIAL
-cdm_std,Procedures,252136,0,*Unspecified,*Unspecified,CULTURE-WOUND
-cdm_std,Procedures,252136,0,No matching concept,No matching concept,CULTURE-WOUND
-cdm_std,Procedures,132696,0,No matching concept,No matching concept,CYCLIC CIT PEPTIDE IGG AB
-cdm_std,Procedures,132696,0,*Unspecified,*Unspecified,CYCLIC CIT PEPTIDE IGG AB
-cdm_std,Procedures,208840,0,*Unspecified,*Unspecified,CYCLOSPORINE
-cdm_std,Procedures,208840,0,No matching concept,No matching concept,CYCLOSPORINE
-cdm_std,Procedures,109316,0,No matching concept,No matching concept,"CYTOLOGY, GU"
-cdm_std,Procedures,109316,0,*Unspecified,*Unspecified,"CYTOLOGY, GU"
-cdm_std,Procedures,967128,0,*Unspecified,*Unspecified,"CYTOLOGY, GYN"
-cdm_std,Procedures,967128,0,No matching concept,No matching concept,"CYTOLOGY, GYN"
-cdm_std,Procedures,1245468,0,No matching concept,No matching concept,CYTOPATHOLOGY
-cdm_std,Procedures,1245468,0,*Unspecified,*Unspecified,CYTOPATHOLOGY
-cdm_std,Procedures,261400,0,*Unspecified,*Unspecified,DERMATOPATHOLOGY
-cdm_std,Procedures,261400,0,No matching concept,No matching concept,DERMATOPATHOLOGY
-cdm_std,Procedures,240032,0,No matching concept,No matching concept,"DEXA BONE DENSITY, AXIAL SKELETON"
-cdm_std,Procedures,240032,0,*Unspecified,*Unspecified,"DEXA BONE DENSITY, AXIAL SKELETON"
-cdm_std,Procedures,105056,0,*Unspecified,*Unspecified,DHEA SULFATE
-cdm_std,Procedures,105056,0,No matching concept,No matching concept,DHEA SULFATE
-cdm_std,Procedures,249632,0,*Unspecified,*Unspecified,DIGOXIN-BLD
-cdm_std,Procedures,249632,0,No matching concept,No matching concept,DIGOXIN-BLD
-cdm_std,Procedures,214880,0,No matching concept,No matching concept,DISCHARGE PATIENT
-cdm_std,Procedures,214880,0,*Unspecified,*Unspecified,DISCHARGE PATIENT
-cdm_std,Procedures,163400,0,*Unspecified,*Unspecified,DISCHARGE PATIENT FROM ED
-cdm_std,Procedures,163400,0,No matching concept,No matching concept,DISCHARGE PATIENT FROM ED
-cdm_std,Procedures,423220,0,*Unspecified,*Unspecified,"DRUGS OF ABUSE SCREEN, URINE"
-cdm_std,Procedures,423220,0,No matching concept,No matching concept,"DRUGS OF ABUSE SCREEN, URINE"
-cdm_std,Procedures,169300,0,No matching concept,No matching concept,"DTAP-HIB-IP VACCINE, IM"
-cdm_std,Procedures,169300,0,*Unspecified,*Unspecified,"DTAP-HIB-IP VACCINE, IM"
-cdm_std,Procedures,100088,0,*Unspecified,*Unspecified,EBV CAPSID AG (IGG AB)
-cdm_std,Procedures,100088,0,No matching concept,No matching concept,EBV CAPSID AG (IGG AB)
-cdm_std,Procedures,162588,0,No matching concept,No matching concept,ECHOCARDIOGRAM STRESS TEST (TREADMILL STRESS ECHO)
-cdm_std,Procedures,162588,0,*Unspecified,*Unspecified,ECHOCARDIOGRAM STRESS TEST (TREADMILL STRESS ECHO)
-cdm_std,Procedures,363700,0,*Unspecified,*Unspecified,"ECHOCARDIOGRAPHY, TRANSTHORACIC, REAL-TIME WITH IMAGE DOCUMENTATION (2D), INCLUDES M-MODE RECORDING, WHEN PERFORMED, COMPLETE, WITHOUT SPECTRAL OR COLOR DOPPLER ECHOCARDIOGRAPHY"
-cdm_std,Procedures,363700,0,No matching concept,No matching concept,"ECHOCARDIOGRAPHY, TRANSTHORACIC, REAL-TIME WITH IMAGE DOCUMENTATION (2D), INCLUDES M-MODE RECORDING, WHEN PERFORMED, COMPLETE, WITHOUT SPECTRAL OR COLOR DOPPLER ECHOCARDIOGRAPHY"
-cdm_std,Procedures,200672,0,No matching concept,No matching concept,ED ABDOMINAL PAIN PANEL
-cdm_std,Procedures,200672,0,*Unspecified,*Unspecified,ED ABDOMINAL PAIN PANEL
-cdm_std,Procedures,381856,0,*Unspecified,*Unspecified,ED ADMIT TO INPATIENT
-cdm_std,Procedures,381856,0,No matching concept,No matching concept,ED ADMIT TO INPATIENT
-cdm_std,Procedures,149840,0,No matching concept,No matching concept,EEG
-cdm_std,Procedures,149840,0,*Unspecified,*Unspecified,EEG
-cdm_std,Procedures,239824,0,*Unspecified,*Unspecified,EGD
-cdm_std,Procedures,239824,0,No matching concept,No matching concept,EGD
-cdm_std,Procedures,6156308,0,No matching concept,No matching concept,EGFR TEST CALCULATION
-cdm_std,Procedures,6156308,0,*Unspecified,*Unspecified,EGFR TEST CALCULATION
-cdm_std,Procedures,14124908,0,*Unspecified,*Unspecified,"ELECTROCARDIOGRAM, COMPLETE"
-cdm_std,Procedures,14124908,0,No matching concept,No matching concept,"ELECTROCARDIOGRAM, COMPLETE"
-cdm_std,Procedures,2987272,0,No matching concept,No matching concept,"ELECTROCARDIOGRAM, TRACING"
-cdm_std,Procedures,2987272,0,*Unspecified,*Unspecified,"ELECTROCARDIOGRAM, TRACING"
-cdm_std,Procedures,270056,0,*Unspecified,*Unspecified,ELECTROLYTES-URINE
-cdm_std,Procedures,270056,0,No matching concept,No matching concept,ELECTROLYTES-URINE
-cdm_std,Procedures,165992,0,No matching concept,No matching concept,ESTRADIOL
-cdm_std,Procedures,165992,0,*Unspecified,*Unspecified,ESTRADIOL
-cdm_std,Procedures,108972,0,No matching concept,No matching concept,EXTERNALLY PERFORMED LAB ORDER
-cdm_std,Procedures,108972,0,*Unspecified,*Unspecified,EXTERNALLY PERFORMED LAB ORDER
-cdm_std,Procedures,2052296,0,No matching concept,No matching concept,FERRITIN
-cdm_std,Procedures,2052296,0,*Unspecified,*Unspecified,FERRITIN
-cdm_std,Procedures,941672,0,*Unspecified,*Unspecified,FIBRIN DEGRAD-DIMER
-cdm_std,Procedures,941672,0,No matching concept,No matching concept,FIBRIN DEGRAD-DIMER
-cdm_std,Procedures,895340,0,No matching concept,No matching concept,FIBRINOGEN
-cdm_std,Procedures,895340,0,*Unspecified,*Unspecified,FIBRINOGEN
-cdm_std,Procedures,301372,0,*Unspecified,*Unspecified,FIBRINOGEN-STAT LAB
-cdm_std,Procedures,301372,0,No matching concept,No matching concept,FIBRINOGEN-STAT LAB
-cdm_std,Procedures,235192,0,No matching concept,No matching concept,FLUID CELL CNT AND DIFF
-cdm_std,Procedures,235192,0,*Unspecified,*Unspecified,FLUID CELL CNT AND DIFF
-cdm_std,Procedures,131284,0,*Unspecified,*Unspecified,FLUORO SPINAL PROCEDURE
-cdm_std,Procedures,131284,0,No matching concept,No matching concept,FLUORO SPINAL PROCEDURE
-cdm_std,Procedures,467180,0,No matching concept,No matching concept,FOLATE-SERUM
-cdm_std,Procedures,467180,0,*Unspecified,*Unspecified,FOLATE-SERUM
-cdm_std,Procedures,1019108,0,*Unspecified,*Unspecified,FOLEY CATHETER - CONTINUE
-cdm_std,Procedures,1019108,0,No matching concept,No matching concept,FOLEY CATHETER - CONTINUE
-cdm_std,Procedures,136160,0,No matching concept,No matching concept,FOLEY CATHETER - REMOVE
-cdm_std,Procedures,136160,0,*Unspecified,*Unspecified,FOLEY CATHETER - REMOVE
-cdm_std,Procedures,225848,0,*Unspecified,*Unspecified,FOLICLE STIMULATIN HORMONE
-cdm_std,Procedures,225848,0,No matching concept,No matching concept,FOLICLE STIMULATIN HORMONE
-cdm_std,Procedures,117832,0,No matching concept,No matching concept,"FREE K+L LT. CHAINS,QN,S (OLD SPA)"
-cdm_std,Procedures,117832,0,*Unspecified,*Unspecified,"FREE K+L LT. CHAINS,QN,S (OLD SPA)"
-cdm_std,Procedures,172408,0,*Unspecified,*Unspecified,"FREE K+L LT. CHAINS,QUANT-SERUM"
-cdm_std,Procedures,172408,0,No matching concept,No matching concept,"FREE K+L LT. CHAINS,QUANT-SERUM"
-cdm_std,Procedures,483640,0,No matching concept,No matching concept,FRESH FROZEN PLSMA THAWED
-cdm_std,Procedures,483640,0,*Unspecified,*Unspecified,FRESH FROZEN PLSMA THAWED
-cdm_std,Procedures,106588,0,*Unspecified,*Unspecified,FSH-PED
-cdm_std,Procedures,106588,0,No matching concept,No matching concept,FSH-PED
-cdm_std,Procedures,2066040,0,No matching concept,No matching concept,GAMMA GTP-BLD
-cdm_std,Procedures,2066040,0,*Unspecified,*Unspecified,GAMMA GTP-BLD
-cdm_std,Procedures,27207060,0,*Unspecified,*Unspecified,GLUCOSE (POCT) BY METER
-cdm_std,Procedures,27207060,0,No matching concept,No matching concept,GLUCOSE (POCT) BY METER
-cdm_std,Procedures,173224,0,No matching concept,No matching concept,GLUCOSE PLASMA (GREY TOP)
-cdm_std,Procedures,173224,0,*Unspecified,*Unspecified,GLUCOSE PLASMA (GREY TOP)
-cdm_std,Procedures,192232,0,*Unspecified,*Unspecified,GLUCOSE-BLOOD
-cdm_std,Procedures,192232,0,No matching concept,No matching concept,GLUCOSE-BLOOD
-cdm_std,Procedures,103136,0,No matching concept,No matching concept,GLUCOSE-CSF
-cdm_std,Procedures,103136,0,*Unspecified,*Unspecified,GLUCOSE-CSF
-cdm_std,Procedures,807144,0,*Unspecified,*Unspecified,"GLUCOSE-WB, ART"
-cdm_std,Procedures,807144,0,No matching concept,No matching concept,"GLUCOSE-WB, ART"
-cdm_std,Procedures,129912,0,No matching concept,No matching concept,"GLUCOSE-WB, VEN"
-cdm_std,Procedures,129912,0,*Unspecified,*Unspecified,"GLUCOSE-WB, VEN"
-cdm_std,Procedures,261676,0,No matching concept,No matching concept,GRAM STAIN
-cdm_std,Procedures,261676,0,*Unspecified,*Unspecified,GRAM STAIN
-cdm_std,Procedures,167596,0,*Unspecified,*Unspecified,GROUP B STREP
-cdm_std,Procedures,167596,0,No matching concept,No matching concept,GROUP B STREP
-cdm_std,Procedures,293884,0,No matching concept,No matching concept,HAPTOGLOBIN
-cdm_std,Procedures,293884,0,*Unspecified,*Unspecified,HAPTOGLOBIN
-cdm_std,Procedures,111112,0,*Unspecified,*Unspecified,HAZELNUT
-cdm_std,Procedures,111112,0,No matching concept,No matching concept,HAZELNUT
-cdm_std,Procedures,975512,0,No matching concept,No matching concept,"HCG, SERUM, QUANTITATIVE"
-cdm_std,Procedures,975512,0,*Unspecified,*Unspecified,"HCG, SERUM, QUANTITATIVE"
-cdm_std,Procedures,170424,0,*Unspecified,*Unspecified,HEMATOCRIT (NEONATE)
-cdm_std,Procedures,170424,0,No matching concept,No matching concept,HEMATOCRIT (NEONATE)
-cdm_std,Procedures,138492,0,No matching concept,No matching concept,"HEMATOCRIT-WB, VEN"
-cdm_std,Procedures,138492,0,*Unspecified,*Unspecified,"HEMATOCRIT-WB, VEN"
-cdm_std,Procedures,184224,0,No matching concept,No matching concept,HEMOGLOBIN - VEN
-cdm_std,Procedures,184224,0,*Unspecified,*Unspecified,HEMOGLOBIN - VEN
-cdm_std,Procedures,6119356,0,*Unspecified,*Unspecified,HEMOGLOBIN A1C
-cdm_std,Procedures,6119356,0,No matching concept,No matching concept,HEMOGLOBIN A1C
-cdm_std,Procedures,187548,0,No matching concept,No matching concept,HEMOGLOBIN A1C (POCT)
-cdm_std,Procedures,187548,0,*Unspecified,*Unspecified,HEMOGLOBIN A1C (POCT)
-cdm_std,Procedures,273260,0,*Unspecified,*Unspecified,HEMOGLOBIN FRACTIONATION
-cdm_std,Procedures,273260,0,No matching concept,No matching concept,HEMOGLOBIN FRACTIONATION
-cdm_std,Procedures,848372,0,No matching concept,No matching concept,"HEMOGLOBIN, ARTERIAL, VIA BLOOD GAS"
-cdm_std,Procedures,848372,0,*Unspecified,*Unspecified,"HEMOGLOBIN, ARTERIAL, VIA BLOOD GAS"
-cdm_std,Procedures,188740,0,*Unspecified,*Unspecified,"HEP B VIRUS DNA QNT, PCR"
-cdm_std,Procedures,188740,0,No matching concept,No matching concept,"HEP B VIRUS DNA QNT, PCR"
-cdm_std,Procedures,4219400,0,No matching concept,No matching concept,HEPATIC FUNCTION PANEL
-cdm_std,Procedures,4219400,0,*Unspecified,*Unspecified,HEPATIC FUNCTION PANEL
-cdm_std,Procedures,118152,0,*Unspecified,*Unspecified,HEPATITIS A AB IGG
-cdm_std,Procedures,118152,0,No matching concept,No matching concept,HEPATITIS A AB IGG
-cdm_std,Procedures,216212,0,No matching concept,No matching concept,HEPATITIS A AB TOTAL (IMMUNIZATION STATUS)
-cdm_std,Procedures,216212,0,*Unspecified,*Unspecified,HEPATITIS A AB TOTAL (IMMUNIZATION STATUS)
-cdm_std,Procedures,207608,0,*Unspecified,*Unspecified,HEPATITIS A IGM (ACUTE INFECTION)
-cdm_std,Procedures,207608,0,No matching concept,No matching concept,HEPATITIS A IGM (ACUTE INFECTION)
-cdm_std,Procedures,206992,0,No matching concept,No matching concept,HEPATITIS B CORE AB IGM
-cdm_std,Procedures,206992,0,*Unspecified,*Unspecified,HEPATITIS B CORE AB IGM
-cdm_std,Procedures,685216,0,*Unspecified,*Unspecified,HEPATITIS B CORE AB TOTAL
-cdm_std,Procedures,685216,0,No matching concept,No matching concept,HEPATITIS B CORE AB TOTAL
-cdm_std,Procedures,868456,0,No matching concept,No matching concept,HEPATITIS B SURFACE AB QUAL
-cdm_std,Procedures,868456,0,*Unspecified,*Unspecified,HEPATITIS B SURFACE AB QUAL
-cdm_std,Procedures,1457792,0,*Unspecified,*Unspecified,HEPATITIS B SURFACE AG
-cdm_std,Procedures,1457792,0,No matching concept,No matching concept,HEPATITIS B SURFACE AG
-cdm_std,Procedures,307012,0,No matching concept,No matching concept,HEPATITIS B SURFACE AG AND AB
-cdm_std,Procedures,307012,0,*Unspecified,*Unspecified,HEPATITIS B SURFACE AG AND AB
-cdm_std,Procedures,1790696,0,*Unspecified,*Unspecified,HEPATITIS C VIRUS ANTIBODY WITH REFLEX TO PCR
-cdm_std,Procedures,1790696,0,No matching concept,No matching concept,HEPATITIS C VIRUS ANTIBODY WITH REFLEX TO PCR
-cdm_std,Procedures,321660,0,No matching concept,No matching concept,HEPATITIS C VIRUS RNA QUANT.
-cdm_std,Procedures,321660,0,*Unspecified,*Unspecified,HEPATITIS C VIRUS RNA QUANT.
-cdm_std,Procedures,215520,0,*Unspecified,*Unspecified,"HIV 1 AG, HIV 1/2 AB"
-cdm_std,Procedures,215520,0,No matching concept,No matching concept,"HIV 1 AG, HIV 1/2 AB"
-cdm_std,Procedures,154868,0,No matching concept,No matching concept,"HIV 1/2, POST-EXPOSURE/OB/ED RAPID TEST"
-cdm_std,Procedures,154868,0,*Unspecified,*Unspecified,"HIV 1/2, POST-EXPOSURE/OB/ED RAPID TEST"
-cdm_std,Procedures,1379372,0,*Unspecified,*Unspecified,"HIV 1/2, ROUTINE TEST (ANTIGEN/ANTIBODY WITH REFLEX TO CONFIRMATORY)"
-cdm_std,Procedures,1379372,0,No matching concept,No matching concept,"HIV 1/2, ROUTINE TEST (ANTIGEN/ANTIBODY WITH REFLEX TO CONFIRMATORY)"
-cdm_std,Procedures,117252,0,No matching concept,No matching concept,"HIV1 AG, 2AB"
-cdm_std,Procedures,117252,0,*Unspecified,*Unspecified,"HIV1 AG, 2AB"
-cdm_std,Procedures,132348,0,*Unspecified,*Unspecified,HIV-1 PANEL
-cdm_std,Procedures,132348,0,No matching concept,No matching concept,HIV-1 PANEL
-cdm_std,Procedures,283956,0,No matching concept,No matching concept,HIV-1/HIV-2 PANEL
-cdm_std,Procedures,283956,0,*Unspecified,*Unspecified,HIV-1/HIV-2 PANEL
-cdm_std,Procedures,126024,0,No matching concept,No matching concept,HNP
-cdm_std,Procedures,126024,0,*Unspecified,*Unspecified,HNP
-cdm_std,Procedures,228044,0,*Unspecified,*Unspecified,"HOMOCYSTEINE,QUANT"
-cdm_std,Procedures,228044,0,No matching concept,No matching concept,"HOMOCYSTEINE,QUANT"
-cdm_std,Procedures,148040,0,No matching concept,No matching concept,"HPV TYPES 6,11,16,18,33,45,52,58 NONAVALENT, 3DOSE, INTRAMUSCULAR"
-cdm_std,Procedures,148040,0,*Unspecified,*Unspecified,"HPV TYPES 6,11,16,18,33,45,52,58 NONAVALENT, 3DOSE, INTRAMUSCULAR"
-cdm_std,Procedures,149904,0,*Unspecified,*Unspecified,HX APPENDECTOMY
-cdm_std,Procedures,149904,0,No matching concept,No matching concept,HX APPENDECTOMY
-cdm_std,Procedures,318872,0,*Unspecified,*Unspecified,HX CESAREAN SECTION
-cdm_std,Procedures,318872,0,No matching concept,No matching concept,HX CESAREAN SECTION
-cdm_std,Procedures,158528,0,No matching concept,No matching concept,HX CHOLECYSTECTOMY
-cdm_std,Procedures,158528,0,*Unspecified,*Unspecified,HX CHOLECYSTECTOMY
-cdm_std,Procedures,135916,0,No matching concept,No matching concept,HX DILATION AND CURETTAGE OF UTERUS
-cdm_std,Procedures,135916,0,*Unspecified,*Unspecified,HX DILATION AND CURETTAGE OF UTERUS
-cdm_std,Procedures,199040,0,*Unspecified,*Unspecified,HX HERNIA REPAIR
-cdm_std,Procedures,199040,0,No matching concept,No matching concept,HX HERNIA REPAIR
-cdm_std,Procedures,106068,0,No matching concept,No matching concept,HX INGUINAL HERNIA REPAIR
-cdm_std,Procedures,106068,0,*Unspecified,*Unspecified,HX INGUINAL HERNIA REPAIR
-cdm_std,Procedures,189256,0,*Unspecified,*Unspecified,HX KNEE SURGERY
-cdm_std,Procedures,189256,0,No matching concept,No matching concept,HX KNEE SURGERY
-cdm_std,Procedures,198908,0,*Unspecified,*Unspecified,HX TONSILLECTOMY
-cdm_std,Procedures,198908,0,No matching concept,No matching concept,HX TONSILLECTOMY
-cdm_std,Procedures,157536,0,*Unspecified,*Unspecified,HX WISDOM TOOTH EXTRACTION
-cdm_std,Procedures,157536,0,No matching concept,No matching concept,HX WISDOM TOOTH EXTRACTION
-cdm_std,Procedures,843632,0,No matching concept,No matching concept,ICU VENOUS PANEL
-cdm_std,Procedures,843632,0,*Unspecified,*Unspecified,ICU VENOUS PANEL
-cdm_std,Procedures,159928,0,No matching concept,No matching concept,"IGE, QUANT"
-cdm_std,Procedures,159928,0,*Unspecified,*Unspecified,"IGE, QUANT"
-cdm_std,Procedures,116908,0,*Unspecified,*Unspecified,IGF 1-PED
-cdm_std,Procedures,116908,0,No matching concept,No matching concept,IGF 1-PED
-cdm_std,Procedures,101348,0,No matching concept,No matching concept,"IGFBP-3, PEDIATRIC"
-cdm_std,Procedures,101348,0,*Unspecified,*Unspecified,"IGFBP-3, PEDIATRIC"
-cdm_std,Procedures,359920,0,*Unspecified,*Unspecified,"IGP, COBASHPV16/18"
-cdm_std,Procedures,359920,0,No matching concept,No matching concept,"IGP, COBASHPV16/18"
-cdm_std,Procedures,111384,0,No matching concept,No matching concept,"IGP, CTNG, COBASHPV16/18"
-cdm_std,Procedures,111384,0,*Unspecified,*Unspecified,"IGP, CTNG, COBASHPV16/18"
-cdm_std,Procedures,442620,0,*Unspecified,*Unspecified,IMMUNOFIX PANEL-SERUM
-cdm_std,Procedures,442620,0,No matching concept,No matching concept,IMMUNOFIX PANEL-SERUM
-cdm_std,Procedures,102232,0,No matching concept,No matching concept,IMMUNOFIX PANEL-URINE
-cdm_std,Procedures,102232,0,*Unspecified,*Unspecified,IMMUNOFIX PANEL-URINE
-cdm_std,Procedures,224904,0,*Unspecified,*Unspecified,IMMUNOGLOBULINS QUANT
-cdm_std,Procedures,224904,0,No matching concept,No matching concept,IMMUNOGLOBULINS QUANT
-cdm_std,Procedures,269464,0,No matching concept,No matching concept,INFLUENZA A/B/RSV BY PCR
-cdm_std,Procedures,269464,0,*Unspecified,*Unspecified,INFLUENZA A/B/RSV BY PCR
-cdm_std,Procedures,182340,0,*Unspecified,*Unspecified,INSERT PERIPHERAL IV
-cdm_std,Procedures,182340,0,No matching concept,No matching concept,INSERT PERIPHERAL IV
-cdm_std,Procedures,506516,0,No matching concept,No matching concept,INTERPRETATION
-cdm_std,Procedures,506516,0,*Unspecified,*Unspecified,INTERPRETATION
-cdm_std,Procedures,174704,0,*Unspecified,*Unspecified,INTRAPARTUM RPR
-cdm_std,Procedures,174704,0,No matching concept,No matching concept,INTRAPARTUM RPR
-cdm_std,Procedures,140408,0,No matching concept,No matching concept,IP CONSULT TO GENERAL INFECTIOUS DISEASES
-cdm_std,Procedures,140408,0,*Unspecified,*Unspecified,IP CONSULT TO GENERAL INFECTIOUS DISEASES
-cdm_std,Procedures,511852,0,*Unspecified,*Unspecified,IP CONSULT TO NUTRITION
-cdm_std,Procedures,511852,0,No matching concept,No matching concept,IP CONSULT TO NUTRITION
-cdm_std,Procedures,145540,0,No matching concept,No matching concept,IP CONSULT TO SKIN/WOUND CARE
-cdm_std,Procedures,145540,0,*Unspecified,*Unspecified,IP CONSULT TO SKIN/WOUND CARE
-cdm_std,Procedures,247964,0,*Unspecified,*Unspecified,IP CONSULT TO SOCIAL WORK
-cdm_std,Procedures,247964,0,No matching concept,No matching concept,IP CONSULT TO SOCIAL WORK
-cdm_std,Procedures,138544,0,No matching concept,No matching concept,IP CONSULT TO SPEECH LANGUAGE PATHOLOGY
-cdm_std,Procedures,138544,0,*Unspecified,*Unspecified,IP CONSULT TO SPEECH LANGUAGE PATHOLOGY
-cdm_std,Procedures,171692,0,*Unspecified,*Unspecified,IP CONSULT TO VASCULAR ACCESS SERVICE
-cdm_std,Procedures,171692,0,No matching concept,No matching concept,IP CONSULT TO VASCULAR ACCESS SERVICE
-cdm_std,Procedures,1650216,0,No matching concept,No matching concept,IRON + TIBC
-cdm_std,Procedures,1650216,0,*Unspecified,*Unspecified,IRON + TIBC
-cdm_std,Procedures,245784,0,*Unspecified,*Unspecified,IRON DEFICIENCY PROFILE
-cdm_std,Procedures,245784,0,No matching concept,No matching concept,IRON DEFICIENCY PROFILE
-cdm_std,Procedures,109864,0,No matching concept,No matching concept,IRON PROFILE
-cdm_std,Procedures,109864,0,*Unspecified,*Unspecified,IRON PROFILE
-cdm_std,Procedures,159144,0,*Unspecified,*Unspecified,LACERATION REPAIR
-cdm_std,Procedures,159144,0,No matching concept,No matching concept,LACERATION REPAIR
-cdm_std,Procedures,620744,0,No matching concept,No matching concept,LACTATE-BLD
-cdm_std,Procedures,620744,0,*Unspecified,*Unspecified,LACTATE-BLD
-cdm_std,Procedures,963472,0,*Unspecified,*Unspecified,"LACTATE-WB, ART"
-cdm_std,Procedures,963472,0,No matching concept,No matching concept,"LACTATE-WB, ART"
-cdm_std,Procedures,103360,0,No matching concept,No matching concept,"LACTATE-WB, VEN"
-cdm_std,Procedures,103360,0,*Unspecified,*Unspecified,"LACTATE-WB, VEN"
-cdm_std,Procedures,2952908,0,*Unspecified,*Unspecified,LDH-BLD
-cdm_std,Procedures,2952908,0,No matching concept,No matching concept,LDH-BLD
-cdm_std,Procedures,189648,0,No matching concept,No matching concept,LEAD-BLOOD
-cdm_std,Procedures,189648,0,*Unspecified,*Unspecified,LEAD-BLOOD
-cdm_std,Procedures,117332,0,No matching concept,No matching concept,LEGIONELLA PNEUMOPHILA URINE
-cdm_std,Procedures,117332,0,*Unspecified,*Unspecified,LEGIONELLA PNEUMOPHILA URINE
-cdm_std,Procedures,544180,0,*Unspecified,*Unspecified,LEUKOREDUCED RED CELLS
-cdm_std,Procedures,544180,0,No matching concept,No matching concept,LEUKOREDUCED RED CELLS
-cdm_std,Procedures,2842780,0,*Unspecified,*Unspecified,LIPASE
-cdm_std,Procedures,2842780,0,No matching concept,No matching concept,LIPASE
-cdm_std,Procedures,8084760,0,No matching concept,No matching concept,LIPID PANEL
-cdm_std,Procedures,8084760,0,*Unspecified,*Unspecified,LIPID PANEL
-cdm_std,Procedures,424636,0,*Unspecified,*Unspecified,LIPID W/DIRECT LDL
-cdm_std,Procedures,424636,0,No matching concept,No matching concept,LIPID W/DIRECT LDL
-cdm_std,Procedures,102184,0,No matching concept,No matching concept,LITHIUM-BLD
-cdm_std,Procedures,102184,0,*Unspecified,*Unspecified,LITHIUM-BLD
-cdm_std,Procedures,2099344,0,*Unspecified,*Unspecified,LIVER TRANSP MONIT
-cdm_std,Procedures,2099344,0,No matching concept,No matching concept,LIVER TRANSP MONIT
-cdm_std,Procedures,120660,0,No matching concept,No matching concept,LOWER EXTREMITY ARTERIAL PVR SEGMENTAL BP (VASCULAR LAB)
-cdm_std,Procedures,120660,0,*Unspecified,*Unspecified,LOWER EXTREMITY ARTERIAL PVR SEGMENTAL BP (VASCULAR LAB)
-cdm_std,Procedures,177044,0,*Unspecified,*Unspecified,LUTEINIZING HORMONE
-cdm_std,Procedures,177044,0,No matching concept,No matching concept,LUTEINIZING HORMONE
-cdm_std,Procedures,108256,0,No matching concept,No matching concept,LUTEINIZING HORMONE-PED
-cdm_std,Procedures,108256,0,*Unspecified,*Unspecified,LUTEINIZING HORMONE-PED
-cdm_std,Procedures,155520,0,*Unspecified,*Unspecified,LYME TOTAL ANTIBODY W/REFLEX WESTERN BLOT
-cdm_std,Procedures,155520,0,No matching concept,No matching concept,LYME TOTAL ANTIBODY W/REFLEX WESTERN BLOT
-cdm_std,Procedures,108220,0,No matching concept,No matching concept,MACADAMIA NUT IGE
-cdm_std,Procedures,108220,0,*Unspecified,*Unspecified,MACADAMIA NUT IGE
-cdm_std,Procedures,8510600,0,*Unspecified,*Unspecified,MAGNESIUM-BLD
-cdm_std,Procedures,8510600,0,No matching concept,No matching concept,MAGNESIUM-BLD
-cdm_std,Procedures,3810104,0,No matching concept,No matching concept,MAGNESIUM-BLOOD
-cdm_std,Procedures,3810104,0,*Unspecified,*Unspecified,MAGNESIUM-BLOOD
-cdm_std,Procedures,369700,0,*Unspecified,*Unspecified,MAMMOGRAPHY DIAGNOSTIC BILATERAL
-cdm_std,Procedures,369700,0,No matching concept,No matching concept,MAMMOGRAPHY DIAGNOSTIC BILATERAL
-cdm_std,Procedures,122296,0,No matching concept,No matching concept,MAMMOGRAPHY DIAGNOSTIC LEFT
-cdm_std,Procedures,122296,0,*Unspecified,*Unspecified,MAMMOGRAPHY DIAGNOSTIC LEFT
-cdm_std,Procedures,1026932,0,*Unspecified,*Unspecified,MAMMOGRAPHY SCREENING
-cdm_std,Procedures,1026932,0,No matching concept,No matching concept,MAMMOGRAPHY SCREENING
-cdm_std,Procedures,461404,0,No matching concept,No matching concept,MAMMOGRAPHY SCREENING BILATERAL WITH TOMO
-cdm_std,Procedures,461404,0,*Unspecified,*Unspecified,MAMMOGRAPHY SCREENING BILATERAL WITH TOMO
-cdm_std,Procedures,106040,0,*Unspecified,*Unspecified,MANUAL DIFFERENTIAL
-cdm_std,Procedures,106040,0,No matching concept,No matching concept,MANUAL DIFFERENTIAL
-cdm_std,Procedures,1257280,0,No matching concept,No matching concept,MANUAL DIFFERENTIAL WITH PLATELET ESTIMATE
-cdm_std,Procedures,1257280,0,*Unspecified,*Unspecified,MANUAL DIFFERENTIAL WITH PLATELET ESTIMATE
-cdm_std,Procedures,392484,0,*Unspecified,*Unspecified,MEASLES (RUBEOLA) IGG
-cdm_std,Procedures,392484,0,No matching concept,No matching concept,MEASLES (RUBEOLA) IGG
-cdm_std,Procedures,140964,0,No matching concept,No matching concept,MED ADMISS/OPD SCREEN
-cdm_std,Procedures,140964,0,*Unspecified,*Unspecified,MED ADMISS/OPD SCREEN
-cdm_std,Procedures,118768,0,No matching concept,No matching concept,"METHYLMALONIC ACID, QUANT"
-cdm_std,Procedures,118768,0,*Unspecified,*Unspecified,"METHYLMALONIC ACID, QUANT"
-cdm_std,Procedures,822844,0,*Unspecified,*Unspecified,"MICROALB/CREAT,URINE (RAND)"
-cdm_std,Procedures,822844,0,No matching concept,No matching concept,"MICROALB/CREAT,URINE (RAND)"
-cdm_std,Procedures,392180,0,No matching concept,No matching concept,MICROALBUMIN-URINE RANDOM
-cdm_std,Procedures,392180,0,*Unspecified,*Unspecified,MICROALBUMIN-URINE RANDOM
-cdm_std,Procedures,3428432,0,*Unspecified,*Unspecified,MICROSCOPIC EXAM OF URINE
-cdm_std,Procedures,3428432,0,No matching concept,No matching concept,MICROSCOPIC EXAM OF URINE
-cdm_std,Procedures,261536,0,No matching concept,No matching concept,MR ABDOMEN W/WO CONTRAST
-cdm_std,Procedures,261536,0,*Unspecified,*Unspecified,MR ABDOMEN W/WO CONTRAST
-cdm_std,Procedures,392132,0,*Unspecified,*Unspecified,MR BRAIN W/WO CONTRAST
-cdm_std,Procedures,392132,0,No matching concept,No matching concept,MR BRAIN W/WO CONTRAST
-cdm_std,Procedures,425832,0,No matching concept,No matching concept,MR BRAIN WO CONTRAST
-cdm_std,Procedures,425832,0,*Unspecified,*Unspecified,MR BRAIN WO CONTRAST
-cdm_std,Procedures,162568,0,*Unspecified,*Unspecified,MR SPINE CERVICAL WO CONTRAST
-cdm_std,Procedures,162568,0,No matching concept,No matching concept,MR SPINE CERVICAL WO CONTRAST
-cdm_std,Procedures,228944,0,No matching concept,No matching concept,MR SPINE LUMBAR WO CONTRAST
-cdm_std,Procedures,228944,0,*Unspecified,*Unspecified,MR SPINE LUMBAR WO CONTRAST
-cdm_std,Procedures,128240,0,*Unspecified,*Unspecified,MRA HEAD WO CONTRAST
-cdm_std,Procedures,128240,0,No matching concept,No matching concept,MRA HEAD WO CONTRAST
-cdm_std,Procedures,163272,0,*Unspecified,*Unspecified,MRSA CULTURE
-cdm_std,Procedures,163272,0,No matching concept,No matching concept,MRSA CULTURE
-cdm_std,Procedures,118384,0,No matching concept,No matching concept,MS ANESTHESIA NEURAXIAL BLOCK
-cdm_std,Procedures,118384,0,*Unspecified,*Unspecified,MS ANESTHESIA NEURAXIAL BLOCK
-cdm_std,Procedures,315876,0,*Unspecified,*Unspecified,"MUMPS AB, IGG"
-cdm_std,Procedures,315876,0,No matching concept,No matching concept,"MUMPS AB, IGG"
-cdm_std,Procedures,159896,0,No matching concept,No matching concept,MYOCARDIAL PERFUSION EXERCISE STRESS TEST
-cdm_std,Procedures,159896,0,*Unspecified,*Unspecified,MYOCARDIAL PERFUSION EXERCISE STRESS TEST
-cdm_std,Procedures,208312,0,*Unspecified,*Unspecified,MYOCARDIAL PERFUSION STRESS TEST (EXERCISE/PHARMACOLOGICAL)
-cdm_std,Procedures,208312,0,No matching concept,No matching concept,MYOCARDIAL PERFUSION STRESS TEST (EXERCISE/PHARMACOLOGICAL)
-cdm_std,Procedures,205040,0,*Unspecified,*Unspecified,NRBC
-cdm_std,Procedures,205040,0,No matching concept,No matching concept,NRBC
-cdm_std,Procedures,162408,0,No matching concept,No matching concept,NYC HOUSECALL
-cdm_std,Procedures,162408,0,*Unspecified,*Unspecified,NYC HOUSECALL
-cdm_std,Procedures,131000,0,*Unspecified,*Unspecified,OBTAIN HEIGHT AND WEIGHT
-cdm_std,Procedures,131000,0,No matching concept,No matching concept,OBTAIN HEIGHT AND WEIGHT
-cdm_std,Procedures,114140,0,No matching concept,No matching concept,OCT SPECTRALIS MACULA - OU - BOTH EYES
-cdm_std,Procedures,114140,0,*Unspecified,*Unspecified,OCT SPECTRALIS MACULA - OU - BOTH EYES
-cdm_std,Procedures,278988,0,No matching concept,No matching concept,OSMOLALITY-SERUM
-cdm_std,Procedures,278988,0,*Unspecified,*Unspecified,OSMOLALITY-SERUM
-cdm_std,Procedures,269360,0,*Unspecified,*Unspecified,OSMOLALITY-URINE
-cdm_std,Procedures,269360,0,No matching concept,No matching concept,OSMOLALITY-URINE
-cdm_std,Procedures,139164,0,*Unspecified,*Unspecified,OVA AND PARASITE-STOOL (CRYPTOSPORIDIA/GIARDIA DFA)
-cdm_std,Procedures,139164,0,No matching concept,No matching concept,OVA AND PARASITE-STOOL (CRYPTOSPORIDIA/GIARDIA DFA)
-cdm_std,Procedures,582144,0,No matching concept,No matching concept,PARATHYROID HORMONE INTACT IRMA
-cdm_std,Procedures,582144,0,*Unspecified,*Unspecified,PARATHYROID HORMONE INTACT IRMA
-cdm_std,Procedures,4299368,0,No matching concept,No matching concept,PARTIAL THROMBOPLASTIN TIME
-cdm_std,Procedures,4299368,0,*Unspecified,*Unspecified,PARTIAL THROMBOPLASTIN TIME
-cdm_std,Procedures,413424,0,*Unspecified,*Unspecified,PAT. MONITORING
-cdm_std,Procedures,413424,0,No matching concept,No matching concept,PAT. MONITORING
-cdm_std,Procedures,129792,0,*Unspecified,*Unspecified,PEANUT
-cdm_std,Procedures,129792,0,No matching concept,No matching concept,PEANUT
-cdm_std,Procedures,117340,0,No matching concept,No matching concept,PECAN NUT
-cdm_std,Procedures,117340,0,*Unspecified,*Unspecified,PECAN NUT
-cdm_std,Procedures,224156,0,*Unspecified,*Unspecified,"PET/CT FDG ONCOLOGIC, SKULL BASE TO MID THIGH"
-cdm_std,Procedures,224156,0,No matching concept,No matching concept,"PET/CT FDG ONCOLOGIC, SKULL BASE TO MID THIGH"
-cdm_std,Procedures,304968,0,No matching concept,No matching concept,PHENYTOIN-BLD
-cdm_std,Procedures,304968,0,*Unspecified,*Unspecified,PHENYTOIN-BLD
-cdm_std,Procedures,9273320,0,*Unspecified,*Unspecified,PHOSPHORUS-BLOOD
-cdm_std,Procedures,9273320,0,No matching concept,No matching concept,PHOSPHORUS-BLOOD
-cdm_std,Procedures,102548,0,No matching concept,No matching concept,PINE (PINON) NUT
-cdm_std,Procedures,102548,0,*Unspecified,*Unspecified,PINE (PINON) NUT
-cdm_std,Procedures,119244,0,*Unspecified,*Unspecified,PISTACHIO NUT
-cdm_std,Procedures,119244,0,No matching concept,No matching concept,PISTACHIO NUT
-cdm_std,Procedures,138292,0,No matching concept,No matching concept,PLASMA
-cdm_std,Procedures,138292,0,*Unspecified,*Unspecified,PLASMA
-cdm_std,Procedures,234624,0,No matching concept,No matching concept,PLATELET CONCENTRATE
-cdm_std,Procedures,234624,0,*Unspecified,*Unspecified,PLATELET CONCENTRATE
-cdm_std,Procedures,211324,0,*Unspecified,*Unspecified,"PLATELETS, SINGLE DONOR APHERESIS"
-cdm_std,Procedures,211324,0,No matching concept,No matching concept,"PLATELETS, SINGLE DONOR APHERESIS"
-cdm_std,Procedures,239824,0,No matching concept,No matching concept,POC A2 PANEL
-cdm_std,Procedures,239824,0,*Unspecified,*Unspecified,POC A2 PANEL
-cdm_std,Procedures,284568,0,*Unspecified,*Unspecified,POC V2 PANEL
-cdm_std,Procedures,284568,0,No matching concept,No matching concept,POC V2 PANEL
-cdm_std,Procedures,5517916,0,*Unspecified,*Unspecified,POC WHOLE BLD GLU
-cdm_std,Procedures,5517916,0,No matching concept,No matching concept,POC WHOLE BLD GLU
-cdm_std,Procedures,315392,0,No matching concept,No matching concept,POST-CATH TROPI/CKMBM
-cdm_std,Procedures,315392,0,*Unspecified,*Unspecified,POST-CATH TROPI/CKMBM
-cdm_std,Procedures,802408,0,*Unspecified,*Unspecified,POTASSIUM-ART
-cdm_std,Procedures,802408,0,No matching concept,No matching concept,POTASSIUM-ART
-cdm_std,Procedures,132184,0,No matching concept,No matching concept,POTASSIUM-BLD
-cdm_std,Procedures,132184,0,*Unspecified,*Unspecified,POTASSIUM-BLD
-cdm_std,Procedures,522964,0,*Unspecified,*Unspecified,POTASSIUM-PLASMA
-cdm_std,Procedures,522964,0,No matching concept,No matching concept,POTASSIUM-PLASMA
-cdm_std,Procedures,117568,0,No matching concept,No matching concept,POTASSIUM-SERUM
-cdm_std,Procedures,117568,0,*Unspecified,*Unspecified,POTASSIUM-SERUM
-cdm_std,Procedures,214280,0,*Unspecified,*Unspecified,"POTASSIUM-WB, VEN"
-cdm_std,Procedures,214280,0,No matching concept,No matching concept,"POTASSIUM-WB, VEN"
-cdm_std,Procedures,180924,0,No matching concept,No matching concept,"PR PNEUMOCOCCAL VACCINE, 23 VALENT, ADULT"
-cdm_std,Procedures,180924,0,*Unspecified,*Unspecified,"PR PNEUMOCOCCAL VACCINE, 23 VALENT, ADULT"
-cdm_std,Procedures,125868,0,*Unspecified,*Unspecified,PRE OP ADMISSION
-cdm_std,Procedures,125868,0,No matching concept,No matching concept,PRE OP ADMISSION
-cdm_std,Procedures,284380,0,No matching concept,No matching concept,PREALBUMIN
-cdm_std,Procedures,284380,0,*Unspecified,*Unspecified,PREALBUMIN
-cdm_std,Procedures,1419584,0,*Unspecified,*Unspecified,PREGNANCY TEST-URINE (POCT)
-cdm_std,Procedures,1419584,0,No matching concept,No matching concept,PREGNANCY TEST-URINE (POCT)
-cdm_std,Procedures,382260,0,No matching concept,No matching concept,"PREGNANCY, URINE, QUALITATIVE"
-cdm_std,Procedures,382260,0,*Unspecified,*Unspecified,"PREGNANCY, URINE, QUALITATIVE"
-cdm_std,Procedures,144992,0,*Unspecified,*Unspecified,PROCALCITONIN SERUM
-cdm_std,Procedures,144992,0,No matching concept,No matching concept,PROCALCITONIN SERUM
-cdm_std,Procedures,147192,0,*Unspecified,*Unspecified,PROFILE 9521
-cdm_std,Procedures,147192,0,No matching concept,No matching concept,PROFILE 9521
-cdm_std,Procedures,127648,0,No matching concept,No matching concept,PROGESTERONE
-cdm_std,Procedures,127648,0,*Unspecified,*Unspecified,PROGESTERONE
-cdm_std,Procedures,1280612,0,*Unspecified,*Unspecified,PROGRAF (FK506) LEVEL
-cdm_std,Procedures,1280612,0,No matching concept,No matching concept,PROGRAF (FK506) LEVEL
-cdm_std,Procedures,312872,0,No matching concept,No matching concept,PROLACTIN
-cdm_std,Procedures,312872,0,*Unspecified,*Unspecified,PROLACTIN
-cdm_std,Procedures,379436,0,*Unspecified,*Unspecified,"PROTEIN EP, SERUM"
-cdm_std,Procedures,379436,0,No matching concept,No matching concept,"PROTEIN EP, SERUM"
-cdm_std,Procedures,400168,0,No matching concept,No matching concept,"PROTEIN/CREA.RATIO,URINE"
-cdm_std,Procedures,400168,0,*Unspecified,*Unspecified,"PROTEIN/CREA.RATIO,URINE"
-cdm_std,Procedures,103156,0,*Unspecified,*Unspecified,PROTEIN-CSF
-cdm_std,Procedures,103156,0,No matching concept,No matching concept,PROTEIN-CSF
-cdm_std,Procedures,799872,0,No matching concept,No matching concept,"PROTEIN-TOTAL, BLOOD"
-cdm_std,Procedures,799872,0,*Unspecified,*Unspecified,"PROTEIN-TOTAL, BLOOD"
-cdm_std,Procedures,8929240,0,*Unspecified,*Unspecified,PROTHROMBIN TIME/INR
-cdm_std,Procedures,8929240,0,No matching concept,No matching concept,PROTHROMBIN TIME/INR
-cdm_std,Procedures,194656,0,No matching concept,No matching concept,PROTHROMBIN TIME-HOME CARE
-cdm_std,Procedures,194656,0,*Unspecified,*Unspecified,PROTHROMBIN TIME-HOME CARE
-cdm_std,Procedures,545768,0,*Unspecified,*Unspecified,PROTHROMBINE TIME/INR (POCT)
-cdm_std,Procedures,545768,0,No matching concept,No matching concept,PROTHROMBINE TIME/INR (POCT)
-cdm_std,Procedures,141456,0,No matching concept,No matching concept,PSA POST-PROSTATECTOMY
-cdm_std,Procedures,141456,0,*Unspecified,*Unspecified,PSA POST-PROSTATECTOMY
-cdm_std,Procedures,1134444,0,*Unspecified,*Unspecified,PSA TOTAL
-cdm_std,Procedures,1134444,0,No matching concept,No matching concept,PSA TOTAL
-cdm_std,Procedures,242380,0,No matching concept,No matching concept,"PSA TOTAL AND FREE, SERUM"
-cdm_std,Procedures,242380,0,*Unspecified,*Unspecified,"PSA TOTAL AND FREE, SERUM"
-cdm_std,Procedures,166980,0,*Unspecified,*Unspecified,PT PANEL
-cdm_std,Procedures,166980,0,No matching concept,No matching concept,PT PANEL
-cdm_std,Procedures,662420,0,No matching concept,No matching concept,PT/INR (POCT)
-cdm_std,Procedures,662420,0,*Unspecified,*Unspecified,PT/INR (POCT)
-cdm_std,Procedures,5787440,0,*Unspecified,*Unspecified,PT/INR AND APTT
-cdm_std,Procedures,5787440,0,No matching concept,No matching concept,PT/INR AND APTT
-cdm_std,Procedures,1129356,0,No matching concept,No matching concept,PT-STAT LAB
-cdm_std,Procedures,1129356,0,*Unspecified,*Unspecified,PT-STAT LAB
-cdm_std,Procedures,1130932,0,*Unspecified,*Unspecified,PTT-STAT LAB
-cdm_std,Procedures,1130932,0,No matching concept,No matching concept,PTT-STAT LAB
-cdm_std,Procedures,122112,0,No matching concept,No matching concept,PULSE OXIMETRY
-cdm_std,Procedures,122112,0,*Unspecified,*Unspecified,PULSE OXIMETRY
-cdm_std,Procedures,204556,0,*Unspecified,*Unspecified,PULSE OXIMETRY INTERPRETATION
-cdm_std,Procedures,204556,0,No matching concept,No matching concept,PULSE OXIMETRY INTERPRETATION
-cdm_std,Procedures,235720,0,No matching concept,No matching concept,QUANTIFERON/TB/ GOLD
-cdm_std,Procedures,235720,0,*Unspecified,*Unspecified,QUANTIFERON/TB/ GOLD
-cdm_std,Procedures,317616,0,*Unspecified,*Unspecified,QUANTIFERON-TB GOLD PLUS
-cdm_std,Procedures,317616,0,No matching concept,No matching concept,QUANTIFERON-TB GOLD PLUS
-cdm_std,Procedures,172856,0,No matching concept,No matching concept,RADIOLOGY INTERPRETATION
-cdm_std,Procedures,172856,0,*Unspecified,*Unspecified,RADIOLOGY INTERPRETATION
-cdm_std,Procedures,130116,0,*Unspecified,*Unspecified,RAPID FLU TEST (POCT)
-cdm_std,Procedures,130116,0,No matching concept,No matching concept,RAPID FLU TEST (POCT)
-cdm_std,Procedures,199576,0,*Unspecified,*Unspecified,RECTAL SURVEILLANCE MDR GNR
-cdm_std,Procedures,199576,0,No matching concept,No matching concept,RECTAL SURVEILLANCE MDR GNR
-cdm_std,Procedures,335916,0,No matching concept,No matching concept,RED BLOOD CELLS
-cdm_std,Procedures,335916,0,*Unspecified,*Unspecified,RED BLOOD CELLS
-cdm_std,Procedures,857988,0,*Unspecified,*Unspecified,"RED BLOOD CELLS, LEUKOREDUCED"
-cdm_std,Procedures,857988,0,No matching concept,No matching concept,"RED BLOOD CELLS, LEUKOREDUCED"
-cdm_std,Procedures,161672,0,No matching concept,No matching concept,"RED BLOOD CELLS, LEUKOREDUCED, IRRADIATED"
-cdm_std,Procedures,161672,0,*Unspecified,*Unspecified,"RED BLOOD CELLS, LEUKOREDUCED, IRRADIATED"
-cdm_std,Procedures,101408,0,*Unspecified,*Unspecified,RENAL FUNCTION PANEL
-cdm_std,Procedures,101408,0,No matching concept,No matching concept,RENAL FUNCTION PANEL
-cdm_std,Procedures,744660,0,*Unspecified,*Unspecified,RETICULOCYTE AUTO
-cdm_std,Procedures,744660,0,No matching concept,No matching concept,RETICULOCYTE AUTO
-cdm_std,Procedures,387052,0,*Unspecified,*Unspecified,RHEUMATOID FACTOR
-cdm_std,Procedures,387052,0,No matching concept,No matching concept,RHEUMATOID FACTOR
-cdm_std,Procedures,556148,0,No matching concept,No matching concept,"RUBELLA AB, IGG"
-cdm_std,Procedures,556148,0,*Unspecified,*Unspecified,"RUBELLA AB, IGG"
-cdm_std,Procedures,445932,0,*Unspecified,*Unspecified,RUTTENBERG CBC WITH PLT & DIFF
-cdm_std,Procedures,445932,0,No matching concept,No matching concept,RUTTENBERG CBC WITH PLT & DIFF
-cdm_std,Procedures,249464,0,No matching concept,No matching concept,RUTTENBERG RETIC
-cdm_std,Procedures,249464,0,*Unspecified,*Unspecified,RUTTENBERG RETIC
-cdm_std,Procedures,302660,0,*Unspecified,*Unspecified,SALINE LOCK IV
-cdm_std,Procedures,302660,0,No matching concept,No matching concept,SALINE LOCK IV
-cdm_std,Procedures,1723400,0,No matching concept,No matching concept,"SARS COV 2, PCR"
-cdm_std,Procedures,1723400,0,*Unspecified,*Unspecified,"SARS COV 2, PCR"
-cdm_std,Procedures,104508,0,*Unspecified,*Unspecified,SARS COV-2 PCR + INFLUENZA A/B AND RSV BY PCR
-cdm_std,Procedures,104508,0,No matching concept,No matching concept,SARS COV-2 PCR + INFLUENZA A/B AND RSV BY PCR
-cdm_std,Procedures,103840,0,No matching concept,No matching concept,"SARS-COV-2 ANTIBODY, IGG, LABCORP/ABBOTT"
-cdm_std,Procedures,103840,0,*Unspecified,*Unspecified,"SARS-COV-2 ANTIBODY, IGG, LABCORP/ABBOTT"
-cdm_std,Procedures,733620,0,*Unspecified,*Unspecified,SARSCOV2 VAC 30MCG/0.3ML IM
-cdm_std,Procedures,733620,0,No matching concept,No matching concept,SARSCOV2 VAC 30MCG/0.3ML IM
-cdm_std,Procedures,2041388,0,No matching concept,No matching concept,SED RATE (ESR)
-cdm_std,Procedures,2041388,0,*Unspecified,*Unspecified,SED RATE (ESR)
-cdm_std,Procedures,149892,0,*Unspecified,*Unspecified,"SKIN TEST, TUBERCULOSIS, INTRADERMAL"
-cdm_std,Procedures,149892,0,No matching concept,No matching concept,"SKIN TEST, TUBERCULOSIS, INTRADERMAL"
-cdm_std,Procedures,376220,0,*Unspecified,*Unspecified,SODIUM-ART
-cdm_std,Procedures,376220,0,No matching concept,No matching concept,SODIUM-ART
-cdm_std,Procedures,123064,0,No matching concept,No matching concept,SODIUM-BLD
-cdm_std,Procedures,123064,0,*Unspecified,*Unspecified,SODIUM-BLD
-cdm_std,Procedures,278808,0,*Unspecified,*Unspecified,SODIUM-URINE RANDOM
-cdm_std,Procedures,278808,0,No matching concept,No matching concept,SODIUM-URINE RANDOM
-cdm_std,Procedures,361604,0,No matching concept,No matching concept,SPECIMEN STATUS REPORT
-cdm_std,Procedures,361604,0,*Unspecified,*Unspecified,SPECIMEN STATUS REPORT
-cdm_std,Procedures,337628,0,No matching concept,No matching concept,STREP A SCREEN (POCT)
-cdm_std,Procedures,337628,0,*Unspecified,*Unspecified,STREP A SCREEN (POCT)
-cdm_std,Procedures,164432,0,*Unspecified,*Unspecified,STREP A SCREEN-RAPID
-cdm_std,Procedures,164432,0,No matching concept,No matching concept,STREP A SCREEN-RAPID
-cdm_std,Procedures,7029800,0,*Unspecified,*Unspecified,SURGICAL PATHOLOGY
-cdm_std,Procedures,7029800,0,No matching concept,No matching concept,SURGICAL PATHOLOGY
-cdm_std,Procedures,166824,0,No matching concept,No matching concept,"SURVEILLANCE(RESPIRATORY), MULTI-DRUG RESISTANT GNR"
-cdm_std,Procedures,166824,0,*Unspecified,*Unspecified,"SURVEILLANCE(RESPIRATORY), MULTI-DRUG RESISTANT GNR"
-cdm_std,Procedures,2218648,0,*Unspecified,*Unspecified,SYPHILIS RPR
-cdm_std,Procedures,2218648,0,No matching concept,No matching concept,SYPHILIS RPR
-cdm_std,Procedures,182952,0,No matching concept,No matching concept,T3 UPTAKE
-cdm_std,Procedures,182952,0,*Unspecified,*Unspecified,T3 UPTAKE
-cdm_std,Procedures,253728,0,*Unspecified,*Unspecified,T3-FREE
-cdm_std,Procedures,253728,0,No matching concept,No matching concept,T3-FREE
-cdm_std,Procedures,600748,0,No matching concept,No matching concept,T3-TOTAL
-cdm_std,Procedures,600748,0,*Unspecified,*Unspecified,T3-TOTAL
-cdm_std,Procedures,2124612,0,*Unspecified,*Unspecified,T4-FREE THYROXINE
-cdm_std,Procedures,2124612,0,No matching concept,No matching concept,T4-FREE THYROXINE
-cdm_std,Procedures,664572,0,No matching concept,No matching concept,T4-TOTAL
-cdm_std,Procedures,664572,0,*Unspecified,*Unspecified,T4-TOTAL
-cdm_std,Procedures,298036,0,*Unspecified,*Unspecified,TESTOSTERONE
-cdm_std,Procedures,298036,0,No matching concept,No matching concept,TESTOSTERONE
-cdm_std,Procedures,253552,0,No matching concept,No matching concept,TESTOSTERONE PROFILE (TOTAL AND FREE)
-cdm_std,Procedures,253552,0,*Unspecified,*Unspecified,TESTOSTERONE PROFILE (TOTAL AND FREE)
-cdm_std,Procedures,152872,0,*Unspecified,*Unspecified,THYROGLOBULIN AB
-cdm_std,Procedures,152872,0,No matching concept,No matching concept,THYROGLOBULIN AB
-cdm_std,Procedures,122412,0,No matching concept,No matching concept,THYROID ABS
-cdm_std,Procedures,122412,0,*Unspecified,*Unspecified,THYROID ABS
-cdm_std,Procedures,125348,0,*Unspecified,*Unspecified,THYROID PANEL
-cdm_std,Procedures,125348,0,No matching concept,No matching concept,THYROID PANEL
-cdm_std,Procedures,123900,0,*Unspecified,*Unspecified,TONSILLECTOMY
-cdm_std,Procedures,123900,0,No matching concept,No matching concept,TONSILLECTOMY
-cdm_std,Procedures,118360,0,No matching concept,No matching concept,"TONSILLECTOMY, PRIMARY OR SECONDARY; AGE 12 OR OVER"
-cdm_std,Procedures,118360,0,*Unspecified,*Unspecified,"TONSILLECTOMY, PRIMARY OR SECONDARY; AGE 12 OR OVER"
-cdm_std,Procedures,137896,0,*Unspecified,*Unspecified,"TOTAL ABDOMINAL HYSTERECTOMY (CORPUS AND CERVIX), WITH OR WITHOUT REMOVAL OF TUBE(S), WITH OR WITHOUT REMOVAL OF OVARY(S);"
-cdm_std,Procedures,137896,0,No matching concept,No matching concept,"TOTAL ABDOMINAL HYSTERECTOMY (CORPUS AND CERVIX), WITH OR WITHOUT REMOVAL OF TUBE(S), WITH OR WITHOUT REMOVAL OF OVARY(S);"
-cdm_std,Procedures,325788,0,No matching concept,No matching concept,TOTAL AND DIRECT BILIRUBIN
-cdm_std,Procedures,325788,0,*Unspecified,*Unspecified,TOTAL AND DIRECT BILIRUBIN
-cdm_std,Procedures,211172,0,*Unspecified,*Unspecified,TPO (MICROSOMAL) AB
-cdm_std,Procedures,211172,0,No matching concept,No matching concept,TPO (MICROSOMAL) AB
-cdm_std,Procedures,174016,0,No matching concept,No matching concept,"TRANSCUTANEOUS TESTING, BILIRUBIN (POCT)"
-cdm_std,Procedures,174016,0,*Unspecified,*Unspecified,"TRANSCUTANEOUS TESTING, BILIRUBIN (POCT)"
-cdm_std,Procedures,123968,0,*Unspecified,*Unspecified,TRANSESOPHOGEAL ECHOCARDIOGRAM (TEE)
-cdm_std,Procedures,123968,0,No matching concept,No matching concept,TRANSESOPHOGEAL ECHOCARDIOGRAM (TEE)
-cdm_std,Procedures,976320,0,No matching concept,No matching concept,TRANSFER PATIENT
-cdm_std,Procedures,976320,0,*Unspecified,*Unspecified,TRANSFER PATIENT
-cdm_std,Procedures,115840,0,*Unspecified,*Unspecified,TRANSFUSE PLATELETS
-cdm_std,Procedures,115840,0,No matching concept,No matching concept,TRANSFUSE PLATELETS
-cdm_std,Procedures,431936,0,No matching concept,No matching concept,TRANSFUSE RED BLOOD CELLS
-cdm_std,Procedures,431936,0,*Unspecified,*Unspecified,TRANSFUSE RED BLOOD CELLS
-cdm_std,Procedures,2636208,0,*Unspecified,*Unspecified,TRANSPLANT HISTORICAL RESULT
-cdm_std,Procedures,2636208,0,No matching concept,No matching concept,TRANSPLANT HISTORICAL RESULT
-cdm_std,Procedures,1729572,0,No matching concept,No matching concept,TRANSTHORACIC ECHOCARDIOGRAM (TTE)
-cdm_std,Procedures,1729572,0,*Unspecified,*Unspecified,TRANSTHORACIC ECHOCARDIOGRAM (TTE)
-cdm_std,Procedures,185460,0,*Unspecified,*Unspecified,TRIGLYCERIDES-BLOOD
-cdm_std,Procedures,185460,0,No matching concept,No matching concept,TRIGLYCERIDES-BLOOD
-cdm_std,Procedures,5646028,0,No matching concept,No matching concept,TROPONIN I
-cdm_std,Procedures,5646028,0,*Unspecified,*Unspecified,TROPONIN I
-cdm_std,Procedures,410692,0,*Unspecified,*Unspecified,TROPONIN-I
-cdm_std,Procedures,410692,0,No matching concept,No matching concept,TROPONIN-I
-cdm_std,Procedures,6860052,0,No matching concept,No matching concept,TSH
-cdm_std,Procedures,6860052,0,*Unspecified,*Unspecified,TSH
-cdm_std,Procedures,799580,0,*Unspecified,*Unspecified,TSH W/ FREE T4 REFLEX
-cdm_std,Procedures,799580,0,No matching concept,No matching concept,TSH W/ FREE T4 REFLEX
-cdm_std,Procedures,8591112,0,*Unspecified,*Unspecified,TYPE AND SCREEN
-cdm_std,Procedures,8591112,0,No matching concept,No matching concept,TYPE AND SCREEN
-cdm_std,Procedures,177452,0,No matching concept,No matching concept,UA WITH MICROSCOPY
-cdm_std,Procedures,177452,0,*Unspecified,*Unspecified,UA WITH MICROSCOPY
-cdm_std,Procedures,1455848,0,*Unspecified,*Unspecified,ULTRASOUND PROCEDURE
-cdm_std,Procedures,1455848,0,No matching concept,No matching concept,ULTRASOUND PROCEDURE
-cdm_std,Procedures,234512,0,No matching concept,No matching concept,UPPER GI ENDOSCOPY
-cdm_std,Procedures,234512,0,*Unspecified,*Unspecified,UPPER GI ENDOSCOPY
-cdm_std,Procedures,212880,0,*Unspecified,*Unspecified,UREA NITROGEN-BLD
-cdm_std,Procedures,212880,0,No matching concept,No matching concept,UREA NITROGEN-BLD
-cdm_std,Procedures,175520,0,No matching concept,No matching concept,UREA-URINE RANDOM
-cdm_std,Procedures,175520,0,*Unspecified,*Unspecified,UREA-URINE RANDOM
-cdm_std,Procedures,1685292,0,*Unspecified,*Unspecified,URIC ACID-BLD
-cdm_std,Procedures,1685292,0,No matching concept,No matching concept,URIC ACID-BLD
-cdm_std,Procedures,589852,0,No matching concept,No matching concept,URINALYSIS (POCT)
-cdm_std,Procedures,589852,0,*Unspecified,*Unspecified,URINALYSIS (POCT)
-cdm_std,Procedures,224384,0,*Unspecified,*Unspecified,"URINALYSIS, NON-AUTO, W/SCOPE (POCT)"
-cdm_std,Procedures,224384,0,No matching concept,No matching concept,"URINALYSIS, NON-AUTO, W/SCOPE (POCT)"
-cdm_std,Procedures,8412548,0,No matching concept,No matching concept,"URINALYSIS, ROUTINE"
-cdm_std,Procedures,8412548,0,*Unspecified,*Unspecified,"URINALYSIS, ROUTINE"
-cdm_std,Procedures,523552,0,*Unspecified,*Unspecified,"URINALYSIS, ROUTINE MICROSCOPIC EXAMINATION"
-cdm_std,Procedures,523552,0,No matching concept,No matching concept,"URINALYSIS, ROUTINE MICROSCOPIC EXAMINATION"
-cdm_std,Procedures,2352812,0,No matching concept,No matching concept,URINE-DIPSTICK (POCT)
-cdm_std,Procedures,2352812,0,*Unspecified,*Unspecified,URINE-DIPSTICK (POCT)
-cdm_std,Procedures,426484,0,*Unspecified,*Unspecified,US ABDOMEN COMPLETE
-cdm_std,Procedures,426484,0,No matching concept,No matching concept,US ABDOMEN COMPLETE
-cdm_std,Procedures,379456,0,No matching concept,No matching concept,US ABDOMEN LIMITED
-cdm_std,Procedures,379456,0,*Unspecified,*Unspecified,US ABDOMEN LIMITED
-cdm_std,Procedures,332864,0,*Unspecified,*Unspecified,US BREAST BILATERAL
-cdm_std,Procedures,332864,0,No matching concept,No matching concept,US BREAST BILATERAL
-cdm_std,Procedures,147756,0,No matching concept,No matching concept,US BREAST LEFT
-cdm_std,Procedures,147756,0,*Unspecified,*Unspecified,US BREAST LEFT
-cdm_std,Procedures,122352,0,*Unspecified,*Unspecified,US BREAST RIGHT
-cdm_std,Procedures,122352,0,No matching concept,No matching concept,US BREAST RIGHT
-cdm_std,Procedures,173196,0,No matching concept,No matching concept,US BREAST SCREENING BILATERAL
-cdm_std,Procedures,173196,0,*Unspecified,*Unspecified,US BREAST SCREENING BILATERAL
-cdm_std,Procedures,103816,0,*Unspecified,*Unspecified,US DOPPLER ABDOMEN (RADIOLOGY)
-cdm_std,Procedures,103816,0,No matching concept,No matching concept,US DOPPLER ABDOMEN (RADIOLOGY)
-cdm_std,Procedures,205964,0,No matching concept,No matching concept,US DOPPLER CAROTID ARTERY BILATERAL (VASCULAR LAB)
-cdm_std,Procedures,205964,0,*Unspecified,*Unspecified,US DOPPLER CAROTID ARTERY BILATERAL (VASCULAR LAB)
-cdm_std,Procedures,105496,0,*Unspecified,*Unspecified,US DOPPLER EXTREMITY LOWER ARTERIAL (VASCULAR LAB)
-cdm_std,Procedures,105496,0,No matching concept,No matching concept,US DOPPLER EXTREMITY LOWER ARTERIAL (VASCULAR LAB)
-cdm_std,Procedures,235156,0,No matching concept,No matching concept,US DOPPLER EXTREMITY LOWER VENOUS (VASCULAR LAB)
-cdm_std,Procedures,235156,0,*Unspecified,*Unspecified,US DOPPLER EXTREMITY LOWER VENOUS (VASCULAR LAB)
-cdm_std,Procedures,252900,0,*Unspecified,*Unspecified,US DOPPLER EXTREMITY VEINS BILATERAL (RADIOLOGY)
-cdm_std,Procedures,252900,0,No matching concept,No matching concept,US DOPPLER EXTREMITY VEINS BILATERAL (RADIOLOGY)
-cdm_std,Procedures,174452,0,No matching concept,No matching concept,US DOPPLER EXTREMITY VEINS UNILATERAL (RADIOLOGY)
-cdm_std,Procedures,174452,0,*Unspecified,*Unspecified,US DOPPLER EXTREMITY VEINS UNILATERAL (RADIOLOGY)
-cdm_std,Procedures,252236,0,*Unspecified,*Unspecified,US PELVIS COMPLETE (NON-OBSTETRICAL)
-cdm_std,Procedures,252236,0,No matching concept,No matching concept,US PELVIS COMPLETE (NON-OBSTETRICAL)
-cdm_std,Procedures,523336,0,No matching concept,No matching concept,US PELVIS TRANSVAGINAL (NON-OBSTETRICAL)
-cdm_std,Procedures,523336,0,*Unspecified,*Unspecified,US PELVIS TRANSVAGINAL (NON-OBSTETRICAL)
-cdm_std,Procedures,230872,0,*Unspecified,*Unspecified,US RENAL
-cdm_std,Procedures,230872,0,No matching concept,No matching concept,US RENAL
-cdm_std,Procedures,320936,0,No matching concept,No matching concept,US RENAL & BLADDER
-cdm_std,Procedures,320936,0,*Unspecified,*Unspecified,US RENAL & BLADDER
-cdm_std,Procedures,200096,0,*Unspecified,*Unspecified,US THYROID
-cdm_std,Procedures,200096,0,No matching concept,No matching concept,US THYROID
-cdm_std,Procedures,233628,0,No matching concept,No matching concept,VALPROIC ACID
-cdm_std,Procedures,233628,0,*Unspecified,*Unspecified,VALPROIC ACID
-cdm_std,Procedures,336760,0,*Unspecified,*Unspecified,VANCOMYCIN RANDOM
-cdm_std,Procedures,336760,0,No matching concept,No matching concept,VANCOMYCIN RANDOM
-cdm_std,Procedures,525464,0,No matching concept,No matching concept,VANCOMYCIN TROUGH-BLD
-cdm_std,Procedures,525464,0,*Unspecified,*Unspecified,VANCOMYCIN TROUGH-BLD
-cdm_std,Procedures,493684,0,*Unspecified,*Unspecified,"VARICELLA ZOSTER IGG, SERUM"
-cdm_std,Procedures,493684,0,No matching concept,No matching concept,"VARICELLA ZOSTER IGG, SERUM"
-cdm_std,Procedures,828248,0,No matching concept,No matching concept,VENOUS BLOOD GAS WITH LACTATE (POCT)
-cdm_std,Procedures,828248,0,*Unspecified,*Unspecified,VENOUS BLOOD GAS WITH LACTATE (POCT)
-cdm_std,Procedures,1564464,0,*Unspecified,*Unspecified,VENOUS PANEL (ER)
-cdm_std,Procedures,1564464,0,No matching concept,No matching concept,VENOUS PANEL (ER)
-cdm_std,Procedures,243240,0,No matching concept,No matching concept,VITAL SIGNS
-cdm_std,Procedures,243240,0,*Unspecified,*Unspecified,VITAL SIGNS
-cdm_std,Procedures,122796,0,*Unspecified,*Unspecified,"VITAMIN B1 (THIAMINE), WHOLE BLOOD"
-cdm_std,Procedures,122796,0,No matching concept,No matching concept,"VITAMIN B1 (THIAMINE), WHOLE BLOOD"
-cdm_std,Procedures,624648,0,No matching concept,No matching concept,VITAMIN B12 & FOLATE-SERUM
-cdm_std,Procedures,624648,0,*Unspecified,*Unspecified,VITAMIN B12 & FOLATE-SERUM
-cdm_std,Procedures,1536092,0,*Unspecified,*Unspecified,VITAMIN B12-SERUM
-cdm_std,Procedures,1536092,0,No matching concept,No matching concept,VITAMIN B12-SERUM
-cdm_std,Procedures,163120,0,No matching concept,No matching concept,"VITAMIN D 1,25 DIHYDROXY (NOT FOR DEFICIENCY SCREENING)"
-cdm_std,Procedures,163120,0,*Unspecified,*Unspecified,"VITAMIN D 1,25 DIHYDROXY (NOT FOR DEFICIENCY SCREENING)"
-cdm_std,Procedures,3115436,0,*Unspecified,*Unspecified,VITAMIN D 25-OH (FOR DEFICIENCY SCREENING)
-cdm_std,Procedures,3115436,0,No matching concept,No matching concept,VITAMIN D 25-OH (FOR DEFICIENCY SCREENING)
-cdm_std,Procedures,151248,0,No matching concept,No matching concept,"VITAMIN D, 25 HYDROXY"
-cdm_std,Procedures,151248,0,*Unspecified,*Unspecified,"VITAMIN D, 25 HYDROXY"
-cdm_std,Procedures,155532,0,*Unspecified,*Unspecified,X-RAY ABDOMEN 1 VIEW PORTABLE
-cdm_std,Procedures,155532,0,No matching concept,No matching concept,X-RAY ABDOMEN 1 VIEW PORTABLE
-cdm_std,Procedures,330332,0,No matching concept,No matching concept,X-RAY ABDOMEN KUB
-cdm_std,Procedures,330332,0,*Unspecified,*Unspecified,X-RAY ABDOMEN KUB
-cdm_std,Procedures,206988,0,*Unspecified,*Unspecified,X-RAY ABDOMEN OBSTRUCTIVE SERIES
-cdm_std,Procedures,206988,0,No matching concept,No matching concept,X-RAY ABDOMEN OBSTRUCTIVE SERIES
-cdm_std,Procedures,100884,0,No matching concept,No matching concept,X-RAY ABDOMEN OBSTRUCTIVE SERIES CHEST
-cdm_std,Procedures,100884,0,*Unspecified,*Unspecified,X-RAY ABDOMEN OBSTRUCTIVE SERIES CHEST
-cdm_std,Procedures,203568,0,*Unspecified,*Unspecified,X-RAY ANKLE LEFT
-cdm_std,Procedures,203568,0,No matching concept,No matching concept,X-RAY ANKLE LEFT
-cdm_std,Procedures,225928,0,No matching concept,No matching concept,X-RAY ANKLE RIGHT
-cdm_std,Procedures,225928,0,*Unspecified,*Unspecified,X-RAY ANKLE RIGHT
-cdm_std,Procedures,5689080,0,*Unspecified,*Unspecified,X-RAY CHEST 1 VIEW PORTABLE
-cdm_std,Procedures,5689080,0,No matching concept,No matching concept,X-RAY CHEST 1 VIEW PORTABLE
-cdm_std,Procedures,237524,0,No matching concept,No matching concept,X-RAY CHEST MISC 1 VIEW
-cdm_std,Procedures,237524,0,*Unspecified,*Unspecified,X-RAY CHEST MISC 1 VIEW
-cdm_std,Procedures,4067272,0,*Unspecified,*Unspecified,X-RAY CHEST PA AND LATERAL ONLY
-cdm_std,Procedures,4067272,0,No matching concept,No matching concept,X-RAY CHEST PA AND LATERAL ONLY
-cdm_std,Procedures,401764,0,No matching concept,No matching concept,X-RAY CHEST PA OR AP
-cdm_std,Procedures,401764,0,*Unspecified,*Unspecified,X-RAY CHEST PA OR AP
-cdm_std,Procedures,108960,0,*Unspecified,*Unspecified,X-RAY ELBOW RIGHT
-cdm_std,Procedures,108960,0,No matching concept,No matching concept,X-RAY ELBOW RIGHT
-cdm_std,Procedures,244784,0,No matching concept,No matching concept,X-RAY FOOT LEFT
-cdm_std,Procedures,244784,0,*Unspecified,*Unspecified,X-RAY FOOT LEFT
-cdm_std,Procedures,295068,0,*Unspecified,*Unspecified,X-RAY FOOT RIGHT
-cdm_std,Procedures,295068,0,No matching concept,No matching concept,X-RAY FOOT RIGHT
-cdm_std,Procedures,149788,0,No matching concept,No matching concept,X-RAY HAND LEFT
-cdm_std,Procedures,149788,0,*Unspecified,*Unspecified,X-RAY HAND LEFT
-cdm_std,Procedures,216696,0,*Unspecified,*Unspecified,X-RAY HAND RIGHT
-cdm_std,Procedures,216696,0,No matching concept,No matching concept,X-RAY HAND RIGHT
-cdm_std,Procedures,168676,0,No matching concept,No matching concept,X-RAY HIP AP & LAT LEFT
-cdm_std,Procedures,168676,0,*Unspecified,*Unspecified,X-RAY HIP AP & LAT LEFT
-cdm_std,Procedures,182308,0,*Unspecified,*Unspecified,X-RAY HIP AP & LAT RIGHT
-cdm_std,Procedures,182308,0,No matching concept,No matching concept,X-RAY HIP AP & LAT RIGHT
-cdm_std,Procedures,101012,0,No matching concept,No matching concept,X-RAY KNEE LEFT 3 VIEWS
-cdm_std,Procedures,101012,0,*Unspecified,*Unspecified,X-RAY KNEE LEFT 3 VIEWS
-cdm_std,Procedures,158012,0,*Unspecified,*Unspecified,X-RAY KNEE LEFT AP & LAT
-cdm_std,Procedures,158012,0,No matching concept,No matching concept,X-RAY KNEE LEFT AP & LAT
-cdm_std,Procedures,104104,0,No matching concept,No matching concept,X-RAY KNEE RIGHT 3 VIEWS
-cdm_std,Procedures,104104,0,*Unspecified,*Unspecified,X-RAY KNEE RIGHT 3 VIEWS
-cdm_std,Procedures,150884,0,*Unspecified,*Unspecified,X-RAY KNEE RIGHT AP & LAT
-cdm_std,Procedures,150884,0,No matching concept,No matching concept,X-RAY KNEE RIGHT AP & LAT
-cdm_std,Procedures,164772,0,No matching concept,No matching concept,"X-RAY KNEE, COMPLETE, 4 OR MORE VIEWS"
-cdm_std,Procedures,164772,0,*Unspecified,*Unspecified,"X-RAY KNEE, COMPLETE, 4 OR MORE VIEWS"
-cdm_std,Procedures,237072,0,*Unspecified,*Unspecified,X-RAY PELVIS AP
-cdm_std,Procedures,237072,0,No matching concept,No matching concept,X-RAY PELVIS AP
-cdm_std,Procedures,227472,0,No matching concept,No matching concept,X-RAY SHOULDER LEFT
-cdm_std,Procedures,227472,0,*Unspecified,*Unspecified,X-RAY SHOULDER LEFT
-cdm_std,Procedures,260504,0,*Unspecified,*Unspecified,X-RAY SHOULDER RIGHT
-cdm_std,Procedures,260504,0,No matching concept,No matching concept,X-RAY SHOULDER RIGHT
-cdm_std,Procedures,167676,0,No matching concept,No matching concept,X-RAY SPINE CERVICAL AP & LATERAL
-cdm_std,Procedures,167676,0,*Unspecified,*Unspecified,X-RAY SPINE CERVICAL AP & LATERAL
-cdm_std,Procedures,108508,0,*Unspecified,*Unspecified,X-RAY SPINE LUMBOSACRAL 3 VIEWS
-cdm_std,Procedures,108508,0,No matching concept,No matching concept,X-RAY SPINE LUMBOSACRAL 3 VIEWS
-cdm_std,Procedures,276860,0,No matching concept,No matching concept,X-RAY SPINE LUMBOSACRAL AP & LATERAL
-cdm_std,Procedures,276860,0,*Unspecified,*Unspecified,X-RAY SPINE LUMBOSACRAL AP & LATERAL
-cdm_std,Procedures,148852,0,*Unspecified,*Unspecified,X-RAY WRIST LEFT
-cdm_std,Procedures,148852,0,No matching concept,No matching concept,X-RAY WRIST LEFT
-cdm_std,Procedures,157580,0,No matching concept,No matching concept,X-RAY WRIST RIGHT
-cdm_std,Procedures,157580,0,*Unspecified,*Unspecified,X-RAY WRIST RIGHT
+cdm_std,Condition,130167,0,No matching concept,No matching concept,Acne vulgaris
+cdm_std,Condition,194338,0,No matching concept,No matching concept,Anemia
+cdm_std,Condition,333014,0,No matching concept,No matching concept,Annual physical exam
+cdm_std,Condition,395697,0,No matching concept,No matching concept,Anxiety
+cdm_std,Condition,123985,0,No matching concept,No matching concept,Arthritis
+cdm_std,Condition,331522,0,No matching concept,No matching concept,Asthma
+cdm_std,Condition,247397,0,No matching concept,No matching concept,Atherosclerotic heart disease of native coronary artery without angina pectoris
+cdm_std,Condition,192935,0,No matching concept,No matching concept,Atrial fibrillation
+cdm_std,Condition,279487,0,No matching concept,No matching concept,CAD (coronary artery disease)
+cdm_std,Condition,149645,0,No matching concept,No matching concept,Chest pain
+cdm_std,Condition,136754,0,No matching concept,No matching concept,"Chest pain, unspecified"
+cdm_std,Condition,103669,0,No matching concept,No matching concept,"Chest pain, unspecified type"
+cdm_std,Condition,110074,0,No matching concept,No matching concept,Chronic atrial fibrillation
+cdm_std,Condition,215766,0,No matching concept,No matching concept,Chronic rhinitis
+cdm_std,Condition,113836,0,No matching concept,No matching concept,Constipation
+cdm_std,Condition,205910,0,No matching concept,No matching concept,Coronary artery disease involving native coronary artery of native heart without angina pectoris
+cdm_std,Condition,329312,0,No matching concept,No matching concept,Cough
+cdm_std,Condition,106800,0,No matching concept,No matching concept,COVID-19
+cdm_std,Condition,240955,0,No matching concept,No matching concept,Depression
+cdm_std,Condition,310829,0,No matching concept,No matching concept,Diabetes mellitus
+cdm_std,Condition,118998,0,No matching concept,No matching concept,DM (diabetes mellitus)
+cdm_std,Condition,136440,0,No matching concept,No matching concept,DOE (dyspnea on exertion)
+cdm_std,Condition,198430,0,No matching concept,No matching concept,Dyslipidemia
+cdm_std,Condition,105017,0,No matching concept,No matching concept,Dysuria
+cdm_std,Condition,158833,0,No matching concept,No matching concept,Encounter for antineoplastic chemotherapy
+cdm_std,Condition,244238,0,No matching concept,No matching concept,Encounter for general adult medical examination without abnormal findings
+cdm_std,Condition,111406,0,No matching concept,No matching concept,Encounter for gynecological examination (general) (routine) without abnormal findings
+cdm_std,Condition,306642,0,No matching concept,No matching concept,Encounter for immunization
+cdm_std,Condition,154872,0,No matching concept,No matching concept,Encounter for long-term (current) use of medications
+cdm_std,Condition,205547,0,No matching concept,No matching concept,Encounter for long-term (current) use of other medications
+cdm_std,Condition,141561,0,No matching concept,No matching concept,Encounter for observation for suspected exposure to other biological agents ruled out
+cdm_std,Condition,254118,0,No matching concept,No matching concept,Encounter for routine child health examination without abnormal findings
+cdm_std,Condition,138248,0,No matching concept,No matching concept,Encounter for therapeutic drug monitoring
+cdm_std,Condition,197546,0,No matching concept,No matching concept,Encounter for vaccination
+cdm_std,Condition,148345,0,No matching concept,No matching concept,ERRONEOUS ENCOUNTER--DISREGARD
+cdm_std,Condition,1131242,0,No matching concept,No matching concept,Essential (primary) hypertension
+cdm_std,Condition,1764048,0,No matching concept,No matching concept,Essential hypertension
+cdm_std,Condition,140831,0,No matching concept,No matching concept,"Essential hypertension, benign"
+cdm_std,Condition,165905,0,No matching concept,No matching concept,Gastroesophageal reflux disease without esophagitis
+cdm_std,Condition,129606,0,No matching concept,No matching concept,Gastro-esophageal reflux disease without esophagitis
+cdm_std,Condition,107617,0,No matching concept,No matching concept,"Gastroesophageal reflux disease, esophagitis presence not specified"
+cdm_std,Condition,137722,0,No matching concept,No matching concept,Generalized anxiety disorder
+cdm_std,Condition,295967,0,No matching concept,No matching concept,GERD (gastroesophageal reflux disease)
+cdm_std,Condition,116528,0,No matching concept,No matching concept,HLD (hyperlipidemia)
+cdm_std,Condition,507049,0,No matching concept,No matching concept,HTN (hypertension)
+cdm_std,Condition,215143,0,No matching concept,No matching concept,Hypercholesteremia
+cdm_std,Condition,196221,0,No matching concept,No matching concept,Hypercholesterolemia
+cdm_std,Condition,628536,0,No matching concept,No matching concept,Hyperlipidemia
+cdm_std,Condition,219528,0,No matching concept,No matching concept,"Hyperlipidemia, unspecified"
+cdm_std,Condition,247323,0,No matching concept,No matching concept,"Hyperlipidemia, unspecified hyperlipidemia type"
+cdm_std,Condition,653418,0,No matching concept,No matching concept,Hypertension
+cdm_std,Condition,107502,0,No matching concept,No matching concept,Hypothyroid
+cdm_std,Condition,154127,0,No matching concept,No matching concept,Hypothyroidism
+cdm_std,Condition,106762,0,No matching concept,No matching concept,Low back pain
+cdm_std,Condition,121191,0,No matching concept,No matching concept,Lumbar radiculopathy
+cdm_std,Condition,151523,0,No matching concept,No matching concept,Malignant neoplasm of prostate
+cdm_std,Condition,102316,0,No matching concept,No matching concept,Mild intermittent asthma without complication
+cdm_std,Condition,582787,0,No matching concept,No matching concept,Mixed hyperlipidemia
+cdm_std,Condition,111638,0,No matching concept,No matching concept,Morbid (severe) obesity due to excess calories
+cdm_std,Condition,158292,0,No matching concept,No matching concept,Morbid obesity
+cdm_std,Condition,155325,0,No matching concept,No matching concept,Multiple sclerosis
+cdm_std,Condition,489561,0,No matching concept,No matching concept,Need for immunization against influenza
+cdm_std,Condition,170745,0,No matching concept,No matching concept,Need for prophylactic vaccination with combined diphtheria-tetanus-pertussis (DTP) vaccine
+cdm_std,Condition,108306,0,No matching concept,No matching concept,Need for vaccination for Strep pneumoniae
+cdm_std,Condition,114805,0,No matching concept,No matching concept,Need for vaccination for viral hepatitis
+cdm_std,Condition,140373,0,No matching concept,No matching concept,Obesity
+cdm_std,Condition,112053,0,No matching concept,No matching concept,Obstructive sleep apnea (adult) (pediatric)
+cdm_std,Condition,157367,0,No matching concept,No matching concept,OSA (obstructive sleep apnea)
+cdm_std,Condition,148514,0,No matching concept,No matching concept,Osteoporosis
+cdm_std,Condition,126906,0,No matching concept,No matching concept,Other chest pain
+cdm_std,Condition,100986,0,No matching concept,No matching concept,Other chronic pain
+cdm_std,Condition,113050,0,No matching concept,No matching concept,Other fatigue
+cdm_std,Condition,138818,0,No matching concept,No matching concept,Other hyperlipidemia
+cdm_std,Condition,319186,0,No matching concept,No matching concept,Palpitations
+cdm_std,Condition,250527,0,No matching concept,No matching concept,Paroxysmal atrial fibrillation
+cdm_std,Condition,226616,0,No matching concept,No matching concept,Prediabetes
+cdm_std,Condition,100342,0,No matching concept,No matching concept,Preventative health care
+cdm_std,Condition,167775,0,No matching concept,No matching concept,Prostate cancer
+cdm_std,Condition,257412,0,No matching concept,No matching concept,Pure hypercholesterolemia
+cdm_std,Condition,139619,0,No matching concept,No matching concept,"Pure hypercholesterolemia, unspecified"
+cdm_std,Condition,287340,0,No matching concept,No matching concept,Routine general medical examination at a health care facility
+cdm_std,Condition,102945,0,No matching concept,No matching concept,Routine infant or child health check
+cdm_std,Condition,369077,0,No matching concept,No matching concept,Shortness of breath
+cdm_std,Condition,173832,0,No matching concept,No matching concept,SOB (shortness of breath)
+cdm_std,Condition,105785,0,No matching concept,No matching concept,Syncope and collapse
+cdm_std,Condition,101686,0,No matching concept,No matching concept,Thyroid nodule
+cdm_std,Condition,226535,0,No matching concept,No matching concept,"Type 2 diabetes mellitus without complication, without long-term current use of insulin"
+cdm_std,Condition,173584,0,No matching concept,No matching concept,Type 2 diabetes mellitus without complications
+cdm_std,Condition,546755,0,No matching concept,No matching concept,Vitamin D deficiency
+cdm_std,Condition,139403,0,No matching concept,No matching concept,"Vitamin D deficiency, unspecified"
+cdm_std,Condition,330464,0,No matching concept,No matching concept,Well woman exam with routine gynecological exam
+cdm_std,Procedures,450619,0,No matching concept,No matching concept,"6-TEST"
+cdm_std,Procedures,478777,0,No matching concept,No matching concept,ADD TO PRIMARY INPATIENT SERVICE TEAM
+cdm_std,Procedures,320254,0,No matching concept,No matching concept,ADENINE-SALINE RED CELLS
+cdm_std,Procedures,292595,0,No matching concept,No matching concept,ADMINISTER FLU VACCINE
+cdm_std,Procedures,144748,0,No matching concept,No matching concept,"ADMINISTER FLU VACCINE,QUADRIVALENT 6 MONTHS & OLDER(VACCINE FOR CHILDREN,IM,NO PRESERVATIVE"
+cdm_std,Procedures,142178,0,No matching concept,No matching concept,ADMINISTER PNEUMOCOCCAL CONJ VACCINE 13 VALENT
+cdm_std,Procedures,109644,0,No matching concept,No matching concept,"ADMINISTER TDAP VACCINE >7 YO, IM"
+cdm_std,Procedures,167146,0,No matching concept,No matching concept,ADMIT TO INPATIENT
+cdm_std,Procedures,327515,0,No matching concept,No matching concept,ALBUMIN-BLD
+cdm_std,Procedures,292151,0,No matching concept,No matching concept,ALK PHOSPHATASE-BLD
+cdm_std,Procedures,163606,0,No matching concept,No matching concept,ALPHA FETO PROTEIN
+cdm_std,Procedures,380265,0,No matching concept,No matching concept,ALT (SGPT)
+cdm_std,Procedures,415283,0,No matching concept,No matching concept,AMYLASE-BLD
+cdm_std,Procedures,776695,0,No matching concept,No matching concept,APTT
+cdm_std,Procedures,171203,0,No matching concept,No matching concept,ARTERIAL PANEL (ICU)
+cdm_std,Procedures,391220,0,No matching concept,No matching concept,AST (SGOT)
+cdm_std,Procedures,4006106,0,No matching concept,No matching concept,BASIC METABOLIC PANEL
+cdm_std,Procedures,506851,0,No matching concept,No matching concept,BILIRUBIN DIRECT
+cdm_std,Procedures,252426,0,No matching concept,No matching concept,BILIRUBIN TOTAL
+cdm_std,Procedures,117845,0,No matching concept,No matching concept,BILIRUBIN-NEONATAL
+cdm_std,Procedures,656201,0,No matching concept,No matching concept,"BLD SMEAR, MICROSCOPIC"
+cdm_std,Procedures,394475,0,No matching concept,No matching concept,"BLOOD GAS, ART"
+cdm_std,Procedures,230757,0,No matching concept,No matching concept,"BLOOD GAS, VEN"
+cdm_std,Procedures,1081573,0,No matching concept,No matching concept,BLOOD GAS/ELEC PROF-ART (POCT)
+cdm_std,Procedures,371666,0,No matching concept,No matching concept,BLOOD GAS/ELEC PROF-VEN (POCT)
+cdm_std,Procedures,125346,0,No matching concept,No matching concept,BLOOD GAS/ELEC/OXIMETRY PROFILE- ARTERIAL
+cdm_std,Procedures,375032,0,No matching concept,No matching concept,BRAIN NATRIURETIC PEPTIDE
+cdm_std,Procedures,391088,0,No matching concept,No matching concept,C REACTIVE PROTEIN
+cdm_std,Procedures,252754,0,No matching concept,No matching concept,C REACTIVE PROTEIN HS
+cdm_std,Procedures,435777,0,No matching concept,No matching concept,CALCIUM-BLD
+cdm_std,Procedures,227376,0,No matching concept,No matching concept,"CALCIUM-IONIZED-WB, ART"
+cdm_std,Procedures,127365,0,No matching concept,No matching concept,CARCINOEMBRYONIC ANTIGEN(AKA CEA)
+cdm_std,Procedures,220795,0,No matching concept,No matching concept,CARDIAC CATH (CVI)
+cdm_std,Procedures,148156,0,No matching concept,No matching concept,CARDIAC PROFILE
+cdm_std,Procedures,2619785,0,No matching concept,No matching concept,CBC+PLATELET
+cdm_std,Procedures,8612531,0,No matching concept,No matching concept,CBC+PLT+DIFF
+cdm_std,Procedures,769085,0,No matching concept,No matching concept,CHEM 7
+cdm_std,Procedures,138754,0,No matching concept,No matching concept,CHEM 8+ (POCT)
+cdm_std,Procedures,388010,0,No matching concept,No matching concept,"CHLAMYDIA/GC DNA AMP, SWAB OR URINE"
+cdm_std,Procedures,480992,0,No matching concept,No matching concept,CK (CPK)
+cdm_std,Procedures,109976,0,No matching concept,No matching concept,CK-MB MASS
+cdm_std,Procedures,152852,0,No matching concept,No matching concept,COLONOSCOPY
+cdm_std,Procedures,4757179,0,No matching concept,No matching concept,COMPREHENSIVE METABOLIC PANEL
+cdm_std,Procedures,136095,0,No matching concept,No matching concept,CORD BLOOD EVALUATION
+cdm_std,Procedures,152730,0,No matching concept,No matching concept,CPK AND CPK-MB
+cdm_std,Procedures,425231,0,No matching concept,No matching concept,CREATININE-SERUM
+cdm_std,Procedures,111888,0,No matching concept,No matching concept,CREATININE-URINE RANDOM
+cdm_std,Procedures,208907,0,No matching concept,No matching concept,CT ABDOMEN & PELVIS W CONTRAST
+cdm_std,Procedures,122984,0,No matching concept,No matching concept,CT ABDOMEN & PELVIS WO CONTRAST
+cdm_std,Procedures,135867,0,No matching concept,No matching concept,CT CHEST WO CONTRAST
+cdm_std,Procedures,406220,0,No matching concept,No matching concept,CT HEAD WO CONTRAST
+cdm_std,Procedures,835961,0,No matching concept,No matching concept,CULTURE-BLOOD
+cdm_std,Procedures,127081,0,No matching concept,No matching concept,CULTURE-THROAT
+cdm_std,Procedures,919768,0,No matching concept,No matching concept,CULTURE-URINE BACTERIAL
+cdm_std,Procedures,241782,0,No matching concept,No matching concept,"CYTOLOGY, GYN"
+cdm_std,Procedures,311367,0,No matching concept,No matching concept,CYTOPATHOLOGY
+cdm_std,Procedures,105805,0,No matching concept,No matching concept,"DRUGS OF ABUSE SCREEN, URINE"
+cdm_std,Procedures,1539077,0,No matching concept,No matching concept,EGFR TEST CALCULATION
+cdm_std,Procedures,3531227,0,No matching concept,No matching concept,"ELECTROCARDIOGRAM, COMPLETE"
+cdm_std,Procedures,746818,0,No matching concept,No matching concept,"ELECTROCARDIOGRAM, TRACING"
+cdm_std,Procedures,513074,0,No matching concept,No matching concept,FERRITIN
+cdm_std,Procedures,235418,0,No matching concept,No matching concept,FIBRIN DEGRAD-DIMER
+cdm_std,Procedures,223835,0,No matching concept,No matching concept,FIBRINOGEN
+cdm_std,Procedures,116795,0,No matching concept,No matching concept,FOLATE-SERUM
+cdm_std,Procedures,254777,0,No matching concept,No matching concept,FOLEY CATHETER - CONTINUE
+cdm_std,Procedures,120910,0,No matching concept,No matching concept,FRESH FROZEN PLSMA THAWED
+cdm_std,Procedures,516510,0,No matching concept,No matching concept,GAMMA GTP-BLD
+cdm_std,Procedures,6801765,0,No matching concept,No matching concept,GLUCOSE (POCT) BY METER
+cdm_std,Procedures,201786,0,No matching concept,No matching concept,"GLUCOSE-WB, ART"
+cdm_std,Procedures,243878,0,No matching concept,No matching concept,"HCG, SERUM, QUANTITATIVE"
+cdm_std,Procedures,1529839,0,No matching concept,No matching concept,HEMOGLOBIN A1C
+cdm_std,Procedures,212093,0,No matching concept,No matching concept,"HEMOGLOBIN, ARTERIAL, VIA BLOOD GAS"
+cdm_std,Procedures,1054850,0,No matching concept,No matching concept,HEPATIC FUNCTION PANEL
+cdm_std,Procedures,171304,0,No matching concept,No matching concept,HEPATITIS B CORE AB TOTAL
+cdm_std,Procedures,217114,0,No matching concept,No matching concept,HEPATITIS B SURFACE AB QUAL
+cdm_std,Procedures,364448,0,No matching concept,No matching concept,HEPATITIS B SURFACE AG
+cdm_std,Procedures,447674,0,No matching concept,No matching concept,HEPATITIS C VIRUS ANTIBODY WITH REFLEX TO PCR
+cdm_std,Procedures,344843,0,No matching concept,No matching concept,"HIV 1/2, ROUTINE TEST (ANTIGEN/ANTIBODY WITH REFLEX TO CONFIRMATORY)"
+cdm_std,Procedures,210908,0,No matching concept,No matching concept,ICU VENOUS PANEL
+cdm_std,Procedures,110655,0,No matching concept,No matching concept,IMMUNOFIX PANEL-SERUM
+cdm_std,Procedures,126629,0,No matching concept,No matching concept,INTERPRETATION
+cdm_std,Procedures,127963,0,No matching concept,No matching concept,IP CONSULT TO NUTRITION
+cdm_std,Procedures,412554,0,No matching concept,No matching concept,IRON + TIBC
+cdm_std,Procedures,155186,0,No matching concept,No matching concept,LACTATE-BLD
+cdm_std,Procedures,240868,0,No matching concept,No matching concept,"LACTATE-WB, ART"
+cdm_std,Procedures,738227,0,No matching concept,No matching concept,LDH-BLD
+cdm_std,Procedures,136045,0,No matching concept,No matching concept,LEUKOREDUCED RED CELLS
+cdm_std,Procedures,710695,0,No matching concept,No matching concept,LIPASE
+cdm_std,Procedures,2021190,0,No matching concept,No matching concept,LIPID PANEL
+cdm_std,Procedures,106159,0,No matching concept,No matching concept,LIPID W/DIRECT LDL
+cdm_std,Procedures,524836,0,No matching concept,No matching concept,LIVER TRANSP MONIT
+cdm_std,Procedures,2127650,0,No matching concept,No matching concept,MAGNESIUM-BLD
+cdm_std,Procedures,952526,0,No matching concept,No matching concept,MAGNESIUM-BLOOD
+cdm_std,Procedures,256733,0,No matching concept,No matching concept,MAMMOGRAPHY SCREENING
+cdm_std,Procedures,115351,0,No matching concept,No matching concept,MAMMOGRAPHY SCREENING BILATERAL WITH TOMO
+cdm_std,Procedures,314320,0,No matching concept,No matching concept,MANUAL DIFFERENTIAL WITH PLATELET ESTIMATE
+cdm_std,Procedures,205711,0,No matching concept,No matching concept,"MICROALB/CREAT,URINE (RAND)"
+cdm_std,Procedures,857108,0,No matching concept,No matching concept,MICROSCOPIC EXAM OF URINE
+cdm_std,Procedures,106458,0,No matching concept,No matching concept,MR BRAIN WO CONTRAST
+cdm_std,Procedures,145536,0,No matching concept,No matching concept,PARATHYROID HORMONE INTACT IRMA
+cdm_std,Procedures,1074842,0,No matching concept,No matching concept,PARTIAL THROMBOPLASTIN TIME
+cdm_std,Procedures,103356,0,No matching concept,No matching concept,PAT. MONITORING
+cdm_std,Procedures,2318330,0,No matching concept,No matching concept,PHOSPHORUS-BLOOD
+cdm_std,Procedures,1379479,0,No matching concept,No matching concept,POC WHOLE BLD GLU
+cdm_std,Procedures,200602,0,No matching concept,No matching concept,POTASSIUM-ART
+cdm_std,Procedures,130741,0,No matching concept,No matching concept,POTASSIUM-PLASMA
+cdm_std,Procedures,354896,0,No matching concept,No matching concept,PREGNANCY TEST-URINE (POCT)
+cdm_std,Procedures,320153,0,No matching concept,No matching concept,PROGRAF (FK506) LEVEL
+cdm_std,Procedures,100042,0,No matching concept,No matching concept,"PROTEIN/CREA.RATIO,URINE"
+cdm_std,Procedures,199968,0,No matching concept,No matching concept,"PROTEIN-TOTAL, BLOOD"
+cdm_std,Procedures,2232310,0,No matching concept,No matching concept,PROTHROMBIN TIME/INR
+cdm_std,Procedures,136442,0,No matching concept,No matching concept,PROTHROMBINE TIME/INR (POCT)
+cdm_std,Procedures,283611,0,No matching concept,No matching concept,PSA TOTAL
+cdm_std,Procedures,165605,0,No matching concept,No matching concept,PT/INR (POCT)
+cdm_std,Procedures,1446860,0,No matching concept,No matching concept,PT/INR AND APTT
+cdm_std,Procedures,282339,0,No matching concept,No matching concept,PT-STAT LAB
+cdm_std,Procedures,282733,0,No matching concept,No matching concept,PTT-STAT LAB
+cdm_std,Procedures,214497,0,No matching concept,No matching concept,"RED BLOOD CELLS, LEUKOREDUCED"
+cdm_std,Procedures,186165,0,No matching concept,No matching concept,RETICULOCYTE AUTO
+cdm_std,Procedures,139037,0,No matching concept,No matching concept,"RUBELLA AB, IGG"
+cdm_std,Procedures,111483,0,No matching concept,No matching concept,RUTTENBERG CBC WITH PLT & DIFF
+cdm_std,Procedures,430850,0,No matching concept,No matching concept,"SARS COV 2, PCR"
+cdm_std,Procedures,183405,0,No matching concept,No matching concept,SARSCOV2 VAC 30MCG/0.3ML IM
+cdm_std,Procedures,510347,0,No matching concept,No matching concept,SED RATE (ESR)
+cdm_std,Procedures,1757450,0,No matching concept,No matching concept,SURGICAL PATHOLOGY
+cdm_std,Procedures,554662,0,No matching concept,No matching concept,SYPHILIS RPR
+cdm_std,Procedures,150187,0,No matching concept,No matching concept,T3-TOTAL
+cdm_std,Procedures,531153,0,No matching concept,No matching concept,T4-FREE THYROXINE
+cdm_std,Procedures,166143,0,No matching concept,No matching concept,T4-TOTAL
+cdm_std,Procedures,244080,0,No matching concept,No matching concept,TRANSFER PATIENT
+cdm_std,Procedures,107984,0,No matching concept,No matching concept,TRANSFUSE RED BLOOD CELLS
+cdm_std,Procedures,659052,0,No matching concept,No matching concept,TRANSPLANT HISTORICAL RESULT
+cdm_std,Procedures,432393,0,No matching concept,No matching concept,TRANSTHORACIC ECHOCARDIOGRAM (TTE)
+cdm_std,Procedures,1411507,0,No matching concept,No matching concept,TROPONIN I
+cdm_std,Procedures,102673,0,No matching concept,No matching concept,TROPONIN-I
+cdm_std,Procedures,1715013,0,No matching concept,No matching concept,TSH
+cdm_std,Procedures,199895,0,No matching concept,No matching concept,TSH W/ FREE T4 REFLEX
+cdm_std,Procedures,2147778,0,No matching concept,No matching concept,TYPE AND SCREEN
+cdm_std,Procedures,363962,0,No matching concept,No matching concept,ULTRASOUND PROCEDURE
+cdm_std,Procedures,421323,0,No matching concept,No matching concept,URIC ACID-BLD
+cdm_std,Procedures,147463,0,No matching concept,No matching concept,URINALYSIS (POCT)
+cdm_std,Procedures,2103137,0,No matching concept,No matching concept,"URINALYSIS, ROUTINE"
+cdm_std,Procedures,130888,0,No matching concept,No matching concept,"URINALYSIS, ROUTINE MICROSCOPIC EXAMINATION"
+cdm_std,Procedures,588203,0,No matching concept,No matching concept,URINE-DIPSTICK (POCT)
+cdm_std,Procedures,106621,0,No matching concept,No matching concept,US ABDOMEN COMPLETE
+cdm_std,Procedures,130834,0,No matching concept,No matching concept,US PELVIS TRANSVAGINAL (NON-OBSTETRICAL)
+cdm_std,Procedures,131366,0,No matching concept,No matching concept,VANCOMYCIN TROUGH-BLD
+cdm_std,Procedures,123421,0,No matching concept,No matching concept,"VARICELLA ZOSTER IGG, SERUM"
+cdm_std,Procedures,207062,0,No matching concept,No matching concept,VENOUS BLOOD GAS WITH LACTATE (POCT)
+cdm_std,Procedures,391116,0,No matching concept,No matching concept,VENOUS PANEL (ER)
+cdm_std,Procedures,156162,0,No matching concept,No matching concept,VITAMIN B12 & FOLATE-SERUM
+cdm_std,Procedures,384023,0,No matching concept,No matching concept,VITAMIN B12-SERUM
+cdm_std,Procedures,778859,0,No matching concept,No matching concept,VITAMIN D 25-OH (FOR DEFICIENCY SCREENING)
+cdm_std,Procedures,1422270,0,No matching concept,No matching concept,X-RAY CHEST 1 VIEW PORTABLE
+cdm_std,Procedures,1016818,0,No matching concept,No matching concept,X-RAY CHEST PA AND LATERAL ONLY
+cdm_std,Procedures,100441,0,No matching concept,No matching concept,X-RAY CHEST PA OR AP
