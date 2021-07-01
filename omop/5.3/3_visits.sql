@@ -64,7 +64,7 @@ BEGIN
          , SqlSetWhere           = '/* ' + X.concept_name + ' */ @.visit_concept_id = ' + X.concept_id_string
          , SqlFieldNumeric       = NULL
          , UiDisplayName         = X.concept_name
-         , UiDisplayText         = 'Had an ' + X.concept_name
+         , UiDisplayText         = 'Had ' + X.concept_name + ' encounter'
          , UiDisplayUnits        = NULL
          , UiNumericDefaultText  = NULL
          , UiDisplayPatientCount = X.cnt

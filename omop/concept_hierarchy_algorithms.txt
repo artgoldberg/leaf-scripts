@@ -85,7 +85,7 @@ concept hierarchies from an existing OHDSI omop clinical domain and concept tabl
                             # This field should be updated by the stored procedure LeafDB.app.sp_CalculatePatientCounts
                             # whenever the clinical database changes.
     ExternalId            = # A unique string that identifies this concept in the DOMAIN, which should be tied to a source
-                            # system ID, such as an Epic `MEDICATION_ID` or internal clinic ID.
+                            # system ID, such as an Epic `MEDICATION_ID` or an internal clinic ID.
     ExternalParentId      = # The ExternalId for this concept's parent
 
   4. Set the ParentId for concepts in DOMAIN that do not have it set, by using the ExternalId and

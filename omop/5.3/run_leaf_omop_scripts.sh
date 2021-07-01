@@ -7,6 +7,7 @@ LEAF_SVC_UID="sql_svc_leaf"
 # sqlcmd -S $MSDW2_PROD -U $LEAF_SVC_UID -P $LEAF_SVC_PWD -i 1_sqlsets.sql
 sqlcmd -S $MSDW2_PROD -U $LEAF_SVC_UID -P $LEAF_SVC_PWD -i 2_demographics.sql
 sqlcmd -S $MSDW2_PROD -U $LEAF_SVC_UID -P $LEAF_SVC_PWD -i 3_visits.sql
+# sqlcmd -S $MSDW2_PROD -U $LEAF_SVC_UID -P $LEAF_SVC_PWD -i 4_labs.sql
 sqlcmd -S $MSDW2_PROD -U $LEAF_SVC_UID -P $LEAF_SVC_PWD -i 5_vitals.sql
 # sqlcmd -S $MSDW2_PROD -U $LEAF_SVC_UID -P $LEAF_SVC_PWD -i 8_other.sql
 
