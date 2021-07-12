@@ -1,0 +1,3 @@
+# timestamps at which queries of MSDW2 are run -- needed to document lack of changes to query outputs in *.csv 
+# started on 2021-07-12
+2021-07-12 10:58

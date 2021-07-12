@@ -1,3 +1,0 @@
-# timestamps at which counts of num rows in MSDW2 are obtained -- needed to document lack of changes to num_rows_in_cdm_tables.csv
-# started on 2021-07-12
-2021-07-12 10:15
