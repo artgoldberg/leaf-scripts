@@ -116,7 +116,7 @@ SELECT DISTINCT
   , ParentId = NULL
   , ExternalId = 'epic_pharm_subclass_c:' + CONVERT(NVARCHAR(50),PHARM_SUBCLASS_C)
   , ExternalParentId = 'epic_pharm_class_c:' + CONVERT(NVARCHAR(50),PHARM_CLASS_C)
-  , IsPatientCountAutoCalculated = 1
+ , IsPatientCountAutoCalculated = 1
   , IsNumeric = 0
   , IsParent = 1
   , IsRoot = 0
