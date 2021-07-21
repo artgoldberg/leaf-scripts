@@ -1,10 +1,9 @@
 -- Get 'Epic diagnosis ID' → ICD-10-CM mappings by Sharon from concept_relationship
 
--- Result is a set of CONCEPT_ID pairs, mapping an 'Epic diagnosis ID' to a ICD-10-CM concept id,
--- and including their CONCEPT_NAMEs to help review.
+-- Result is a set of CONCEPT_ID pairs, mapping an 'Epic diagnosis ID' to a ICD-10-CM concept id, along with their CONCEPT_NAMEs to help review.
 
 
--- Approach: get records in CONCEPT_RELATIONSHIP that map from ICD-10-CM to SNOMED.
+-- Approach: get records in CONCEPT_RELATIONSHIP that map from 'EPIC EDG .1' to 'ICD10CM'
 
 USE omop;
 
