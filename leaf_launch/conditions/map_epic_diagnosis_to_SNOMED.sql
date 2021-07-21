@@ -20,3 +20,15 @@ WHERE
     c_dest.VOCABULARY_ID = 'SNOMED' AND
     c_source.CONCEPT_ID = cr.CONCEPT_ID_1 AND
     c_dest.CONCEPT_ID = cr.CONCEPT_ID_2;
+
+
+SELECT COUNT(*)
+FROM cdm_std.CONCEPT_RELATIONSHIP cr
+    , cdm_std.CONCEPT c_source
+    , cdm_std.CONCEPT c_dest
+WHERE
+    c_source.VOCABULARY_ID = 'EPIC EDG .1' AND
+    cr.RELATIONSHIP_ID = 'Maps to' AND
+    c_dest.VOCABULARY_ID = 'SNOMED' AND
+    c_source.CONCEPT_ID = cr.CONCEPT_ID_1 AND
+    c_dest.CONCEPT_ID = cr.CONCEPT_ID_2;
