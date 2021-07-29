@@ -1,0 +1,17 @@
+conditions:
+    X run additional_scripts/large_files/icd10.sql to create temp UMLS_ICD10 table
+    find 'Epic diagnosis ID' records in src
+    Map 'Epic diagnosis ID' → ICD-10-CM in temp table, using our Epic concept tables in src
+    have conditions.sql generate a concept_map_for_loading table with
+        ICD-10-CM → SNOMED mappings for omop.concept_relationship
+    load all 
+    test leaf_icd10.sql
+measurements (labs):
+    Find relationships between "Epic lab code" & LOINC codes in sema4
+procedures:
+    find Epic code → CPT4 mappings in src
+drugs:
+    learn how to map ‘EPIC ERX .1’ source concepts in drug_exposure to RxNorm (Q to Sharon on 7/28)
+
+later:
+    reload UMLS_ICD10 with most recent hierarchical ICD10 relationships in the UMLS MRHIER.RRF table
