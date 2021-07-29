@@ -132,7 +132,7 @@ cdm,Condition,206430,0,"","",Type 2 diabetes mellitus without complications
 cdm,Condition,689981,0,"","",Vitamin D deficiency
 cdm,Condition,172449,0,"","","Vitamin D deficiency, unspecified"
 cdm,Condition,370410,0,"","",Well woman exam with routine gynecological exam
-cdm,Drug,10903138,0,"","",*Unspecified
+cdm,Drug,10903137,0,"","",*Unspecified
 cdm,Drug,575445,2001700788,"","","ACETAMINOPHEN 1,000 MG/100 ML (10 MG/ML) INTRAVENOUS SOLUTION"
 cdm,Drug,123942,2001692887,"","",ACETAMINOPHEN 10 MG/ML PREMIX SYRINGE
 cdm,Drug,135278,2001729812,"","",ACETAMINOPHEN 160 MG/5 ML (5 ML) ORAL SOLUTION
@@ -1298,7 +1298,7 @@ cdm_std,Condition,173584,0,No matching concept,No matching concept,Type 2 diabet
 cdm_std,Condition,546755,0,No matching concept,No matching concept,Vitamin D deficiency
 cdm_std,Condition,139403,0,No matching concept,No matching concept,"Vitamin D deficiency, unspecified"
 cdm_std,Condition,330464,0,No matching concept,No matching concept,Well woman exam with routine gynecological exam
-cdm_std,Drug,10903136,0,No matching concept,No matching concept,*Unspecified
+cdm_std,Drug,10903137,0,No matching concept,No matching concept,*Unspecified
 cdm_std,Drug,500686,2001700788,"97044","ACETAMINOPHEN 1,000 MG/100 ML (10 MG/ML) INTRAVENOUS SOLUTION","ACETAMINOPHEN 1,000 MG/100 ML (10 MG/ML) INTRAVENOUS SOLUTION"
 cdm_std,Drug,119048,2001692887,"400960",ACETAMINOPHEN 10 MG/ML PREMIX SYRINGE,ACETAMINOPHEN 10 MG/ML PREMIX SYRINGE
 cdm_std,Drug,129603,2001729812,"88448",ACETAMINOPHEN 160 MG/5 ML (5 ML) ORAL SOLUTION,ACETAMINOPHEN 160 MG/5 ML (5 ML) ORAL SOLUTION
@@ -1677,7 +1677,7 @@ cdm_std,Labs,153803,0,No matching concept,No matching concept,CREATININE (POCT)
 cdm_std,Labs,109578,0,No matching concept,No matching concept,"CREATININE, URINE"
 cdm_std,Labs,105094,0,No matching concept,No matching concept,CRP
 cdm_std,Labs,140078,0,No matching concept,No matching concept,CTNG SOURCE
-cdm_std,Labs,959245,0,No matching concept,No matching concept,Culture
+cdm_std,Labs,959245,0,No matching concept,No matching concept,CULTURE
 cdm_std,Labs,733810,0,No matching concept,No matching concept,CULTURE URINE
 cdm_std,Labs,434322,0,No matching concept,No matching concept,CYTOPATHOLOGY
 cdm_std,Labs,236551,0,No matching concept,No matching concept,D-DIMER
@@ -1763,7 +1763,7 @@ cdm_std,Labs,4110475,0,No matching concept,No matching concept,INR
 cdm_std,Labs,273931,0,No matching concept,No matching concept,INR - SL
 cdm_std,Labs,248338,0,No matching concept,No matching concept,INR (POCT)
 cdm_std,Labs,139912,0,No matching concept,No matching concept,INTACT PARATHYROID HORMONE
-cdm_std,Labs,146088,0,No matching concept,No matching concept,INTERPRETATION:
+cdm_std,Labs,146088,0,No matching concept,No matching concept,Interpretation:
 cdm_std,Labs,488115,0,No matching concept,No matching concept,"IRON, SERUM"
 cdm_std,Labs,655434,0,No matching concept,No matching concept,KETONES - DIPSTICK
 cdm_std,Labs,634182,0,No matching concept,No matching concept,"KETONES, URINE"
