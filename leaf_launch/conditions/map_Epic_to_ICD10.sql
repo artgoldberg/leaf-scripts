@@ -1,3 +1,9 @@
+/*
+ * Map Epic diagnosis codes to ICD10CM codes.
+ * Filter to Epic codes that map 1-to-1 to ICD10 and have been used in clinical events.
+ * Author: Arthur.Goldberg@mssm.edu
+ */
+
 -- get count of mapped ICD10 codes for each Epic id 
 WITH epic_id_map_freq AS
     (SELECT DiagnosisDim.DiagnosisEpicId, COUNT(DTD.Value) num_ICD10_codes
