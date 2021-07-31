@@ -3,6 +3,7 @@ conditions:
     X Map ICD-10-CM → SNOMED in temp table, using Athena's reference data
     X find 'Epic diagnosis ID' records in src: caboodle.DiagnosisDim.DiagnosisEpicId is Epic Id
     X Map 1-to-1 'Epic diagnosis ID' → ICD-10-CM in temp table, using our Epic concept tables in src
+    get select access to omop for me
     replace automated mappings that conflict with the ones Sharon has mapped by hand
     have conditions.sql generate a concept_map_for_loading table with
         ICD-10-CM → SNOMED mappings for omop.concept_relationship
