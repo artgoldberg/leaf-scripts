@@ -1,17 +1,23 @@
 conditions:
     X run additional_scripts/large_files/icd10.sql to create temp UMLS_ICD10 table
-    find 'Epic diagnosis ID' records in src
-    Map 'Epic diagnosis ID' → ICD-10-CM in temp table, using our Epic concept tables in src
+    X Map ICD-10-CM → SNOMED in temp table, using Athena's reference data
+    X find 'Epic diagnosis ID' records in src: caboodle.DiagnosisDim.DiagnosisEpicId is Epic Id
+    X Map 1-to-1 'Epic diagnosis ID' → ICD-10-CM in temp table, using our Epic concept tables in src
+    replace automated mappings that conflict with the ones Sharon has mapped by hand
     have conditions.sql generate a concept_map_for_loading table with
         ICD-10-CM → SNOMED mappings for omop.concept_relationship
-    load all 
-    test leaf_icd10.sql
+    test and run leaf_icd10.sql
 measurements (labs):
     Find relationships between "Epic lab code" & LOINC codes in sema4
+    Sharon looking for LabComponentDim, LabComponentResultFact
 procedures:
     find Epic code → CPT4 mappings in src
+    Sharon recommends that I use SurgicalProcedureEventFact, which is not in caboodle.MedicationCodeDim
 drugs:
     learn how to map ‘EPIC ERX .1’ source concepts in drug_exposure to RxNorm (Q to Sharon on 7/28)
+    Sharon indicates that we need caboodle.MedicationCodeDim
 
 later:
     reload UMLS_ICD10 with most recent hierarchical ICD10 relationships in the UMLS MRHIER.RRF table
+    resources that would help me create and verify queries, such as: the schemas for Caboodle tables, especially with foreign key constraints and/or semantic comments; other documentation about Caboodle’s data at the table and field level.
+

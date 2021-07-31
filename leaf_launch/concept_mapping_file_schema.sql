@@ -1,9 +1,9 @@
 -- Schema for table used by concept mapping file loader used by BlueTree to
 -- specify new concept mappings to be loaded into MSDW2
 
-USE leaf_setup; -- TODO: change to scratch schema in MSDW2
+USE rpt;
 
-CREATE TABLE scratch.concept_map_for_loading
+CREATE TABLE LEAF_SCRATCH.concept_map_for_loading
 (  
     SOURCE_CONCEPT_CODE VARCHAR(50) NOT NULL,
     SOURCE_CONCEPT_NAME VARCHAR(50) NOT NULL,
