@@ -29,21 +29,23 @@ IF (NOT EXISTS (SELECT *
                  FROM INFORMATION_SCHEMA.TABLES
                  WHERE TABLE_SCHEMA = 'LEAF_SCRATCH'
                  AND  TABLE_NAME = 'diagnosis_map'))
-BEGIN
-    CREATE TABLE LEAF_SCRATCH.diagnosis_map
-    (
-        EPIC_CONCEPT_CODE NVARCHAR(50) NOT NULL PRIMARY KEY,
-        EPIC_CONCEPT_NAME NVARCHAR(200) NOT NULL,
-        ICD10_CONCEPT_CODE NVARCHAR(50),
-        ICD10_CONCEPT_NAME NVARCHAR(200),
-        SNOMED_CONCEPT_CODE NVARCHAR(50),
-        SNOMED_CONCEPT_NAME NVARCHAR(200),
-        -- Relationship of Sharon's hand-coded Epic -> SNOMED mapping to automated mapping
-        HAND_MAP_STATUS NVARCHAR(50),
-        SOURCES NVARCHAR(200) NOT NULL,     -- Sources for a record
-        COMMENT NVARCHAR(200)
-    )
-END
+    BEGIN
+        CREATE TABLE LEAF_SCRATCH.diagnosis_map
+        (
+            EPIC_CONCEPT_CODE NVARCHAR(50) NOT NULL PRIMARY KEY,
+            EPIC_CONCEPT_NAME NVARCHAR(200) NOT NULL,
+            ICD10_CONCEPT_CODE NVARCHAR(50),
+            ICD10_CONCEPT_NAME NVARCHAR(200),
+            SNOMED_CONCEPT_CODE NVARCHAR(50),
+            SNOMED_CONCEPT_NAME NVARCHAR(200),
+            -- Relationship of Sharon's hand-coded Epic -> SNOMED mapping to automated mapping
+            HAND_MAP_STATUS NVARCHAR(50),
+            SOURCES NVARCHAR(200) NOT NULL,     -- Sources for a record
+            COMMENT NVARCHAR(200)
+        )
+    END
+ELSE
+    DELETE FROM LEAF_SCRATCH.diagnosis_map
 
 
 -- 1. Map 'Epic diagnosis ID' to ICD-10-CM, from the Epic concept tables in src
@@ -100,36 +102,10 @@ WHERE
     -- join with ICD-10-CM records in LEAF_SCRATCH.diagnosis_map
     AND rpt.LEAF_SCRATCH.diagnosis_map.ICD10_CONCEPT_CODE = concept_ICD10.concept_code
 
-
--- #3
-WITH epic_n_athenas_mappings AS
-    (SELECT epic_to_icd10.EPIC_DIAG_ID
-    , icd_to_snomed.SNOMED_CONCEPT_ID
-
-    -- #1
-    FROM
-        (SELECT c_source.CONCEPT_ID as EPIC_DIAG_ID
-             , c_dest.CONCEPT_ID as ICD10CM_CONCEPT_ID
-         FROM xxx
-         WHERE yyy) epic_to_icd10,
-
-    -- #2
-        (SELECT c_source.CONCEPT_ID as ICD10CM_CONCEPT_ID
-             , c_dest.CONCEPT_ID as SNOMED_CONCEPT_ID
-         FROM cdm_std.CONCEPT_RELATIONSHIP cr
-             , cdm_std.CONCEPT c_source
-             , cdm_std.CONCEPT c_dest
-         WHERE
-             c_source.VOCABULARY_ID = 'ICD10CM' AND
-             cr.RELATIONSHIP_ID = 'Maps to' AND
-             c_dest.VOCABULARY_ID = 'SNOMED' AND
-             c_source.CONCEPT_ID = cr.CONCEPT_ID_1 AND
-             c_dest.CONCEPT_ID = cr.CONCEPT_ID_2) icd_to_snomed
-
-    WHERE epic_to_icd10.ICD10CM_CONCEPT_ID = icd_to_snomed.ICD10CM_CONCEPT_ID)
-
-
--- #4
+-- 3. Integrate Sharon's existing manual mappings of 'Epic diagnosis ID' to SNOMED, from concept_relationship
+-- 3a. If manual mapping is consistent, mark diagnosis_map.HAND_MAP_STATUS 'CONSISTENT'
+/* consistent iff */
+/*
 WITH sharons_mappings AS
     (SELECT c_source.CONCEPT_ID as EPIC_DIAG_ID
          , c_dest.CONCEPT_ID as SNOMED_CONCEPT_ID
@@ -143,11 +119,4 @@ WITH sharons_mappings AS
          c_source.CONCEPT_ID = cr.CONCEPT_ID_1 AND
          c_dest.CONCEPT_ID = cr.CONCEPT_ID_2)
 
-WITH combined_mappings AS
-    (SELECT
-    sharons_mappings
-    epic_n_athenas_mappings
-    UNION
-        SELECT * FROM sharons_mappings
-
-    )
+*/
