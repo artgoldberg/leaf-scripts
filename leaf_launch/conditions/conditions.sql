@@ -11,7 +11,7 @@
 -- 3. Integrate Sharon's existing manual mappings of 'Epic diagnosis ID' to SNOMED, from concept_relationship
 -- 3a. If manual mapping is consistent, mark diagnosis_map.HAND_MAP_STATUS 'CONSISTENT'
 -- 3b. If manual mapping conflicts, mark diagnosis_map.HAND_MAP_STATUS 'CONFLICTED',
---     replace ICD-10-CM and SNOMED values, and update SOURCES
+--     use the manual value selected for SNOMED, and the ICD-10-CM value that implies, and update SOURCES
 -- 3c. If manual mapping is missing, mark diagnosis_map.HAND_MAP_STATUS 'MISSING',
 --     add 'Epic diagnosis ID' ICD-10-CM and SNOMED values, and update SOURCES
 -- 4. Create concept_map_for_loading table by augmenting #5 with dependant attributes of each concept, and metadata
@@ -28,7 +28,7 @@ USE rpt;
 IF (NOT EXISTS (SELECT *
                  FROM INFORMATION_SCHEMA.TABLES
                  WHERE TABLE_SCHEMA = 'LEAF_SCRATCH'
-                 AND  TABLE_NAME = 'diagnosis_map'))
+                 AND TABLE_NAME = 'diagnosis_map'))
     BEGIN
         CREATE TABLE LEAF_SCRATCH.diagnosis_map
         (
@@ -87,7 +87,7 @@ WHERE DTD.[Type] = 'ICD-10-CM'
 USE omop;
 
 UPDATE rpt.LEAF_SCRATCH.diagnosis_map
-SET SNOMED_CONCEPT_CODE = concept_SNOMED.CONCEPT_ID
+SET SNOMED_CONCEPT_CODE = concept_SNOMED.concept_code
     ,SNOMED_CONCEPT_NAME = concept_SNOMED.CONCEPT_NAME
 FROM cdm_std.CONCEPT_RELATIONSHIP cr
     ,cdm_std.CONCEPT concept_ICD10
@@ -100,23 +100,73 @@ WHERE
     AND concept_ICD10.CONCEPT_ID = cr.CONCEPT_ID_1
     AND concept_SNOMED.CONCEPT_ID = cr.CONCEPT_ID_2
     -- join with ICD-10-CM records in LEAF_SCRATCH.diagnosis_map
-    AND rpt.LEAF_SCRATCH.diagnosis_map.ICD10_CONCEPT_CODE = concept_ICD10.concept_code
+    AND rpt.LEAF_SCRATCH.diagnosis_map.ICD10_CONCEPT_CODE = concept_ICD10.concept_code;
 
 -- 3. Integrate Sharon's existing manual mappings of 'Epic diagnosis ID' to SNOMED, from concept_relationship
--- 3a. If manual mapping is consistent, mark diagnosis_map.HAND_MAP_STATUS 'CONSISTENT'
-/* consistent iff */
-/*
-WITH sharons_mappings AS
-    (SELECT c_source.CONCEPT_ID as EPIC_DIAG_ID
-         , c_dest.CONCEPT_ID as SNOMED_CONCEPT_ID
-     FROM cdm_std.CONCEPT_RELATIONSHIP cr
-         , cdm_std.CONCEPT c_source
-         , cdm_std.CONCEPT c_dest
-     WHERE
-         c_source.VOCABULARY_ID = 'EPIC EDG .1' AND
-         cr.RELATIONSHIP_ID = 'Maps to' AND
-         c_dest.VOCABULARY_ID = 'SNOMED' AND
-         c_source.CONCEPT_ID = cr.CONCEPT_ID_1 AND
-         c_dest.CONCEPT_ID = cr.CONCEPT_ID_2)
+-- Make temp table for the manual mappings
+IF OBJECT_ID(N'tempdb..#MANUAL_MAPPINGS') IS NOT NULL
+	DROP TABLE #MANUAL_MAPPINGS
+CREATE TABLE #MANUAL_MAPPINGS(
+    EPIC_CONCEPT_CODE NVARCHAR(50),
+    SNOMED_CONCEPT_CODE NVARCHAR(50),
+    SNOMED_CONCEPT_NAME NVARCHAR(200)
+)
 
-*/
+INSERT INTO #MANUAL_MAPPINGS(EPIC_CONCEPT_CODE, SNOMED_CONCEPT_CODE, SNOMED_CONCEPT_NAME)
+SELECT concept_EPIC.concept_code
+    ,concept_SNOMED.concept_code
+    ,concept_SNOMED.concept_name
+FROM cdm_std.CONCEPT_RELATIONSHIP cr
+    ,cdm_std.CONCEPT concept_EPIC
+    ,cdm_std.CONCEPT concept_SNOMED
+WHERE
+    concept_EPIC.VOCABULARY_ID = 'EPIC EDG .1'
+    AND cr.RELATIONSHIP_ID = 'Maps to'
+    AND concept_SNOMED.VOCABULARY_ID = 'SNOMED'
+    AND concept_EPIC.CONCEPT_ID = cr.CONCEPT_ID_1
+    AND concept_SNOMED.CONCEPT_ID = cr.CONCEPT_ID_2
+
+DECLARE @NUM_MANUAL_MAPPINGS INT = (SELECT COUNT(*) FROM #MANUAL_MAPPINGS)
+PRINT CAST(@NUM_MANUAL_MAPPINGS AS VARCHAR) + ' manual mappings from EPIC EDG .1 to SNOMED found in cdm_std'
+
+-- 3a. If manual mapping is consistent, mark diagnosis_map.HAND_MAP_STATUS as 'CONSISTENT', and update SOURCES
+UPDATE rpt.LEAF_SCRATCH.diagnosis_map
+SET HAND_MAP_STATUS = 'CONSISTENT'
+    ,SOURCES = 'Caboodle and MANUAL'
+FROM #MANUAL_MAPPINGS
+    ,rpt.LEAF_SCRATCH.diagnosis_map diagnosis_map
+WHERE diagnosis_map.EPIC_CONCEPT_CODE = #MANUAL_MAPPINGS.EPIC_CONCEPT_CODE
+    AND diagnosis_map.SNOMED_CONCEPT_CODE = #MANUAL_MAPPINGS.SNOMED_CONCEPT_CODE
+
+-- 3b. If manual mapping conflicts, mark diagnosis_map.HAND_MAP_STATUS 'CONFLICTED',
+--     use the manual value for SNOMED, the ICD-10-CM value that implies, and update SOURCES
+UPDATE rpt.LEAF_SCRATCH.diagnosis_map
+SET HAND_MAP_STATUS = 'CONFLICTED'
+    ,SNOMED_CONCEPT_CODE = #MANUAL_MAPPINGS.SNOMED_CONCEPT_CODE
+    ,SNOMED_CONCEPT_NAME = #MANUAL_MAPPINGS.SNOMED_CONCEPT_NAME
+    ,SOURCES = 'MANUAL'
+FROM #MANUAL_MAPPINGS
+    ,rpt.LEAF_SCRATCH.diagnosis_map diagnosis_map
+WHERE diagnosis_map.EPIC_CONCEPT_CODE = #MANUAL_MAPPINGS.EPIC_CONCEPT_CODE
+    AND NOT diagnosis_map.SNOMED_CONCEPT_CODE = #MANUAL_MAPPINGS.SNOMED_CONCEPT_CODE
+
+-- 3b. continued; use the ICD-10-CM value associated with the manual value for SNOMED
+UPDATE rpt.LEAF_SCRATCH.diagnosis_map
+SET ICD10_CONCEPT_CODE = concept_ICD10.concept_code
+    ,ICD10_CONCEPT_NAME = concept_ICD10.CONCEPT_NAME
+FROM #MANUAL_MAPPINGS
+    ,rpt.LEAF_SCRATCH.diagnosis_map diagnosis_map
+    ,cdm_std.CONCEPT_RELATIONSHIP cr
+    ,cdm_std.CONCEPT concept_ICD10
+    ,cdm_std.CONCEPT concept_SNOMED
+WHERE diagnosis_map.SOURCES = 'MANUAL'
+    -- get records in CONCEPT_RELATIONSHIP that map from ICD-10-CM to SNOMED
+    AND concept_ICD10.VOCABULARY_ID = 'ICD10CM'
+    AND concept_SNOMED.VOCABULARY_ID = 'SNOMED'
+    AND cr.RELATIONSHIP_ID = 'Maps to'
+    AND concept_ICD10.CONCEPT_ID = cr.CONCEPT_ID_1
+    AND concept_SNOMED.CONCEPT_ID = cr.CONCEPT_ID_2
+    AND diagnosis_map.SNOMED_CONCEPT_CODE = concept_SNOMED.concept_code
+
+-- 3c. If manual mapping is missing, mark diagnosis_map.HAND_MAP_STATUS 'MISSING',
+--     add 'Epic diagnosis ID' ICD-10-CM and SNOMED values, and update SOURCES
