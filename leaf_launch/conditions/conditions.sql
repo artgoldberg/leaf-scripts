@@ -4,21 +4,28 @@
  * Author: Arthur.Goldberg@mssm.edu
  */
 
--- Steps
--- 0. Create diagnosis_map table
--- 1. Map 'Epic diagnosis ID' to ICD-10-CM, from the Epic concept tables in src
--- 2. Incorporate mappings from ICD-10-CM to SNOMED, from Athena's reference data
--- 3. Integrate Sharon's existing manual mappings of 'Epic diagnosis ID' to SNOMED, from concept_relationship
--- 3a. If manual mapping is consistent, mark diagnosis_map.HAND_MAP_STATUS 'CONSISTENT'
--- 3b. If manual mapping conflicts, mark diagnosis_map.HAND_MAP_STATUS 'CONFLICTED',
---     use the manual value selected for SNOMED, and the ICD-10-CM value that implies, and update SOURCES
--- 3c. If manual mapping is missing, mark diagnosis_map.HAND_MAP_STATUS 'MISSING',
---     add 'Epic diagnosis ID' ICD-10-CM and SNOMED values, and update SOURCES
--- 4. Create concept_map_for_loading table by augmenting #5 with dependant attributes of each concept, and metadata
+/*
+Must be executed as goldba06@MSNYUHEALTH.ORG.
+
+Steps
+0. Create diagnosis_map table
+1. Map 'Epic diagnosis ID' to ICD-10-CM, from the Epic concept tables in src
+2. Incorporate mappings from ICD-10-CM to SNOMED, from Athena's reference data
+3. Integrate Sharon's existing manual mappings of 'Epic diagnosis ID' to SNOMED, from concept_relationship
+3a. If manual mapping is consistent, mark diagnosis_map.HAND_MAP_STATUS 'CONSISTENT'
+3b. If manual mapping conflicts, mark diagnosis_map.HAND_MAP_STATUS 'CONFLICTED',
+    use the manual value selected for SNOMED, and the ICD-10-CM value that implies, and update SOURCES
+3c. If manual mapping is missing, mark diagnosis_map.HAND_MAP_STATUS 'MISSING',
+    add 'Epic diagnosis ID' ICD-10-CM and SNOMED values, and update SOURCES
+4. Create concept_map_for_loading table by augmenting #5 with dependant attributes of each concept, and metadata
+*/
+
+-- TODO: clean up text case
+-- TODO: change 'manual mappings' to 'curated'
+-- TODO: clean up comments
 
 -- 0. Create diagnosis_map table
 -- Schema for table mapping diagnosis concept ids
--- Must be executed as goldba06@MSNYUHEALTH.ORG
 
 PRINT 'Starting ''conditions.sql'' at ' + CONVERT(varchar, GETDATE(), 120)
 
@@ -48,7 +55,7 @@ ELSE
 
 
 -- 1. Map 'Epic diagnosis ID' to ICD-10-CM, from the Epic concept tables in src
--- Filter to Epic codes that map 1-to-1 to ICD10 and have been used in clinical events.
+-- Filter to Epic codes that map 1-to-1 to ICD10 and have been used in clinical events
 
 USE src;
 
@@ -122,6 +129,7 @@ WHERE
     -- join with ICD-10-CM records in LEAF_SCRATCH.diagnosis_map
     AND rpt.LEAF_SCRATCH.diagnosis_map.ICD10_CONCEPT_CODE = concept_ICD10.concept_code;
 
+
 -- 3. Integrate Sharon's existing manual mappings of 'Epic diagnosis ID' to SNOMED, from concept_relationship
 -- Make temp table for the manual mappings
 IF OBJECT_ID(N'tempdb..#MANUAL_MAPPINGS') IS NOT NULL
@@ -166,6 +174,7 @@ WITH EPIC_CONCEPT_CODE_FREQ AS
 DECLARE @NUM_MANUAL_MAPPINGS INT = (SELECT COUNT(*) FROM #MANUAL_MAPPINGS)
 PRINT CAST(@NUM_MANUAL_MAPPINGS AS VARCHAR) + ' 1-to-1 manual mappings from EPIC EDG .1 to SNOMED found in cdm_std'
 
+
 -- 3a. If manual mapping is consistent, mark diagnosis_map.HAND_MAP_STATUS as 'CONSISTENT', and update SOURCES
 UPDATE rpt.LEAF_SCRATCH.diagnosis_map
 SET HAND_MAP_STATUS = 'CONSISTENT'
@@ -174,6 +183,7 @@ FROM #MANUAL_MAPPINGS
     ,rpt.LEAF_SCRATCH.diagnosis_map diagnosis_map
 WHERE diagnosis_map.EPIC_CONCEPT_CODE = #MANUAL_MAPPINGS.EPIC_CONCEPT_CODE
     AND diagnosis_map.SNOMED_CONCEPT_CODE = #MANUAL_MAPPINGS.SNOMED_CONCEPT_CODE
+
 
 -- 3b. If manual mapping conflicts, mark diagnosis_map.HAND_MAP_STATUS 'CONFLICTED',
 --     use the manual value for SNOMED, the ICD-10-CM value that implies, and update SOURCES
@@ -205,12 +215,6 @@ WHERE diagnosis_map.SOURCES = 'MANUAL'
     AND concept_SNOMED.CONCEPT_ID = cr.CONCEPT_ID_2
     AND diagnosis_map.SNOMED_CONCEPT_CODE = concept_SNOMED.concept_code
 
--- Are there duplicated EPIC_CONCEPT_CODEs in diagnosis_map?
-SELECT 'After 3b' AFTER_3B, EPIC_CONCEPT_CODE, COUNT(EPIC_CONCEPT_CODE) NUM_EPIC_CONCEPT_CODE
-FROM rpt.LEAF_SCRATCH.diagnosis_map
-GROUP BY EPIC_CONCEPT_CODE
-HAVING 1 < COUNT(EPIC_CONCEPT_CODE)
-
 
 -- 3c. If manual mapping is missing, insert diagnosis_map record with HAND_MAP_STATUS = 'MISSING',
 --     'Epic diagnosis ID', SNOMED values from manual mappings, and SOURCES
@@ -219,35 +223,7 @@ DECLARE @NUM_MAPPINGS_LEFT INT = (SELECT COUNT(*)
                                   WHERE #MANUAL_MAPPINGS.EPIC_CONCEPT_CODE
                                   NOT IN(SELECT diagnosis_map.EPIC_CONCEPT_CODE
                                          FROM rpt.LEAF_SCRATCH.diagnosis_map diagnosis_map))
-PRINT CAST(@NUM_MAPPINGS_LEFT AS VARCHAR) + ' EPIC to SNOMED manual mappings not found in Caboodle'
-
-SELECT *
-FROM #MANUAL_MAPPINGS
-WHERE #MANUAL_MAPPINGS.EPIC_CONCEPT_CODE
-NOT IN(SELECT EPIC_CONCEPT_CODE
-       FROM rpt.LEAF_SCRATCH.diagnosis_map)
-ORDER BY EPIC_CONCEPT_CODE
-
--- Make temporary table of EPIC_CONCEPT_CODEs in rpt.LEAF_SCRATCH.diagnosis_map
-IF OBJECT_ID(N'tempdb..#EPIC_CONCEPT_CODES_IN_DIAG_MAP') IS NOT NULL
-	DROP TABLE #EPIC_CONCEPT_CODES_IN_DIAG_MAP
-CREATE TABLE #EPIC_CONCEPT_CODES_IN_DIAG_MAP(
-    EPIC_CONCEPT_CODE NVARCHAR(50) NOT NULL)
-
-INSERT INTO #EPIC_CONCEPT_CODES_IN_DIAG_MAP(EPIC_CONCEPT_CODE)
-SELECT EPIC_CONCEPT_CODE
-FROM rpt.LEAF_SCRATCH.diagnosis_map
-
-DECLARE @NUM INT = (SELECT COUNT(*) FROM rpt.LEAF_SCRATCH.diagnosis_map)
-PRINT 'Before update: ' + CAST(@NUM AS VARCHAR) + ' records in rpt.LEAF_SCRATCH.diagnosis_map'
-
-SELECT #MANUAL_MAPPINGS.EPIC_CONCEPT_CODE
-    ,#MANUAL_MAPPINGS.SNOMED_CONCEPT_CODE
-    ,#MANUAL_MAPPINGS.SNOMED_CONCEPT_NAME
-    ,'MISSING'
-FROM #MANUAL_MAPPINGS
-WHERE #MANUAL_MAPPINGS.EPIC_CONCEPT_CODE NOT IN (SELECT EPIC_CONCEPT_CODE
-                                                 FROM #EPIC_CONCEPT_CODES_IN_DIAG_MAP)
+PRINT CAST(@NUM_MAPPINGS_LEFT AS VARCHAR) + ' manual mappings of EPIC to SNOMED are not found in Caboodle'
 
 INSERT INTO rpt.LEAF_SCRATCH.diagnosis_map(EPIC_CONCEPT_CODE
                                            ,EPIC_CONCEPT_NAME
@@ -263,16 +239,7 @@ SELECT #MANUAL_MAPPINGS.EPIC_CONCEPT_CODE
     ,'MANUAL MAPPINGS'
 FROM #MANUAL_MAPPINGS
 WHERE #MANUAL_MAPPINGS.EPIC_CONCEPT_CODE NOT IN (SELECT EPIC_CONCEPT_CODE
-                                                 FROM #EPIC_CONCEPT_CODES_IN_DIAG_MAP)
-
-SET @NUM = (SELECT COUNT(*) FROM rpt.LEAF_SCRATCH.diagnosis_map)
-PRINT 'After update: ' + CAST(@NUM AS VARCHAR) + ' records in rpt.LEAF_SCRATCH.diagnosis_map'
-
--- Are there duplicated EPIC_CONCEPT_CODEs in diagnosis_map?
-SELECT 'After 3c' AFTER_3C, EPIC_CONCEPT_CODE, COUNT(EPIC_CONCEPT_CODE) NUM_EPIC_CONCEPT_CODE
-FROM rpt.LEAF_SCRATCH.diagnosis_map
-GROUP BY EPIC_CONCEPT_CODE
-HAVING 1 < COUNT(EPIC_CONCEPT_CODE)
+                                                 FROM rpt.LEAF_SCRATCH.diagnosis_map)
 
 -- 3c continued; insert the ICD-10-CM value associated with the manually mapped value for SNOMED
 UPDATE rpt.LEAF_SCRATCH.diagnosis_map
@@ -291,3 +258,7 @@ WHERE diagnosis_map.HAND_MAP_STATUS = 'MISSING'
     AND concept_ICD10.CONCEPT_ID = cr.CONCEPT_ID_1
     AND concept_SNOMED.CONCEPT_ID = cr.CONCEPT_ID_2
     AND diagnosis_map.SNOMED_CONCEPT_CODE = concept_SNOMED.concept_code
+
+-- TODO: make the concept_map_for_loading table
+
+PRINT ''
