@@ -10,11 +10,12 @@ conditions:
     validate the mappings:
         X no NULLs in EPIC EDG .1, ICD10, or SNOMED, so all used EDG .1 can be fully mapped
         X all EPIC EDG .1 → SNOMED are 1-to-1, so condition_concept_id can be unambiguously initialized
-    count the unique ICD10 codes in the diagnosis_map
-    check with Nic on size of ICD10 tree
+    X count the unique ICD10 codes in the diagnosis_map
+    X check with Nic on size of ICD10 tree
+    x make a concept_map_for_loading table with ICD-10-CM → SNOMED mappings for BlueTree
+    obtain the 1-to-many manual mappings & show to Sharon
     document the mappings
     Consult with Sharon RE EPIC EDG .1 → ICD10 → SNOMED mappings
-    make a concept_map_for_loading table with ICD-10-CM → SNOMED mappings for BlueTree
     test and run leaf_icd10.sql
     perhaps create stored procedure for conditions.sql & other domains
 measurements (labs):
@@ -39,6 +40,7 @@ other:
 
 
 later:
+    will need to rerun conditions.sql as MSDW2 changes, because it only maps Epic codes that are actually used
     reload UMLS_ICD10 with most recent hierarchical ICD10 relationships in the UMLS MRHIER.RRF table
     perhaps make views on all Caboodle tables that hide non-Clarity data
     resources that would help me create and verify queries, such as: the schemas for Caboodle tables, especially with foreign key constraints and/or semantic comments; other documentation about Caboodle’s data at the table and field level.

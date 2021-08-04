@@ -17,8 +17,8 @@ Steps
     use the manual value selected for SNOMED, and the ICD-10-CM value that implies, and update SOURCES
 3c. If manual mapping is missing, mark diagnosis_map.HAND_MAP_STATUS 'MISSING',
     add 'Epic diagnosis ID' ICD-10-CM and SNOMED values, and update SOURCES
-4. Cleanup
-5. Create concept_map_for_loading table by augmenting #5 with dependant attributes of each concept, and metadata
+4. Validate the diagnosis_map
+5. Create concept_map_for_loading table by augmenting the diagnosis_map
 */
 
 -- TODO: clean up text case
@@ -261,7 +261,7 @@ WHERE diagnosis_map.HAND_MAP_STATUS = 'MISSING'
     AND concept_SNOMED.CONCEPT_ID = cr.CONCEPT_ID_2
     AND diagnosis_map.SNOMED_CONCEPT_CODE = concept_SNOMED.concept_code
 
--- 4. Cleanup
+-- 4. Validate the diagnosis_map
 -- Ensure that there are no NULLs values for ICD10 or SNOMED codes, so all EPIC codes can be fully mapped
 -- Count and then remove records containing SNOMED codes that do not contain a mapping to ICD-10-CM in CONCEPT_RELATIONSHIP
 DECLARE @NUM_ICD10_NULLS INT = (SELECT COUNT(*)
@@ -290,7 +290,6 @@ INSERT INTO @CARDINALITY_EPIC_2_SNOMED_MAPPINGS
 SELECT EPIC_CONCEPT_CODE, COUNT(SNOMED_CONCEPT_CODE)
     FROM rpt.LEAF_SCRATCH.diagnosis_map
     GROUP BY EPIC_CONCEPT_CODE
-
 IF EXISTS (SELECT *
            FROM @CARDINALITY_EPIC_2_SNOMED_MAPPINGS
            WHERE 1 < NUM_SNOMED_CONCEPT_CODES)
@@ -299,7 +298,77 @@ BEGIN
    RAISERROR(@MSG, 16, 0)
 END
 
+-- Count the unique ICD10 codes in the diagnosis_map
+DECLARE @NUM_ICD10_CODES INT = (SELECT COUNT(DISTINCT ICD10_CONCEPT_CODE)
+                                FROM rpt.LEAF_SCRATCH.diagnosis_map)
+PRINT CAST(@NUM_ICD10_CODES AS VARCHAR) + ' unique ICD10 codes found'
 
--- TODO: make the concept_map_for_loading table
+-- 5. Create concept_map_for_loading table by augmenting the diagnosis_map with dependant attributes of each concept, and metadata
+USE rpt;
+
+IF (NOT EXISTS (SELECT *
+                FROM INFORMATION_SCHEMA.TABLES
+                WHERE TABLE_SCHEMA = 'LEAF_SCRATCH'
+                AND TABLE_NAME = 'concept_map_for_loading'))
+    BEGIN
+        CREATE TABLE LEAF_SCRATCH.concept_map_for_loading
+        (
+            SOURCE_CONCEPT_CODE VARCHAR(50) NOT NULL,
+            SOURCE_CONCEPT_NAME VARCHAR(255) NOT NULL,
+            SOURCE_CONCEPT_VOCABULARY_ID VARCHAR(50) NOT NULL,
+            VALUE_AS_SOURCE_CONCEPT_CODE BIGINT,
+            VALUE_AS_SOURCE_CONCEPT_NAME VARCHAR(255),
+            VALUE_AS_SOURCE_CONCEPT_VOCABULARY_ID VARCHAR(50),
+            TARGET_CONCEPT_ID BIGINT NOT NULL,
+            TARGET_CONCEPT_CODE VARCHAR(50) NOT NULL,
+            TARGET_CONCEPT_NAME VARCHAR(255) NOT NULL,
+            TARGET_CONCEPT_VOCABULARY_ID VARCHAR(50) NOT NULL,
+            TARGET_VALUE_AS_CONCEPT_ID BIGINT,
+            TARGET_VALUE_AS_CONCEPT_CODE VARCHAR(50),
+            TARGET_VALUE_AS_CONCEPT_NAME VARCHAR(255),
+            TARGET_VALUE_AS_CONCEPT_VOCABULARY_ID VARCHAR(50),
+            TARGET_VALUE_AS_NUMBER BIGINT,
+            TARGET_UNIT_CONCEPT_ID BIGINT,
+            TARGET_UNIT_CONCEPT_CODE VARCHAR(50),
+            TARGET_UNIT_CONCEPT_NAME VARCHAR(255),
+            TARGET_UNIT_CONCEPT_VOCABULARY_ID VARCHAR(50),
+            TARGET_QUALIFIER_CONCEPT_ID VARCHAR(50),
+            TARGET_QUALIFIER_CONCEPT_CODE VARCHAR(50),
+            TARGET_QUALIFIER_CONCEPT_NAME VARCHAR(255),
+            TARGET_QUALIFIER_CONCEPT_VOCABULARY_ID VARCHAR(50),
+            MAPPING_EQUIVALENCE VARCHAR(50),
+            MAPPING_CREATION_USER VARCHAR(50) NOT NULL,
+            MAPPING_CREATION_DATETIME datetime NOT NULL,
+            MAPPING_STATUS VARCHAR(50),
+            MAPPING_STATUS_USER VARCHAR(50),
+            MAPPING_STATUS_DATETIME datetime,
+            MAPPING_COMMENT VARCHAR(255)
+        )
+    END
+ELSE
+    DELETE FROM LEAF_SCRATCH.concept_map_for_loading
+
+INSERT INTO LEAF_SCRATCH.concept_map_for_loading(SOURCE_CONCEPT_CODE,
+                                                 SOURCE_CONCEPT_NAME,
+                                                 SOURCE_CONCEPT_VOCABULARY_ID,
+                                                 TARGET_CONCEPT_ID,
+                                                 TARGET_CONCEPT_CODE,
+                                                 TARGET_CONCEPT_NAME,
+                                                 TARGET_CONCEPT_VOCABULARY_ID,
+                                                 MAPPING_CREATION_USER,
+                                                 MAPPING_CREATION_DATETIME)
+SELECT EPIC_CONCEPT_CODE,
+       EPIC_CONCEPT_NAME,
+       'EPIC EDG .1',
+       concept_SNOMED.concept_id,
+       SNOMED_CONCEPT_CODE,
+       SNOMED_CONCEPT_NAME,
+       'SNOMED',
+       'Arthur Goldberg''s code',
+       GETDATE()
+FROM LEAF_SCRATCH.diagnosis_map,
+     omop.cdm_std.CONCEPT concept_SNOMED
+WHERE concept_SNOMED.VOCABULARY_ID = 'SNOMED'
+      AND concept_SNOMED.concept_code = SNOMED_CONCEPT_CODE
 
 PRINT ''
