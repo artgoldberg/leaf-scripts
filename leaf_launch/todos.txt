@@ -4,12 +4,19 @@ conditions:
     X find 'Epic diagnosis ID' records in src: caboodle.DiagnosisDim.DiagnosisEpicId is Epic Id
     X Map 1-to-1 'Epic diagnosis ID' → ICD-10-CM in temp table, using our Epic concept tables in src
     X add WHERE tbl._HasSourceClarity = 1 and tbl._IsDeleted = 0 where available
-    get select access to omop for me
-    replace automated mappings that conflict with the ones Sharon has mapped by hand
-    properly populate SOURCES
-    have conditions.sql generate a concept_map_for_loading table with
-        ICD-10-CM → SNOMED mappings for omop.concept_relationship
+    X get select access to omop for me
+    X replace automated mappings that conflict with the ones Sharon has mapped by hand
+    X properly populate SOURCES
+    validate the mappings:
+        X no NULLs in EPIC EDG .1, ICD10, or SNOMED, so all used EDG .1 can be fully mapped
+        X all EPIC EDG .1 → SNOMED are 1-to-1, so condition_concept_id can be unambiguously initialized
+    count the unique ICD10 codes in the diagnosis_map
+    check with Nic on size of ICD10 tree
+    document the mappings
+    Consult with Sharon RE EPIC EDG .1 → ICD10 → SNOMED mappings
+    make a concept_map_for_loading table with ICD-10-CM → SNOMED mappings for BlueTree
     test and run leaf_icd10.sql
+    perhaps create stored procedure for conditions.sql & other domains
 measurements (labs):
     Find relationships between "Epic lab code" & LOINC codes in sema4
     Sharon looking for LabComponentDim, LabComponentResultFact
@@ -19,8 +26,17 @@ procedures:
 drugs:
     learn how to map ‘EPIC ERX .1’ source concepts in drug_exposure to RxNorm (Q to Sharon on 7/28)
     BlueTree extract Caboodle’s MedicationCodeDim table, which maps EPIC ERX .1 in MedicationDim to NDC or RxNorm codes, to [src]
+other domains:
+    try Leaf's functionality for Vitals and Demographics again, and report to Tim
 training & helping users:
     Send presentation RE Leaf docs and help to CM
+    Create draft presentation & share with Sharon and Laura
+    Get Jira service desk setup, and configured
+    get Leaf help email setup, and configured
+other:
+    Share Leaf_ideas.txt with Nic
+
+
 
 later:
     reload UMLS_ICD10 with most recent hierarchical ICD10 relationships in the UMLS MRHIER.RRF table

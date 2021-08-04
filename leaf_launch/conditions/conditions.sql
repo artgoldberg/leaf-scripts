@@ -17,7 +17,8 @@ Steps
     use the manual value selected for SNOMED, and the ICD-10-CM value that implies, and update SOURCES
 3c. If manual mapping is missing, mark diagnosis_map.HAND_MAP_STATUS 'MISSING',
     add 'Epic diagnosis ID' ICD-10-CM and SNOMED values, and update SOURCES
-4. Create concept_map_for_loading table by augmenting #5 with dependant attributes of each concept, and metadata
+4. Cleanup
+5. Create concept_map_for_loading table by augmenting #5 with dependant attributes of each concept, and metadata
 */
 
 -- TODO: clean up text case
@@ -32,9 +33,9 @@ PRINT 'Starting ''conditions.sql'' at ' + CONVERT(varchar, GETDATE(), 120)
 USE rpt;
 
 IF (NOT EXISTS (SELECT *
-                 FROM INFORMATION_SCHEMA.TABLES
-                 WHERE TABLE_SCHEMA = 'LEAF_SCRATCH'
-                 AND TABLE_NAME = 'diagnosis_map'))
+                FROM INFORMATION_SCHEMA.TABLES
+                WHERE TABLE_SCHEMA = 'LEAF_SCRATCH'
+                AND TABLE_NAME = 'diagnosis_map'))
     BEGIN
         CREATE TABLE LEAF_SCRATCH.diagnosis_map
         (
@@ -108,7 +109,9 @@ WHERE DTD.[Type] = 'ICD-10-CM'
     -- get active diagnoses
     AND DiagnosisDim.DiagnosisEpicId IN (SELECT DISTINCT DiagnosisKey
                                          FROM src.caboodle.DiagnosisEventFact)
-
+    -- Don't map to ICD-10-CM IMO0001, which codes for 'Reserved for inherently not codable concepts without codable children'
+    -- or to IMO0002, 'Reserved for concepts with insufficient information to code with codable children'
+    AND NOT DTD.Value IN('IMO0001', 'IMO0002')
 
 -- 2. Incorporate mappings from ICD-10-CM to SNOMED, from Athena's reference data
 USE omop;
@@ -245,8 +248,7 @@ WHERE #MANUAL_MAPPINGS.EPIC_CONCEPT_CODE NOT IN (SELECT EPIC_CONCEPT_CODE
 UPDATE rpt.LEAF_SCRATCH.diagnosis_map
 SET ICD10_CONCEPT_CODE = concept_ICD10.concept_code
     ,ICD10_CONCEPT_NAME = concept_ICD10.CONCEPT_NAME
-FROM #MANUAL_MAPPINGS
-    ,rpt.LEAF_SCRATCH.diagnosis_map diagnosis_map
+FROM rpt.LEAF_SCRATCH.diagnosis_map diagnosis_map
     ,cdm_std.CONCEPT_RELATIONSHIP cr
     ,cdm_std.CONCEPT concept_ICD10
     ,cdm_std.CONCEPT concept_SNOMED
@@ -258,6 +260,45 @@ WHERE diagnosis_map.HAND_MAP_STATUS = 'MISSING'
     AND concept_ICD10.CONCEPT_ID = cr.CONCEPT_ID_1
     AND concept_SNOMED.CONCEPT_ID = cr.CONCEPT_ID_2
     AND diagnosis_map.SNOMED_CONCEPT_CODE = concept_SNOMED.concept_code
+
+-- 4. Cleanup
+-- Ensure that there are no NULLs values for ICD10 or SNOMED codes, so all EPIC codes can be fully mapped
+-- Count and then remove records containing SNOMED codes that do not contain a mapping to ICD-10-CM in CONCEPT_RELATIONSHIP
+DECLARE @NUM_ICD10_NULLS INT = (SELECT COUNT(*)
+                                FROM rpt.LEAF_SCRATCH.diagnosis_map
+                                WHERE ICD10_CONCEPT_CODE IS NULL)
+PRINT 'Deleting ' + CAST(@NUM_ICD10_NULLS AS VARCHAR) + ' records that lack an ICD-10-CM code'
+
+DELETE
+FROM rpt.LEAF_SCRATCH.diagnosis_map
+WHERE ICD10_CONCEPT_CODE IS NULL
+
+-- Count and then remove records missing SNOMED codes
+DECLARE @NUM_SNOMED_NULLS INT = (SELECT COUNT(*)
+                                FROM rpt.LEAF_SCRATCH.diagnosis_map
+                                WHERE SNOMED_CONCEPT_CODE IS NULL)
+PRINT 'Deleting ' + CAST(@NUM_SNOMED_NULLS AS VARCHAR) + ' records that lack a SNOMED code'
+
+DELETE
+FROM rpt.LEAF_SCRATCH.diagnosis_map
+WHERE SNOMED_CONCEPT_CODE IS NULL;
+
+-- Ensure that all EPIC EDG .1 → SNOMED are 1-to-1, so condition_concept_id can be unambiguously initialized
+DECLARE @CARDINALITY_EPIC_2_SNOMED_MAPPINGS TABLE (EPIC_CONCEPT_CODE NVARCHAR(50) PRIMARY KEY,
+                                                   NUM_SNOMED_CONCEPT_CODES INT)
+INSERT INTO @CARDINALITY_EPIC_2_SNOMED_MAPPINGS
+SELECT EPIC_CONCEPT_CODE, COUNT(SNOMED_CONCEPT_CODE)
+    FROM rpt.LEAF_SCRATCH.diagnosis_map
+    GROUP BY EPIC_CONCEPT_CODE
+
+IF EXISTS (SELECT *
+           FROM @CARDINALITY_EPIC_2_SNOMED_MAPPINGS
+           WHERE 1 < NUM_SNOMED_CONCEPT_CODES)
+BEGIN
+   DECLARE @MSG VARCHAR = 'Some EPIC EDG .1 to SNOMED mappings are 1-to-many, so condition_concept_id cannot be unambiguously initialized'
+   RAISERROR(@MSG, 16, 0)
+END
+
 
 -- TODO: make the concept_map_for_loading table
 
