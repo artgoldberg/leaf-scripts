@@ -21,11 +21,11 @@ Steps
 5. Create concept_map_for_loading table by augmenting the diagnosis_map
 */
 
-/*
-Formatting todos:
-    change 'manual mappings' to 'curated mappings'
-    clean up comments
-*/
+-- Todo style improvements:
+-- change 'manual mappings' to 'curated mappings'
+-- clean up comments
+-- improve indentation
+-- reduce code duplication
 
 
 -- 0. Create diagnosis_map table
@@ -70,7 +70,8 @@ DECLARE @cardinality_epic_to_icd10 TABLE (Epic_concept_code NVARCHAR(50) PRIMARY
 INSERT INTO @cardinality_epic_to_icd10
     SELECT DiagnosisDim.DiagnosisEpicId, COUNT(DTD.Value)
     FROM src.caboodle.DiagnosisDim DiagnosisDim
-        INNER JOIN caboodle.DiagnosisTerminologyDim DTD ON DiagnosisDim.DiagnosisKey = DTD.DiagnosisKey
+        INNER JOIN caboodle.DiagnosisTerminologyDim DTD
+              ON DiagnosisDim.DiagnosisKey = DTD.DiagnosisKey
     WHERE DTD.[Type] = 'ICD-10-CM'
     -- Avoid non-Clarity data added by Population Health
     AND DTD._HasSourceClarity = 1 AND DTD._IsDeleted = 0
@@ -338,10 +339,10 @@ IF (NOT EXISTS (SELECT *
             target_unit_concept_code VARCHAR(50),
             target_unit_concept_name VARCHAR(255),
             target_unit_concept_vocabulary_id VARCHAR(50),
-            TARGET_QUALIFIER_CONCEPT_ID VARCHAR(50),
-            TARGET_QUALIFIER_concept_code VARCHAR(50),
-            TARGET_QUALIFIER_concept_name VARCHAR(255),
-            TARGET_QUALIFIER_CONCEPT_VOCABULARY_ID VARCHAR(50),
+            target_qualifier_concept_id VARCHAR(50),
+            target_qualifier_concept_code VARCHAR(50),
+            target_qualifier_concept_name VARCHAR(255),
+            target_qualifier_concept_vocabulary_id VARCHAR(50),
             mapping_equivalence VARCHAR(50),
             mapping_creation_user VARCHAR(50) NOT NULL,
             mapping_creation_datetime datetime NOT NULL,
