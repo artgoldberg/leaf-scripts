@@ -378,4 +378,5 @@ FROM leaf_scratch.diagnosis_map,
 WHERE concept_SNOMED.vocabulary_id = 'SNOMED'
       AND concept_SNOMED.concept_code = SNOMED_concept_code
 
+PRINT 'Finishing ''conditions.sql'' at ' + CONVERT(VARCHAR, GETDATE(), 120)
 PRINT ''
