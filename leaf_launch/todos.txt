@@ -14,17 +14,28 @@ conditions:
     X check with Nic on size of ICD10 tree
     x make a concept_map_for_loading table with ICD-10-CM → SNOMED mappings for BlueTree
     x obtain the 1-to-many manual mappings
-    modify conditions.sql and CONCEPT_RELATIONSHIP so conditions.sql can always identify manual mappings
-    document the mappings
-    Consult with Sharon RE EPIC EDG .1 → ICD10 → SNOMED mappings
+    x rename diagnosis_map -> conditions_map
+    x put Algorithms in Confluence
+    x login to Confluence
+    x document the mappings
+    x Consult with Sharon RE EPIC EDG .1 → ICD10 → SNOMED mappings
+    examine # unique ICD10s when not filtering on 'active' codes
     test and run leaf_icd10.sql
     perhaps create general purpose stored procedure that could be used for conditions.sql & other domains
-measurements (labs):
-    Find relationships between "Epic lab code" & LOINC codes in sema4
-    Sharon looking for LabComponentDim, LabComponentResultFact
+    use the manual mappings in src.usagi.mapping_import
+    modify conditions.sql and CONCEPT_RELATIONSHIP so conditions.sql can always identify manual mappings
+x analyze mapping_import:
+    x rows that are all NULL in either all source or all target concepts
+    x rows that match the concept relationships I find in omop.cdm
 procedures:
     find Epic code → CPT4 mappings in src
     Review Tim's email on "Additional tables desired in src.caboodle"
+other:
+    Share Leaf_ideas.txt with Nic
+    transition to AD authorization for Leaf service account
+measurements (labs):
+    Find relationships between "Epic lab code" & LOINC codes in sema4
+    Sharon looking for LabComponentDim, LabComponentResultFact
 drugs:
     learn how to map ‘EPIC ERX .1’ source concepts in drug_exposure to RxNorm (Q to Sharon on 7/28)
     BlueTree extract Caboodle’s MedicationCodeDim table, which maps EPIC ERX .1 in MedicationDim to NDC or RxNorm codes, to [src]
@@ -35,8 +46,6 @@ training & helping users:
     Create draft presentation & share with Sharon and Laura
     Get Jira service desk setup, and configured
     get Leaf help email setup, and configured
-other:
-    Share Leaf_ideas.txt with Nic
 
 
 

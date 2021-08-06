@@ -12,20 +12,17 @@ Steps
 1. Map 'Epic diagnosis ID' to ICD-10-CM, from the Epic concept tables in src
 2. Incorporate mappings from ICD-10-CM to SNOMED, from Athena's reference data
 3. Integrate Sharon's existing manual mappings of 'Epic diagnosis ID' to SNOMED, from concept_relationship
-3a. If manual mapping is consistent, mark diagnosis_map.HAND_MAP_STATUS 'CONSISTENT'
-3b. If manual mapping conflicts, mark diagnosis_map.HAND_MAP_STATUS 'CONFLICTED',
-    use the manual value selected for SNOMED, and the ICD-10-CM value that implies, and update SOURCES
-3c. If manual mapping is missing, mark diagnosis_map.HAND_MAP_STATUS 'MISSING',
-    add 'Epic diagnosis ID' ICD-10-CM and SNOMED values, and update SOURCES
+3a. If manual mapping is consistent, mark diagnosis_map.hand_map_status 'CONSISTENT'
+3b. If manual mapping conflicts, mark diagnosis_map.hand_map_status 'CONFLICTED',
+    use the manual value selected for SNOMED, and the ICD-10-CM value that implies, and update sources
+3c. If manual mapping is missing, mark diagnosis_map.hand_map_status 'MISSING',
+    add 'Epic diagnosis ID' ICD-10-CM and SNOMED values, and update sources
 4. Validate the diagnosis_map
 5. Create concept_map_for_loading table by augmenting the diagnosis_map
 */
 
 /*
 Formatting todos:
-    clean up SQL text case
-    standardize SQL indentation
-    put commas at end of line, where they belong
     change 'manual mappings' to 'curated mappings'
     clean up comments
 */
@@ -34,31 +31,31 @@ Formatting todos:
 -- 0. Create diagnosis_map table
 -- Schema for table mapping diagnosis concept ids
 
-PRINT 'Starting ''conditions.sql'' at ' + CONVERT(varchar, GETDATE(), 120)
+PRINT 'Starting ''conditions.sql'' at ' + CONVERT(VARCHAR, GETDATE(), 120)
 
 USE rpt;
 
 IF (NOT EXISTS (SELECT *
-                FROM INFORMATION_SCHEMA.TABLES
-                WHERE TABLE_SCHEMA = 'LEAF_SCRATCH'
-                AND TABLE_NAME = 'diagnosis_map'))
+                FROM information_schema.tables
+                WHERE table_schema = 'leaf_scratch'
+                AND table_name = 'diagnosis_map'))
     BEGIN
-        CREATE TABLE LEAF_SCRATCH.diagnosis_map
+        CREATE TABLE leaf_scratch.diagnosis_map
         (
-            EPIC_CONCEPT_CODE NVARCHAR(50) NOT NULL PRIMARY KEY,
-            EPIC_CONCEPT_NAME NVARCHAR(255) NOT NULL,
-            ICD10_CONCEPT_CODE NVARCHAR(50),
-            ICD10_CONCEPT_NAME NVARCHAR(255),
-            SNOMED_CONCEPT_CODE NVARCHAR(50),
-            SNOMED_CONCEPT_NAME NVARCHAR(255),
+            Epic_concept_code NVARCHAR(50) NOT NULL PRIMARY KEY,
+            Epic_concept_name NVARCHAR(255) NOT NULL,
+            ICD10_concept_code NVARCHAR(50),
+            ICD10_concept_name NVARCHAR(255),
+            SNOMED_concept_code NVARCHAR(50),
+            SNOMED_concept_name NVARCHAR(255),
             -- Relationship of Sharon's hand-coded Epic -> SNOMED mapping to automated mapping
-            HAND_MAP_STATUS NVARCHAR(50),
-            SOURCES NVARCHAR(200) NOT NULL,     -- Sources for a record
-            COMMENT NVARCHAR(200)
+            hand_map_status NVARCHAR(50),
+            sources NVARCHAR(200) NOT NULL,     -- Sources for a record
+            comment NVARCHAR(200)
         )
     END
 ELSE
-    DELETE FROM LEAF_SCRATCH.diagnosis_map
+    DELETE FROM leaf_scratch.diagnosis_map
 
 
 -- 1. Map 'Epic diagnosis ID' to ICD-10-CM, from the Epic concept tables in src
@@ -67,10 +64,10 @@ ELSE
 USE src;
 
 -- Obtain and report number of Epic id that maps 1-to-many to ICD10 codes in Caboodle
-DECLARE @CARDINALITY_EPIC_TO_ICD10 TABLE (EPIC_CONCEPT_CODE NVARCHAR(50) PRIMARY KEY,
-                                          NUM_ICD10_CONCEPT_CODES INT)
+DECLARE @cardinality_epic_to_icd10 TABLE (Epic_concept_code NVARCHAR(50) PRIMARY KEY,
+                                          num_ICD10_concept_codes INT)
 
-INSERT INTO @CARDINALITY_EPIC_TO_ICD10
+INSERT INTO @cardinality_epic_to_icd10
     SELECT DiagnosisDim.DiagnosisEpicId, COUNT(DTD.Value)
     FROM src.caboodle.DiagnosisDim DiagnosisDim
         INNER JOIN caboodle.DiagnosisTerminologyDim DTD ON DiagnosisDim.DiagnosisKey = DTD.DiagnosisKey
@@ -83,14 +80,15 @@ INSERT INTO @CARDINALITY_EPIC_TO_ICD10
                                          FROM src.caboodle.DiagnosisEventFact)
     GROUP BY DiagnosisDim.DiagnosisEpicId
 
-DECLARE @NUM_1_TO_MANY_MAPPINGS INT = (SELECT COUNT(*)
-                                       FROM @CARDINALITY_EPIC_TO_ICD10
-                                       WHERE 1 < [@CARDINALITY_EPIC_TO_ICD10].NUM_ICD10_CONCEPT_CODES)
-PRINT 'Ignoring ' + CAST(@NUM_1_TO_MANY_MAPPINGS AS VARCHAR) + ' Epic diagnosis codes that map 1-to-many to ICD10 in Epic'
+DECLARE @num_1_to_many_mappings INT = (SELECT COUNT(*)
+                                       FROM @cardinality_epic_to_icd10
+                                       WHERE 1 < [@cardinality_epic_to_icd10].num_ICD10_concept_codes)
+PRINT 'Ignoring ' + CAST(@num_1_to_many_mappings AS VARCHAR) +
+      ' Epic diagnosis codes that map 1-to-many to ICD10 in Epic'
 
 -- Insert Epic diagnosis codes that map 1-to-1 to ICD10
-INSERT INTO rpt.LEAF_SCRATCH.diagnosis_map (EPIC_CONCEPT_CODE, EPIC_CONCEPT_NAME, ICD10_CONCEPT_CODE,
-    ICD10_CONCEPT_NAME, SOURCES)
+INSERT INTO rpt.leaf_scratch.diagnosis_map (Epic_concept_code, Epic_concept_name,
+            ICD10_concept_code, ICD10_concept_name, sources)
 SELECT DiagnosisDim.DiagnosisEpicId, DiagnosisDim.name, DTD.Value, DTD.DisplayString, 'Caboodle'
 FROM src.caboodle.DiagnosisDim DiagnosisDim
     INNER JOIN caboodle.DiagnosisTerminologyDim DTD ON DiagnosisDim.DiagnosisKey = DTD.DiagnosisKey
@@ -99,9 +97,9 @@ WHERE DTD.[Type] = 'ICD-10-CM'
     AND DTD._HasSourceClarity = 1 AND DTD._IsDeleted = 0
     AND DiagnosisDim._HasSourceClarity = 1 AND DiagnosisDim._IsDeleted = 0
     -- Use Epic diagnosis codes that map 1-to-1 to ICD10
-    AND DiagnosisDim.DiagnosisEpicId IN (SELECT EPIC_CONCEPT_CODE
-                                         FROM @CARDINALITY_EPIC_TO_ICD10
-                                         WHERE [@CARDINALITY_EPIC_TO_ICD10].NUM_ICD10_CONCEPT_CODES = 1)
+    AND DiagnosisDim.DiagnosisEpicId IN (SELECT Epic_concept_code
+                                         FROM @cardinality_epic_to_icd10
+                                         WHERE [@cardinality_epic_to_icd10].num_ICD10_concept_codes = 1)
     -- Get active diagnoses
     AND DiagnosisDim.DiagnosisEpicId IN (SELECT DISTINCT DiagnosisKey
                                          FROM src.caboodle.DiagnosisEventFact)
@@ -111,271 +109,272 @@ WHERE DTD.[Type] = 'ICD-10-CM'
 
 -- 2. Incorporate mappings from ICD-10-CM to SNOMED, from Athena's reference data
 
-UPDATE rpt.LEAF_SCRATCH.diagnosis_map
-SET SNOMED_CONCEPT_CODE = concept_SNOMED.concept_code
-    ,SNOMED_CONCEPT_NAME = concept_SNOMED.CONCEPT_NAME
-FROM omop.cdm_std.CONCEPT_RELATIONSHIP cr
-    ,omop.cdm_std.CONCEPT concept_ICD10
-    ,omop.cdm_std.CONCEPT concept_SNOMED
+UPDATE rpt.leaf_scratch.diagnosis_map
+SET SNOMED_concept_code = concept_SNOMED.concept_code,
+    SNOMED_concept_name = concept_SNOMED.concept_name
+FROM omop.cdm_std.concept_relationship cr,
+     omop.cdm_std.concept concept_ICD10,
+     omop.cdm_std.concept concept_SNOMED
 WHERE
     -- get records in CONCEPT_RELATIONSHIP that map from ICD-10-CM to SNOMED
-    concept_ICD10.VOCABULARY_ID = 'ICD10CM'
-    AND concept_SNOMED.VOCABULARY_ID = 'SNOMED'
-    AND cr.RELATIONSHIP_ID = 'Maps to'
-    AND concept_ICD10.CONCEPT_ID = cr.CONCEPT_ID_1
-    AND concept_SNOMED.CONCEPT_ID = cr.CONCEPT_ID_2
-    -- join with ICD-10-CM records in LEAF_SCRATCH.diagnosis_map
-    AND rpt.LEAF_SCRATCH.diagnosis_map.ICD10_CONCEPT_CODE = concept_ICD10.concept_code;
+    concept_ICD10.vocabulary_id = 'ICD10CM'
+    AND concept_SNOMED.vocabulary_id = 'SNOMED'
+    AND cr.relationship_id = 'Maps to'
+    AND concept_ICD10.concept_id = cr.concept_id_1
+    AND concept_SNOMED.concept_id = cr.concept_id_2
+    -- join with ICD-10-CM records in leaf_scratch.diagnosis_map
+    AND rpt.leaf_scratch.diagnosis_map.ICD10_concept_code = concept_ICD10.concept_code;
 
 
 -- 3. Integrate Sharon's existing manual mappings of 'Epic diagnosis ID' to SNOMED, from concept_relationship
 -- Make temp table for the manual mappings
-IF OBJECT_ID(N'tempdb..#MANUAL_MAPPINGS') IS NOT NULL
-	DROP TABLE #MANUAL_MAPPINGS
-CREATE TABLE #MANUAL_MAPPINGS(
-    EPIC_CONCEPT_CODE NVARCHAR(50) NOT NULL,
-    EPIC_CONCEPT_NAME NVARCHAR(255) NOT NULL,
-    SNOMED_CONCEPT_CODE NVARCHAR(50) NOT NULL,
-    SNOMED_CONCEPT_NAME NVARCHAR(255)
+IF OBJECT_ID(N'tempdb..#manual_mappings') IS NOT NULL
+	DROP TABLE #manual_mappings
+CREATE TABLE #manual_mappings(
+    Epic_concept_code NVARCHAR(50) NOT NULL,
+    Epic_concept_name NVARCHAR(255) NOT NULL,
+    SNOMED_concept_code NVARCHAR(50) NOT NULL,
+    SNOMED_concept_name NVARCHAR(255)
 )
 
-INSERT INTO #MANUAL_MAPPINGS
-SELECT concept_EPIC.concept_code
-    ,concept_EPIC.concept_name
-    ,concept_SNOMED.concept_code
-    ,concept_SNOMED.concept_name
-FROM omop.cdm_std.CONCEPT_RELATIONSHIP cr
-    ,omop.cdm_std.CONCEPT concept_EPIC
-    ,omop.cdm_std.CONCEPT concept_SNOMED
+INSERT INTO #manual_mappings
+SELECT concept_EPIC.concept_code,
+       concept_EPIC.concept_name,
+       concept_SNOMED.concept_code,
+       concept_SNOMED.concept_name
+FROM omop.cdm_std.CONCEPT_RELATIONSHIP cr,
+     omop.cdm_std.CONCEPT concept_EPIC,
+     omop.cdm_std.CONCEPT concept_SNOMED
 WHERE
-    concept_EPIC.VOCABULARY_ID = 'EPIC EDG .1'
-    AND cr.RELATIONSHIP_ID = 'Maps to'
-    AND concept_SNOMED.VOCABULARY_ID = 'SNOMED'
-    AND concept_EPIC.CONCEPT_ID = cr.CONCEPT_ID_1
-    AND concept_SNOMED.CONCEPT_ID = cr.CONCEPT_ID_2
+    concept_EPIC.vocabulary_id = 'EPIC EDG .1'
+    AND cr.relationship_id = 'Maps to'
+    AND concept_SNOMED.vocabulary_id = 'SNOMED'
+    AND concept_EPIC.concept_id = cr.concept_id_1
+    AND concept_SNOMED.concept_id = cr.concept_id_2
 
-DECLARE @NUM_MANUAL_MAPPINGS INT = (SELECT COUNT(*) FROM #MANUAL_MAPPINGS)
-PRINT CAST(@NUM_MANUAL_MAPPINGS AS VARCHAR) + ' manual mappings from EPIC EDG .1 to SNOMED found in cdm_std'
+DECLARE @num_manual_mappings INT = (SELECT COUNT(*) FROM #manual_mappings)
+PRINT CAST(@num_manual_mappings AS VARCHAR) + ' manual mappings from EPIC EDG .1 to SNOMED found in cdm_std'
 
 -- The manual mappings of 'Epic diagnosis ID' to SNOMED contain 1-to-many mappings; record and ignore them
-DECLARE @CARDINALITY_MANUAL_MAPPINGS TABLE (EPIC_CONCEPT_CODE NVARCHAR(50) PRIMARY KEY,
-                                            NUM_SNOMED_CONCEPT_CODES INT)
-INSERT INTO @CARDINALITY_MANUAL_MAPPINGS
-SELECT EPIC_CONCEPT_CODE, COUNT(SNOMED_CONCEPT_CODE) NUM_SNOMED_CONCEPT_CODES
-    FROM #MANUAL_MAPPINGS
-    GROUP BY EPIC_CONCEPT_CODE
+DECLARE @cardinality_manual_mappings TABLE (Epic_concept_code NVARCHAR(50) PRIMARY KEY,
+                                            num_SNOMED_concept_codes INT)
+INSERT INTO @cardinality_manual_mappings
+    SELECT Epic_concept_code, COUNT(SNOMED_concept_code) num_SNOMED_concept_codes
+    FROM #manual_mappings
+    GROUP BY Epic_concept_code
 
-SELECT #MANUAL_MAPPINGS.EPIC_CONCEPT_CODE,
-       #MANUAL_MAPPINGS.EPIC_CONCEPT_NAME,
-       #MANUAL_MAPPINGS.SNOMED_CONCEPT_CODE,
-       #MANUAL_MAPPINGS.SNOMED_CONCEPT_NAME
-    FROM @CARDINALITY_MANUAL_MAPPINGS,
-         #MANUAL_MAPPINGS
-    WHERE [@CARDINALITY_MANUAL_MAPPINGS].EPIC_CONCEPT_CODE = #MANUAL_MAPPINGS.EPIC_CONCEPT_CODE
-          AND 1 < NUM_SNOMED_CONCEPT_CODES
-    ORDER BY #MANUAL_MAPPINGS.EPIC_CONCEPT_CODE
+SELECT #manual_mappings.Epic_concept_code,
+       #manual_mappings.Epic_concept_name,
+       #manual_mappings.SNOMED_concept_code,
+       #manual_mappings.SNOMED_concept_name
+    FROM @cardinality_manual_mappings,
+         #manual_mappings
+    WHERE [@cardinality_manual_mappings].Epic_concept_code = #manual_mappings.Epic_concept_code
+          AND 1 < num_SNOMED_concept_codes
+    ORDER BY #manual_mappings.Epic_concept_code
 
 DELETE
-FROM #MANUAL_MAPPINGS
-WHERE EPIC_CONCEPT_CODE IN (SELECT EPIC_CONCEPT_CODE
-                            FROM @CARDINALITY_MANUAL_MAPPINGS
-                            WHERE 1 < NUM_SNOMED_CONCEPT_CODES)
+FROM #manual_mappings
+WHERE Epic_concept_code IN (SELECT Epic_concept_code
+                            FROM @cardinality_manual_mappings
+                            WHERE 1 < num_SNOMED_concept_codes)
 
-DECLARE @NUM_MANUAL_MAPPINGS_2 INT = (SELECT COUNT(*) FROM #MANUAL_MAPPINGS)
-PRINT CAST(@NUM_MANUAL_MAPPINGS_2 AS VARCHAR) + ' 1-to-1 manual mappings from EPIC EDG .1 to SNOMED found in cdm_std'
-
-
--- 3a. If manual mapping is consistent, mark diagnosis_map.HAND_MAP_STATUS as 'CONSISTENT', and update SOURCES
-UPDATE rpt.LEAF_SCRATCH.diagnosis_map
-SET HAND_MAP_STATUS = 'CONSISTENT'
-    ,SOURCES = 'Caboodle and MANUAL'
-FROM #MANUAL_MAPPINGS
-    ,rpt.LEAF_SCRATCH.diagnosis_map diagnosis_map
-WHERE diagnosis_map.EPIC_CONCEPT_CODE = #MANUAL_MAPPINGS.EPIC_CONCEPT_CODE
-    AND diagnosis_map.SNOMED_CONCEPT_CODE = #MANUAL_MAPPINGS.SNOMED_CONCEPT_CODE
+DECLARE @num_manual_mappings_2 INT = (SELECT COUNT(*) FROM #manual_mappings)
+PRINT CAST(@num_manual_mappings_2 AS VARCHAR) + ' 1-to-1 manual mappings from EPIC EDG .1 to SNOMED found in cdm_std'
 
 
--- 3b. If manual mapping conflicts, mark diagnosis_map.HAND_MAP_STATUS 'CONFLICTED',
---     use the manual value for SNOMED, the ICD-10-CM value that implies, and update SOURCES
-UPDATE rpt.LEAF_SCRATCH.diagnosis_map
-SET HAND_MAP_STATUS = 'CONFLICTED'
-    ,SNOMED_CONCEPT_CODE = #MANUAL_MAPPINGS.SNOMED_CONCEPT_CODE
-    ,SNOMED_CONCEPT_NAME = #MANUAL_MAPPINGS.SNOMED_CONCEPT_NAME
-    ,SOURCES = 'MANUAL'
-FROM #MANUAL_MAPPINGS
-    ,rpt.LEAF_SCRATCH.diagnosis_map diagnosis_map
-WHERE diagnosis_map.EPIC_CONCEPT_CODE = #MANUAL_MAPPINGS.EPIC_CONCEPT_CODE
-    AND NOT diagnosis_map.SNOMED_CONCEPT_CODE = #MANUAL_MAPPINGS.SNOMED_CONCEPT_CODE
+-- 3a. If manual mapping is consistent, mark diagnosis_map.hand_map_status as 'CONSISTENT', and update sources
+UPDATE rpt.leaf_scratch.diagnosis_map
+SET hand_map_status = 'CONSISTENT',
+    sources = 'Caboodle and MANUAL'
+FROM #manual_mappings,
+     rpt.leaf_scratch.diagnosis_map diagnosis_map
+WHERE diagnosis_map.Epic_concept_code = #manual_mappings.Epic_concept_code
+    AND diagnosis_map.SNOMED_concept_code = #manual_mappings.SNOMED_concept_code
+
+
+-- 3b. If manual mapping conflicts, mark diagnosis_map.hand_map_status 'CONFLICTED',
+--     use the manual value for SNOMED, the ICD-10-CM value that implies, and update sources
+UPDATE rpt.leaf_scratch.diagnosis_map
+SET hand_map_status = 'CONFLICTED',
+    SNOMED_concept_code = #manual_mappings.SNOMED_concept_code,
+    SNOMED_concept_name = #manual_mappings.SNOMED_concept_name,
+    sources = 'MANUAL'
+FROM #manual_mappings,
+     rpt.leaf_scratch.diagnosis_map diagnosis_map
+WHERE diagnosis_map.Epic_concept_code = #manual_mappings.Epic_concept_code
+    AND NOT diagnosis_map.SNOMED_concept_code = #manual_mappings.SNOMED_concept_code
 
 -- 3b continued; insert the ICD-10-CM value associated with the manually mapped value for SNOMED
-UPDATE rpt.LEAF_SCRATCH.diagnosis_map
-SET ICD10_CONCEPT_CODE = concept_ICD10.concept_code
-    ,ICD10_CONCEPT_NAME = concept_ICD10.CONCEPT_NAME
-FROM #MANUAL_MAPPINGS
-    ,rpt.LEAF_SCRATCH.diagnosis_map diagnosis_map
-    ,omop.cdm_std.CONCEPT_RELATIONSHIP cr
-    ,omop.cdm_std.CONCEPT concept_ICD10
-    ,omop.cdm_std.CONCEPT concept_SNOMED
-WHERE diagnosis_map.SOURCES = 'MANUAL'
+UPDATE rpt.leaf_scratch.diagnosis_map
+SET ICD10_concept_code = concept_ICD10.concept_code,
+    ICD10_concept_name = concept_ICD10.concept_name
+FROM #manual_mappings,
+     rpt.leaf_scratch.diagnosis_map diagnosis_map,
+     omop.cdm_std.concept_relationship cr,
+     omop.cdm_std.concept concept_ICD10,
+     omop.cdm_std.concept concept_SNOMED
+WHERE diagnosis_map.sources = 'MANUAL'
     -- get records in CONCEPT_RELATIONSHIP that map from ICD-10-CM to SNOMED
-    AND concept_ICD10.VOCABULARY_ID = 'ICD10CM'
-    AND concept_SNOMED.VOCABULARY_ID = 'SNOMED'
-    AND cr.RELATIONSHIP_ID = 'Maps to'
-    AND concept_ICD10.CONCEPT_ID = cr.CONCEPT_ID_1
-    AND concept_SNOMED.CONCEPT_ID = cr.CONCEPT_ID_2
-    AND diagnosis_map.SNOMED_CONCEPT_CODE = concept_SNOMED.concept_code
+    AND concept_ICD10.vocabulary_id = 'ICD10CM'
+    AND concept_SNOMED.vocabulary_id = 'SNOMED'
+    AND cr.relationship_id = 'Maps to'
+    AND concept_ICD10.concept_id = cr.concept_id_1
+    AND concept_SNOMED.concept_id = cr.concept_id_2
+    AND diagnosis_map.SNOMED_concept_code = concept_SNOMED.concept_code
 
 
--- 3c. If manual mapping is missing, insert diagnosis_map record with HAND_MAP_STATUS = 'MISSING',
---     'Epic diagnosis ID', SNOMED values from manual mappings, and SOURCES
-DECLARE @NUM_MAPPINGS_LEFT INT = (SELECT COUNT(*)
-                                  FROM #MANUAL_MAPPINGS
-                                  WHERE #MANUAL_MAPPINGS.EPIC_CONCEPT_CODE
-                                  NOT IN(SELECT diagnosis_map.EPIC_CONCEPT_CODE
-                                         FROM rpt.LEAF_SCRATCH.diagnosis_map diagnosis_map))
-PRINT CAST(@NUM_MAPPINGS_LEFT AS VARCHAR) + ' manual mappings of EPIC to SNOMED are not found in Caboodle'
+-- 3c. If manual mapping is missing, insert diagnosis_map record with hand_map_status = 'MISSING',
+--     'Epic diagnosis ID', SNOMED values from manual mappings, and sources
+DECLARE @num_mappings_left INT = (SELECT COUNT(*)
+                                  FROM #manual_mappings
+                                  WHERE #manual_mappings.Epic_concept_code
+                                  NOT IN(SELECT diagnosis_map.Epic_concept_code
+                                         FROM rpt.leaf_scratch.diagnosis_map diagnosis_map))
+PRINT CAST(@num_mappings_left AS VARCHAR) + ' manual mappings of EPIC to SNOMED are not found in Caboodle'
 
-INSERT INTO rpt.LEAF_SCRATCH.diagnosis_map(EPIC_CONCEPT_CODE
-                                           ,EPIC_CONCEPT_NAME
-                                           ,SNOMED_CONCEPT_CODE
-                                           ,SNOMED_CONCEPT_NAME
-                                           ,HAND_MAP_STATUS
-                                           ,SOURCES)
-SELECT #MANUAL_MAPPINGS.EPIC_CONCEPT_CODE
-    ,#MANUAL_MAPPINGS.EPIC_CONCEPT_NAME
-    ,#MANUAL_MAPPINGS.SNOMED_CONCEPT_CODE
-    ,#MANUAL_MAPPINGS.SNOMED_CONCEPT_NAME
-    ,'MISSING'
-    ,'MANUAL MAPPINGS'
-FROM #MANUAL_MAPPINGS
-WHERE #MANUAL_MAPPINGS.EPIC_CONCEPT_CODE NOT IN (SELECT EPIC_CONCEPT_CODE
-                                                 FROM rpt.LEAF_SCRATCH.diagnosis_map)
+INSERT INTO rpt.leaf_scratch.diagnosis_map(Epic_concept_code,
+                                           Epic_concept_name,
+                                           SNOMED_concept_code,
+                                           SNOMED_concept_name,
+                                           hand_map_status,
+                                           sources)
+SELECT #manual_mappings.Epic_concept_code,
+       #manual_mappings.Epic_concept_name,
+       #manual_mappings.SNOMED_concept_code,
+       #manual_mappings.SNOMED_concept_name,
+       'MISSING',
+       'MANUAL MAPPINGS'
+FROM #manual_mappings
+WHERE #manual_mappings.Epic_concept_code NOT IN (SELECT Epic_concept_code
+                                                 FROM rpt.leaf_scratch.diagnosis_map)
 
 -- 3c continued; insert the ICD-10-CM value associated with the manually mapped value for SNOMED
-UPDATE rpt.LEAF_SCRATCH.diagnosis_map
-SET ICD10_CONCEPT_CODE = concept_ICD10.concept_code
-    ,ICD10_CONCEPT_NAME = concept_ICD10.CONCEPT_NAME
-FROM rpt.LEAF_SCRATCH.diagnosis_map diagnosis_map
-    ,omop.cdm_std.CONCEPT_RELATIONSHIP cr
-    ,omop.cdm_std.CONCEPT concept_ICD10
-    ,omop.cdm_std.CONCEPT concept_SNOMED
-WHERE diagnosis_map.HAND_MAP_STATUS = 'MISSING'
+UPDATE rpt.leaf_scratch.diagnosis_map
+SET ICD10_concept_code = concept_ICD10.concept_code,
+    ICD10_concept_name = concept_ICD10.concept_name
+FROM rpt.leaf_scratch.diagnosis_map diagnosis_map,
+    omop.cdm_std.concept_relationship cr,
+    omop.cdm_std.concept concept_ICD10,
+    omop.cdm_std.concept concept_SNOMED
+WHERE diagnosis_map.hand_map_status = 'MISSING'
     -- get records in CONCEPT_RELATIONSHIP that map from ICD-10-CM to SNOMED
-    AND concept_ICD10.VOCABULARY_ID = 'ICD10CM'
-    AND concept_SNOMED.VOCABULARY_ID = 'SNOMED'
-    AND cr.RELATIONSHIP_ID = 'Maps to'
-    AND concept_ICD10.CONCEPT_ID = cr.CONCEPT_ID_1
-    AND concept_SNOMED.CONCEPT_ID = cr.CONCEPT_ID_2
-    AND diagnosis_map.SNOMED_CONCEPT_CODE = concept_SNOMED.concept_code;
+    AND concept_ICD10.vocabulary_id = 'ICD10CM'
+    AND concept_SNOMED.vocabulary_id = 'SNOMED'
+    AND cr.relationship_id = 'Maps to'
+    AND concept_ICD10.concept_id = cr.concept_id_1
+    AND concept_SNOMED.concept_id = cr.concept_id_2
+    AND diagnosis_map.SNOMED_concept_code = concept_SNOMED.concept_code;
 
 -- 4. Validate the diagnosis_map
 -- Ensure that there are no NULLs values for ICD10 or SNOMED codes, so all EPIC codes can be fully mapped
 -- Count and then remove records containing SNOMED codes that do not contain a mapping to ICD-10-CM in CONCEPT_RELATIONSHIP
-DECLARE @NUM_ICD10_NULLS INT = (SELECT COUNT(*)
-                                FROM rpt.LEAF_SCRATCH.diagnosis_map
-                                WHERE ICD10_CONCEPT_CODE IS NULL)
-PRINT 'Deleting ' + CAST(@NUM_ICD10_NULLS AS VARCHAR) + ' records that lack an ICD-10-CM code'
+DECLARE @num_icd10_nulls INT = (SELECT COUNT(*)
+                                FROM rpt.leaf_scratch.diagnosis_map
+                                WHERE ICD10_concept_code IS NULL)
+PRINT 'Deleting ' + CAST(@num_icd10_nulls AS VARCHAR) + ' records that lack an ICD-10-CM code'
 
 DELETE
-FROM rpt.LEAF_SCRATCH.diagnosis_map
-WHERE ICD10_CONCEPT_CODE IS NULL
+FROM rpt.leaf_scratch.diagnosis_map
+WHERE ICD10_concept_code IS NULL
 
 -- Count and then remove records missing SNOMED codes
-DECLARE @NUM_SNOMED_NULLS INT = (SELECT COUNT(*)
-                                FROM rpt.LEAF_SCRATCH.diagnosis_map
-                                WHERE SNOMED_CONCEPT_CODE IS NULL)
-PRINT 'Deleting ' + CAST(@NUM_SNOMED_NULLS AS VARCHAR) + ' records that lack a SNOMED code'
+DECLARE @num_snomed_nulls INT = (SELECT COUNT(*)
+                                 FROM rpt.leaf_scratch.diagnosis_map
+                                 WHERE SNOMED_concept_code IS NULL)
+PRINT 'Deleting ' + CAST(@num_snomed_nulls AS VARCHAR) + ' records that lack a SNOMED code'
 
 DELETE
-FROM rpt.LEAF_SCRATCH.diagnosis_map
-WHERE SNOMED_CONCEPT_CODE IS NULL;
+FROM rpt.leaf_scratch.diagnosis_map
+WHERE SNOMED_concept_code IS NULL;
 
 -- Ensure that all EPIC EDG .1 → SNOMED are 1-to-1, so condition_concept_id can be unambiguously initialized
-DECLARE @CARDINALITY_EPIC_2_SNOMED_MAPPINGS TABLE (EPIC_CONCEPT_CODE NVARCHAR(50) PRIMARY KEY,
-                                                   NUM_SNOMED_CONCEPT_CODES INT)
-INSERT INTO @CARDINALITY_EPIC_2_SNOMED_MAPPINGS
-SELECT EPIC_CONCEPT_CODE, COUNT(SNOMED_CONCEPT_CODE)
-    FROM rpt.LEAF_SCRATCH.diagnosis_map
-    GROUP BY EPIC_CONCEPT_CODE
+DECLARE @cardinality_Epic_2_SNOMED_mappings TABLE (Epic_concept_code NVARCHAR(50) PRIMARY KEY,
+                                                   num_SNOMED_concept_codes INT)
+INSERT INTO @cardinality_Epic_2_SNOMED_mappings
+SELECT Epic_concept_code, COUNT(SNOMED_concept_code)
+    FROM rpt.leaf_scratch.diagnosis_map
+    GROUP BY Epic_concept_code
 IF EXISTS (SELECT *
-           FROM @CARDINALITY_EPIC_2_SNOMED_MAPPINGS
-           WHERE 1 < NUM_SNOMED_CONCEPT_CODES)
+           FROM @cardinality_Epic_2_SNOMED_mappings
+           WHERE 1 < num_SNOMED_concept_codes)
 BEGIN
-   DECLARE @MSG VARCHAR = 'Some EPIC EDG .1 to SNOMED mappings are 1-to-many, so condition_concept_id cannot be unambiguously initialized'
-   RAISERROR(@MSG, 16, 0)
+   DECLARE @msg VARCHAR = 'Some EPIC EDG .1 to SNOMED mappings are 1-to-many, so condition_concept_id ' +
+                          'cannot be unambiguously initialized'
+   RAISERROR(@msg, 16, 0)
 END
 
 -- Count the unique ICD10 codes in the diagnosis_map
-DECLARE @NUM_ICD10_CODES INT = (SELECT COUNT(DISTINCT ICD10_CONCEPT_CODE)
-                                FROM rpt.LEAF_SCRATCH.diagnosis_map)
-PRINT CAST(@NUM_ICD10_CODES AS VARCHAR) + ' unique ICD10 codes found'
+DECLARE @num_ICD10_codes INT = (SELECT COUNT(DISTINCT ICD10_concept_code)
+                                FROM rpt.leaf_scratch.diagnosis_map)
+PRINT CAST(@num_ICD10_codes AS VARCHAR) + ' unique ICD10 codes found'
 
 -- 5. Create concept_map_for_loading table by augmenting the diagnosis_map with dependant attributes of each concept, and metadata
 USE rpt;
 
 IF (NOT EXISTS (SELECT *
-                FROM INFORMATION_SCHEMA.TABLES
-                WHERE TABLE_SCHEMA = 'LEAF_SCRATCH'
-                AND TABLE_NAME = 'concept_map_for_loading'))
+                FROM information_schema.tables
+                WHERE table_schema = 'leaf_scratch'
+                AND table_name = 'concept_map_for_loading'))
     BEGIN
-        CREATE TABLE LEAF_SCRATCH.concept_map_for_loading
+        CREATE TABLE leaf_scratch.concept_map_for_loading
         (
-            SOURCE_CONCEPT_CODE VARCHAR(50) NOT NULL,
-            SOURCE_CONCEPT_NAME VARCHAR(255) NOT NULL,
-            SOURCE_CONCEPT_VOCABULARY_ID VARCHAR(50) NOT NULL,
-            VALUE_AS_SOURCE_CONCEPT_CODE BIGINT,
-            VALUE_AS_SOURCE_CONCEPT_NAME VARCHAR(255),
-            VALUE_AS_SOURCE_CONCEPT_VOCABULARY_ID VARCHAR(50),
-            TARGET_CONCEPT_ID BIGINT NOT NULL,
-            TARGET_CONCEPT_CODE VARCHAR(50) NOT NULL,
-            TARGET_CONCEPT_NAME VARCHAR(255) NOT NULL,
-            TARGET_CONCEPT_VOCABULARY_ID VARCHAR(50) NOT NULL,
-            TARGET_VALUE_AS_CONCEPT_ID BIGINT,
-            TARGET_VALUE_AS_CONCEPT_CODE VARCHAR(50),
-            TARGET_VALUE_AS_CONCEPT_NAME VARCHAR(255),
-            TARGET_VALUE_AS_CONCEPT_VOCABULARY_ID VARCHAR(50),
-            TARGET_VALUE_AS_NUMBER BIGINT,
-            TARGET_UNIT_CONCEPT_ID BIGINT,
-            TARGET_UNIT_CONCEPT_CODE VARCHAR(50),
-            TARGET_UNIT_CONCEPT_NAME VARCHAR(255),
-            TARGET_UNIT_CONCEPT_VOCABULARY_ID VARCHAR(50),
+            source_concept_code VARCHAR(50) NOT NULL,
+            source_concept_name VARCHAR(255) NOT NULL,
+            source_concept_vocabulary_id VARCHAR(50) NOT NULL,
+            value_as_source_concept_code BIGINT,
+            value_as_source_concept_name VARCHAR(255),
+            value_as_source_concept_vocabulary_id VARCHAR(50),
+            target_concept_id BIGINT NOT NULL,
+            target_concept_code VARCHAR(50) NOT NULL,
+            target_concept_name VARCHAR(255) NOT NULL,
+            target_concept_vocabulary_id VARCHAR(50) NOT NULL,
+            target_value_as_concept_id BIGINT,
+            target_value_as_concept_code VARCHAR(50),
+            target_value_as_concept_name VARCHAR(255),
+            target_value_as_concept_vocabulary_id VARCHAR(50),
+            target_value_as_number BIGINT,
+            target_unit_concept_id BIGINT,
+            target_unit_concept_code VARCHAR(50),
+            target_unit_concept_name VARCHAR(255),
+            target_unit_concept_vocabulary_id VARCHAR(50),
             TARGET_QUALIFIER_CONCEPT_ID VARCHAR(50),
-            TARGET_QUALIFIER_CONCEPT_CODE VARCHAR(50),
-            TARGET_QUALIFIER_CONCEPT_NAME VARCHAR(255),
+            TARGET_QUALIFIER_concept_code VARCHAR(50),
+            TARGET_QUALIFIER_concept_name VARCHAR(255),
             TARGET_QUALIFIER_CONCEPT_VOCABULARY_ID VARCHAR(50),
-            MAPPING_EQUIVALENCE VARCHAR(50),
-            MAPPING_CREATION_USER VARCHAR(50) NOT NULL,
-            MAPPING_CREATION_DATETIME datetime NOT NULL,
-            MAPPING_STATUS VARCHAR(50),
-            MAPPING_STATUS_USER VARCHAR(50),
-            MAPPING_STATUS_DATETIME datetime,
-            MAPPING_COMMENT VARCHAR(255)
+            mapping_equivalence VARCHAR(50),
+            mapping_creation_user VARCHAR(50) NOT NULL,
+            mapping_creation_datetime datetime NOT NULL,
+            mapping_status VARCHAR(50),
+            mapping_status_user VARCHAR(50),
+            mapping_status_datetime DATETIME,
+            mapping_comment VARCHAR(255)
         )
     END
 ELSE
-    DELETE FROM LEAF_SCRATCH.concept_map_for_loading
+    DELETE FROM leaf_scratch.concept_map_for_loading
 
-INSERT INTO LEAF_SCRATCH.concept_map_for_loading(SOURCE_CONCEPT_CODE,
-                                                 SOURCE_CONCEPT_NAME,
-                                                 SOURCE_CONCEPT_VOCABULARY_ID,
-                                                 TARGET_CONCEPT_ID,
-                                                 TARGET_CONCEPT_CODE,
-                                                 TARGET_CONCEPT_NAME,
-                                                 TARGET_CONCEPT_VOCABULARY_ID,
-                                                 MAPPING_CREATION_USER,
-                                                 MAPPING_CREATION_DATETIME)
-SELECT EPIC_CONCEPT_CODE,
-       EPIC_CONCEPT_NAME,
+INSERT INTO leaf_scratch.concept_map_for_loading(source_concept_code,
+                                                 source_concept_name,
+                                                 source_concept_vocabulary_id,
+                                                 target_concept_id,
+                                                 target_concept_code,
+                                                 target_concept_name,
+                                                 target_concept_vocabulary_id,
+                                                 mapping_creation_user,
+                                                 mapping_creation_datetime)
+SELECT Epic_concept_code,
+       Epic_concept_name,
        'EPIC EDG .1',
        concept_SNOMED.concept_id,
-       SNOMED_CONCEPT_CODE,
-       SNOMED_CONCEPT_NAME,
+       SNOMED_concept_code,
+       SNOMED_concept_name,
        'SNOMED',
        'Arthur Goldberg''s conditions.sql script',
        GETDATE()
-FROM LEAF_SCRATCH.diagnosis_map,
-     omop.cdm_std.CONCEPT concept_SNOMED
-WHERE concept_SNOMED.VOCABULARY_ID = 'SNOMED'
-      AND concept_SNOMED.concept_code = SNOMED_CONCEPT_CODE
+FROM leaf_scratch.diagnosis_map,
+     omop.cdm_std.concept concept_SNOMED
+WHERE concept_SNOMED.vocabulary_id = 'SNOMED'
+      AND concept_SNOMED.concept_code = SNOMED_concept_code
 
 PRINT ''
