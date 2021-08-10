@@ -6,14 +6,14 @@ SELECT DISTINCT concept_ICD10.concept_id ICD10_concept_id,
        concept_SNOMED.concept_id SNOMED_concept_id,
        concept_SNOMED.concept_code SNOMED_concept_code,
        concept_SNOMED.concept_name SNOMED_concept_name
-FROM rpt.leaf_scratch.diagnosis_map diagnosis_map,
+FROM rpt.leaf_scratch.conditions_map conditions_map,
      omop.cdm_std.concept concept_ICD10,
      omop.cdm_std.concept concept_SNOMED,
      omop.cdm_std.concept_relationship concept_relationship
 WHERE concept_ICD10.vocabulary_id = 'ICD10CM'
-      AND concept_ICD10.concept_code = diagnosis_map.ICD10_concept_code
+      AND concept_ICD10.concept_code = conditions_map.ICD10_concept_code
       AND concept_SNOMED.vocabulary_id = 'SNOMED'
-      AND concept_SNOMED.concept_code = diagnosis_map.SNOMED_concept_code
+      AND concept_SNOMED.concept_code = conditions_map.SNOMED_concept_code
       AND concept_ICD10.concept_id = concept_relationship.concept_id_1
       AND concept_relationship.relationship_id = 'Maps to'
       AND concept_SNOMED.concept_id = concept_relationship.concept_id_2
@@ -24,13 +24,13 @@ SELECT DISTINCT concept_ICD10.concept_id ICD10_concept_id,
        concept_SNOMED.concept_id SNOMED_concept_id,
        concept_SNOMED.concept_code SNOMED_concept_code,
        concept_SNOMED.concept_name SNOMED_concept_name
-FROM rpt.leaf_scratch.diagnosis_map diagnosis_map,
+FROM rpt.leaf_scratch.conditions_map conditions_map,
      omop.cdm_std.concept concept_ICD10,
      omop.cdm_std.concept concept_SNOMED
 WHERE concept_ICD10.vocabulary_id = 'ICD10CM'
-      AND concept_ICD10.concept_code = diagnosis_map.ICD10_concept_code
+      AND concept_ICD10.concept_code = conditions_map.ICD10_concept_code
       AND concept_SNOMED.vocabulary_id = 'SNOMED'
-      AND concept_SNOMED.concept_code = diagnosis_map.SNOMED_concept_code
+      AND concept_SNOMED.concept_code = conditions_map.SNOMED_concept_code
 */
 
 -- Are the ICD10 -> SNOMED r'ships the same as the inversion of the ICD10 -> SNOMED r'ships?

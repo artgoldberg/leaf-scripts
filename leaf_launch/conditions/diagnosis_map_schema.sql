@@ -5,9 +5,9 @@ USE rpt;
 IF (NOT EXISTS (SELECT * 
                  FROM INFORMATION_SCHEMA.TABLES 
                  WHERE TABLE_SCHEMA = 'LEAF_SCRATCH' 
-                 AND  TABLE_NAME = 'diagnosis_map'))
+                 AND  TABLE_NAME = 'conditions_map'))
 BEGIN
-    CREATE TABLE LEAF_SCRATCH.diagnosis_map
+    CREATE TABLE LEAF_SCRATCH.conditions_map
     (  
         EPIC_CONCEPT_CODE NVARCHAR(50) NOT NULL PRIMARY KEY,
         EPIC_CONCEPT_NAME NVARCHAR(200) NOT NULL,
