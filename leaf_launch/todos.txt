@@ -1,4 +1,4 @@
-conditions:
+conditions done:
     X run additional_scripts/large_files/icd10.sql to create temp UMLS_ICD10 table
     X Map ICD-10-CM → SNOMED in temp table, using Athena's reference data
     X find 'Epic diagnosis ID' records in src: caboodle.DiagnosisDim.DiagnosisEpicId is Epic Id
@@ -14,45 +14,97 @@ conditions:
     X check with Nic on size of ICD10 tree
     x make a concept_map_for_loading table with ICD-10-CM → SNOMED mappings for BlueTree
     x obtain the 1-to-many manual mappings
-    x rename diagnosis_map -> conditions_map
     x put Algorithms in Confluence
     x login to Confluence
     x document the mappings
     x Consult with Sharon RE EPIC EDG .1 → ICD10 → SNOMED mappings
-    examine # unique ICD10s when not filtering on 'active' codes
-    test and run leaf_icd10.sql
+    x examine # unique ICD10s when not filtering on 'active' codes
+    x create test_omop which I can use:
+        x create tables I need to modify: concept_relationship & condition_occurrence
+        x update condition_occurrence with Epic -> SNOMED from leaf_scratch.diagnosis_map
+        x create record in LeafDB.app.ConceptSqlSet for this test condition_occurrence
+        x revise leaf_icd10.sql to use these tables
+        x test and run leaf_icd10.sql
+    x clean up leaf_icd10.sql tabs
+    x rename diagnosis_map -> conditions_map
+    x share current leaf_icd10.sql with Nic
+    x create table rpt.usagi.mapping_import with the same schema as src.usagi.mapping_import
+    x insert sharon's mappings in concept_relationship into rpt.usagi.mapping_import
+    x to reliably identify manual mappings, have conditions.sql use rpt.usagi.mapping_import, not concept_relationship
+        x don't make concept_map_for_loading; instead, insert new mappings into rpt.usagi.mapping_import
+        x obtain sharon's mappings from rpt.usagi.mapping_import, not concept_relationship
+
+conditions:
+    define AUI as PRIMARY KEY for UMLS_ICD10 and create indices on other 
+    save and use sharon's mapping updates: an additional 800 conditions mapped; 305 conditions given SNOMED -> ICD10 mappings
+    change "ICD-10-CM TABULAR LIST of DISEASES and INJURIES (ICD10CM:A00.0-Z99.89)" in UMLS_ICD10 to "ICD-10-CM Conditions"
+    documentation
+        describe changes needed in concept_relationship & condition_occurrence by conditions_map
+        X add circle & arrows diagram
+    tune MSDW2 indexing for Leaf queries
     perhaps create general purpose stored procedure that could be used for conditions.sql & other domains
-    use the manual mappings in src.usagi.mapping_import
-    modify conditions.sql and CONCEPT_RELATIONSHIP so conditions.sql can always identify manual mappings
-x analyze mapping_import:
-    x rows that are all NULL in either all source or all target concepts
-    x rows that match the concept relationships I find in omop.cdm
+
 procedures:
     find Epic code → CPT4 mappings in src
     Review Tim's email on "Additional tables desired in src.caboodle"
-other:
-    Share Leaf_ideas.txt with Nic
-    transition to AD authorization for Leaf service account
+
 measurements (labs):
     Find relationships between "Epic lab code" & LOINC codes in sema4
     Sharon looking for LabComponentDim, LabComponentResultFact
+
 drugs:
     learn how to map ‘EPIC ERX .1’ source concepts in drug_exposure to RxNorm (Q to Sharon on 7/28)
     BlueTree extract Caboodle’s MedicationCodeDim table, which maps EPIC ERX .1 in MedicationDim to NDC or RxNorm codes, to [src]
+
+authentication:
+    x rm DBeaver networked connections that do not use AD
+    x clean up DBeaver connections, filtering DBMSes & schemas 
+    configure Leaf API to use AD authorization for Leaf service account
+x analyze mapping_import:
+    x rows that are all NULL in either all source or all target concepts
+    x rows that match the concept relationships I find in omop.cdm
+
+Leaf installation:
+    be ready to change Leaf to use the renamed Azure AD groups Darshan is making
+    Use de-identified data
+
+    prepare for mid-year assessment
+    buy cable needed for new monitors
+
+training materials
+    meet with Sharon to outline Leaf intro presentation; send to Laura
+
+batch update of concepts and search indices:
+    run to completion
+        try as background job on Leaf VM
+        try to postpone connection timeout between DBeaver and MSDW2 server
+    improve performance of condition queries with better indices
+
+other:
+    prepare for mid-year assessment
+    buy cable needed for new monitors
+
 other domains:
     try Leaf's functionality for Vitals and Demographics again, and report to Tim
 training & helping users:
-    Send presentation RE Leaf docs and help to CM
+    X Send presentation RE Leaf docs and help to CM
     Create draft presentation & share with Sharon and Laura
     Get Jira service desk setup, and configured
     get Leaf help email setup, and configured
 
-
-
+accessing PHI data:
+    Turn off de-identified mode
 later:
+    enable DBeaver connection via AD without trustServerCertificate=true for Leaf service account
+    add to Leaf suggestions: Leaf concept table should be renamed to leaf_concept, to avoid confusion with CDM concept
+    investigate the small difference between the ICD10 -> SNOMED relationships in concept_relationship and the ones obtained in leaf_scratch.diagnosis_map
+    remove (or set aside) small programs in leaf-scripts/leaf_launch/conditions no longer being used, like map_Epic_to_ICD10.sql
+    Share Leaf_ideas.txt with Nic
+    revisit filtering out of inactive with Tim & Sharon
     will need to rerun conditions.sql as MSDW2 changes, because it only maps Epic codes that are actually used
     reload UMLS_ICD10 with most recent hierarchical ICD10 relationships in the UMLS MRHIER.RRF table
     perhaps make views on all Caboodle tables that hide non-Clarity data
     resources that would help me create and verify queries, such as: the schemas for Caboodle tables, especially with foreign key constraints and/or semantic comments; other documentation about Caboodle’s data at the table and field level.
     determine degree of overlap between SurgicalProcedureEventFact and ProcedureEventFact; see Tim's email on "Additional tables desired in src.caboodle"
     eliminate duplication between leaf_launch/conditions/conditions.sql and other scripts in leaf_launch/conditions
+    make rest of child - parent relationships SQL look like the implementation in leaf_icd10.sql

@@ -7,8 +7,8 @@
 EXEC LeafDB.app.sp_CalculatePatientCounts
     @PersonIdField = 'person_id'                   -- PersonId field for this Leaf instance
   , @TargetDataBaseName = 'omop.cdm_std'           -- Clinical database to query for this Leaf instance
-  , @TotalAllowedRuntimeInMinutes = 480            -- Total minutes to allow to entire process to run
-  , @PerRootConceptAllowedRuntimeInMinutes = 120   -- Total minutes to allow a given Root Concept and children to run,
+  , @TotalAllowedRuntimeInMinutes = 1200           -- Total minutes to allow to entire process to run
+  , @PerRootConceptAllowedRuntimeInMinutes = 1200  -- Total minutes to allow a given Root Concept and children to run,
   , @SpecificRootConcept = NULL                    -- Optional, specify a Root ConceptId to only 
                                                    -- recalculate counts for part of the tree
 

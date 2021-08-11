@@ -15,15 +15,15 @@ FROM rpt.Leaf_usagi.mapping_import
 
 -- Insert Sharon's existing manual mappings in concept_relationship of 'Epic diagnosis ID' to SNOMED
 INSERT INTO rpt.Leaf_usagi.mapping_import(source_concept_id,
-                                     source_concept_code,
-                                     source_concept_name,
-                                     source_concept_vocabulary_id,
-                                     target_concept_id,
-                                     target_concept_code,
-                                     target_concept_name,
-                                     target_concept_vocabulary_id,
-                                     mapping_creation_user,
-                                     mapping_creation_datetime)
+                                          source_concept_code,
+                                          source_concept_name,
+                                          source_concept_vocabulary_id,
+                                          target_concept_id,
+                                          target_concept_code,
+                                          target_concept_name,
+                                          target_concept_vocabulary_id,
+                                          mapping_creation_user,
+                                          mapping_creation_datetime)
 SELECT concept_EPIC.concept_id,
        concept_EPIC.concept_code,
        concept_EPIC.concept_name,

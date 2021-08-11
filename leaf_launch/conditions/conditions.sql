@@ -11,14 +11,14 @@ Steps
 0. Create conditions_map table
 1. Map 'Epic diagnosis ID' to ICD-10-CM, from the Epic concept tables in src
 2. Incorporate mappings from ICD-10-CM to SNOMED, from Athena's reference data
-3. Integrate Sharon's existing manual mappings of 'Epic diagnosis ID' to SNOMED, from concept_relationship
+3. Integrate Sharon's existing manual mappings of 'Epic diagnosis ID' to SNOMED, from rpt.Leaf_usagi.mapping_import
 3a. If manual mapping is consistent, mark conditions_map.hand_map_status 'CONSISTENT'
 3b. If manual mapping conflicts, mark conditions_map.hand_map_status 'CONFLICTED',
     use the manual value selected for SNOMED, and the ICD-10-CM value that implies, and update sources
 3c. If manual mapping is missing, mark conditions_map.hand_map_status 'MISSING',
     add 'Epic diagnosis ID' ICD-10-CM and SNOMED values, and update sources
 4. Validate the conditions_map
-5. Create concept_map_for_loading table by augmenting the conditions_map
+5. Insert new mappings into rpt.Leaf_usagi.mapping_import
 */
 
 -- Todo style improvements:
@@ -127,7 +127,7 @@ WHERE
     AND rpt.leaf_scratch.conditions_map.ICD10_concept_code = concept_ICD10.concept_code;
 
 
--- 3. Integrate Sharon's existing manual mappings of 'Epic diagnosis ID' to SNOMED, from concept_relationship
+-- 3. Integrate Sharon's existing manual mappings of 'Epic diagnosis ID' to SNOMED, from rpt.Leaf_usagi.mapping_import
 -- Make temp table for the manual mappings
 IF OBJECT_ID(N'tempdb..#manual_mappings') IS NOT NULL
 	DROP TABLE #manual_mappings
@@ -139,22 +139,18 @@ CREATE TABLE #manual_mappings(
 )
 
 INSERT INTO #manual_mappings
-SELECT concept_EPIC.concept_code,
-       concept_EPIC.concept_name,
-       concept_SNOMED.concept_code,
-       concept_SNOMED.concept_name
-FROM omop.cdm_std.CONCEPT_RELATIONSHIP cr,
-     omop.cdm_std.CONCEPT concept_EPIC,
-     omop.cdm_std.CONCEPT concept_SNOMED
-WHERE
-    concept_EPIC.vocabulary_id = 'EPIC EDG .1'
-    AND cr.relationship_id = 'Maps to'
-    AND concept_SNOMED.vocabulary_id = 'SNOMED'
-    AND concept_EPIC.concept_id = cr.concept_id_1
-    AND concept_SNOMED.concept_id = cr.concept_id_2
+SELECT source_concept_code,
+       source_concept_name,
+       target_concept_code,
+       target_concept_name
+FROM rpt.Leaf_usagi.mapping_import mapping_import
+WHERE mapping_import.source_concept_vocabulary_id = 'EPIC EDG .1'
+      AND mapping_import.target_concept_vocabulary_id = 'SNOMED'
+      AND mapping_import.mapping_creation_user = 'Sharon Nirenberg'
 
 DECLARE @num_manual_mappings INT = (SELECT COUNT(*) FROM #manual_mappings)
-PRINT CAST(@num_manual_mappings AS VARCHAR) + ' manual mappings from EPIC EDG .1 to SNOMED found in cdm_std'
+PRINT CAST(@num_manual_mappings AS VARCHAR) +
+    ' manual mappings from EPIC EDG .1 to SNOMED found in rpt.Leaf_usagi.mapping_import'
 
 -- The manual mappings of 'Epic diagnosis ID' to SNOMED contain 1-to-many mappings; record and ignore them
 DECLARE @cardinality_manual_mappings TABLE (Epic_concept_code NVARCHAR(50) PRIMARY KEY,
@@ -181,7 +177,8 @@ WHERE Epic_concept_code IN (SELECT Epic_concept_code
                             WHERE 1 < num_SNOMED_concept_codes)
 
 DECLARE @num_manual_mappings_2 INT = (SELECT COUNT(*) FROM #manual_mappings)
-PRINT CAST(@num_manual_mappings_2 AS VARCHAR) + ' 1-to-1 manual mappings from EPIC EDG .1 to SNOMED found in cdm_std'
+PRINT CAST(@num_manual_mappings_2 AS VARCHAR) +
+    ' 1-to-1 manual mappings from EPIC EDG .1 to SNOMED found in rpt.Leaf_usagi.mapping_import'
 
 
 -- 3a. If manual mapping is consistent, mark conditions_map.hand_map_status as 'CONSISTENT', and update sources
@@ -310,61 +307,21 @@ DECLARE @num_ICD10_codes INT = (SELECT COUNT(DISTINCT ICD10_concept_code)
                                 FROM rpt.leaf_scratch.conditions_map)
 PRINT CAST(@num_ICD10_codes AS VARCHAR) + ' unique ICD10 codes found'
 
--- 5. Create concept_map_for_loading table by augmenting the conditions_map with dependant attributes of each concept, and metadata
+-- 5. Insert new mappings into rpt.Leaf_usagi.mapping_import, augmented with dependant attributes of each concept, and metadata
 USE rpt;
 
-IF (NOT EXISTS (SELECT *
-                FROM information_schema.tables
-                WHERE table_schema = 'leaf_scratch'
-                AND table_name = 'concept_map_for_loading'))
-    BEGIN
-        CREATE TABLE leaf_scratch.concept_map_for_loading
-        (
-            source_concept_code VARCHAR(50) NOT NULL,
-            source_concept_name VARCHAR(255) NOT NULL,
-            source_concept_vocabulary_id VARCHAR(50) NOT NULL,
-            value_as_source_concept_code BIGINT,
-            value_as_source_concept_name VARCHAR(255),
-            value_as_source_concept_vocabulary_id VARCHAR(50),
-            target_concept_id BIGINT NOT NULL,
-            target_concept_code VARCHAR(50) NOT NULL,
-            target_concept_name VARCHAR(255) NOT NULL,
-            target_concept_vocabulary_id VARCHAR(50) NOT NULL,
-            target_value_as_concept_id BIGINT,
-            target_value_as_concept_code VARCHAR(50),
-            target_value_as_concept_name VARCHAR(255),
-            target_value_as_concept_vocabulary_id VARCHAR(50),
-            target_value_as_number BIGINT,
-            target_unit_concept_id BIGINT,
-            target_unit_concept_code VARCHAR(50),
-            target_unit_concept_name VARCHAR(255),
-            target_unit_concept_vocabulary_id VARCHAR(50),
-            target_qualifier_concept_id VARCHAR(50),
-            target_qualifier_concept_code VARCHAR(50),
-            target_qualifier_concept_name VARCHAR(255),
-            target_qualifier_concept_vocabulary_id VARCHAR(50),
-            mapping_equivalence VARCHAR(50),
-            mapping_creation_user VARCHAR(50) NOT NULL,
-            mapping_creation_datetime datetime NOT NULL,
-            mapping_status VARCHAR(50),
-            mapping_status_user VARCHAR(50),
-            mapping_status_datetime DATETIME,
-            mapping_comment VARCHAR(255)
-        )
-    END
-ELSE
-    DELETE FROM leaf_scratch.concept_map_for_loading
-
-INSERT INTO leaf_scratch.concept_map_for_loading(source_concept_code,
-                                                 source_concept_name,
-                                                 source_concept_vocabulary_id,
-                                                 target_concept_id,
-                                                 target_concept_code,
-                                                 target_concept_name,
-                                                 target_concept_vocabulary_id,
-                                                 mapping_creation_user,
-                                                 mapping_creation_datetime)
-SELECT Epic_concept_code,
+INSERT INTO Leaf_usagi.mapping_import(source_concept_id,
+                                 source_concept_code,
+                                 source_concept_name,
+                                 source_concept_vocabulary_id,
+                                 target_concept_id,
+                                 target_concept_code,
+                                 target_concept_name,
+                                 target_concept_vocabulary_id,
+                                 mapping_creation_user,
+                                 mapping_creation_datetime)
+SELECT concept_Epic.concept_id,
+       Epic_concept_code,
        Epic_concept_name,
        'EPIC EDG .1',
        concept_SNOMED.concept_id,
@@ -374,9 +331,13 @@ SELECT Epic_concept_code,
        'Arthur Goldberg''s conditions.sql script',
        GETDATE()
 FROM leaf_scratch.conditions_map,
+     omop.cdm_std.concept concept_Epic,
      omop.cdm_std.concept concept_SNOMED
-WHERE concept_SNOMED.vocabulary_id = 'SNOMED'
+WHERE concept_Epic.concept_code = Epic_concept_code
+      AND concept_Epic.vocabulary_id = 'EPIC EDG .1'
+      AND concept_SNOMED.vocabulary_id = 'SNOMED'
       AND concept_SNOMED.concept_code = SNOMED_concept_code
+
 
 PRINT 'Finishing ''conditions.sql'' at ' + CONVERT(VARCHAR, GETDATE(), 120)
 PRINT ''
