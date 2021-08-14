@@ -1,5 +1,6 @@
 /*
- * Identify all roots in LeafDB.app.Concept; there should be exactly 1 for each domain
+ * Identify nodes in LeafDB.app.Concept are not labeled as roots but don't have a parent;
+ * there shouldn't be any
  * Author: Arthur.Goldberg@mssm.edu
  */
 
