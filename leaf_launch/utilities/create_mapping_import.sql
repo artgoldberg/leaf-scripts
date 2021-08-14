@@ -3,27 +3,56 @@
 
 USE rpt;
 
-CREATE SCHEMA Leaf_usagi;
+IF (SCHEMA_ID('Leaf_usagi') IS NULL) 
+BEGIN
+    EXEC ('CREATE SCHEMA [Leaf_usagi] AUTHORIZATION [dbo]')
+END
 GO
 
+-- DROP TABLE if it exists
+DROP TABLE IF EXISTS Leaf_usagi.mapping_import;
+
 SELECT TOP 1 *
-INTO rpt.Leaf_usagi.mapping_import
+INTO Leaf_usagi.mapping_import
 FROM src.usagi.mapping_import
 
 DELETE
-FROM rpt.Leaf_usagi.mapping_import
+FROM Leaf_usagi.mapping_import
 
--- Insert Sharon's existing manual mappings in concept_relationship of 'Epic diagnosis ID' to SNOMED
-INSERT INTO rpt.Leaf_usagi.mapping_import(source_concept_id,
-                                          source_concept_code,
-                                          source_concept_name,
-                                          source_concept_vocabulary_id,
-                                          target_concept_id,
-                                          target_concept_code,
-                                          target_concept_name,
-                                          target_concept_vocabulary_id,
-                                          mapping_creation_user,
-                                          mapping_creation_datetime)
+-- Add primary key that prevents duplicate source-target mappings in Leaf_usagi.mapping_import
+ALTER TABLE Leaf_usagi.mapping_import
+ALTER COLUMN source_concept_id int NOT NULL;
+
+ALTER TABLE Leaf_usagi.mapping_import
+ALTER COLUMN source_concept_vocabulary_id NVARCHAR(20) NOT NULL;
+
+ALTER TABLE Leaf_usagi.mapping_import
+ALTER COLUMN target_concept_id int NOT NULL;
+
+ALTER TABLE Leaf_usagi.mapping_import
+ALTER COLUMN target_concept_vocabulary_id NVARCHAR(20) NOT NULL;
+
+ALTER TABLE Leaf_usagi.mapping_import
+ALTER COLUMN mapping_creation_user NVARCHAR(200) NOT NULL;
+
+ALTER TABLE Leaf_usagi.mapping_import
+ADD CONSTRAINT PK_mapping PRIMARY KEY (source_concept_id,
+                                       source_concept_vocabulary_id,
+                                       target_concept_id,
+                                       target_concept_vocabulary_id,
+                                       mapping_creation_user)
+
+-- Insert Sharon's existing manual mappings from 'Epic diagnosis ID' to SNOMED in concept_relationship
+INSERT INTO Leaf_usagi.mapping_import(source_concept_id,
+                                      source_concept_code,
+                                      source_concept_name,
+                                      source_concept_vocabulary_id,
+                                      target_concept_id,
+                                      target_concept_code,
+                                      target_concept_name,
+                                      target_concept_vocabulary_id,
+                                      mapping_creation_user,
+                                      mapping_creation_datetime)
 SELECT concept_EPIC.concept_id,
        concept_EPIC.concept_code,
        concept_EPIC.concept_name,
