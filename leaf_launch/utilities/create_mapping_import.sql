@@ -1,5 +1,8 @@
--- Create table rpt.Leaf_usagi.mapping_import with the same schema as src.usagi.mapping_import
--- rpt.Leaf_usagi.mapping_import will be used to map and set concepts in MSDW2
+/*
+ * Create table rpt.Leaf_usagi.mapping_import with the same schema as src.usagi.mapping_import
+ * rpt.Leaf_usagi.mapping_import will be used to map and set concepts in MSDW2
+ * Author: Arthur.Goldberg@mssm.edu
+ */
 
 USE rpt;
 
@@ -27,26 +30,26 @@ ALTER TABLE Leaf_usagi.mapping_import
 ALTER COLUMN target_concept_id int NOT NULL;
 
 ALTER TABLE Leaf_usagi.mapping_import
-ADD CONSTRAINT PK_no_dupe_id_mappings PRIMARY KEY (source_concept_id,
-                                                   target_concept_id)
+ADD CONSTRAINT PK_no_dupe_id_mappings UNIQUE (source_concept_id,
+                                              target_concept_id)
 
 ALTER TABLE Leaf_usagi.mapping_import
-ALTER COLUMN source_concept_code int NOT NULL;
+ALTER COLUMN source_concept_code NVARCHAR(50) NOT NULL;
 
 ALTER TABLE Leaf_usagi.mapping_import
 ALTER COLUMN source_concept_vocabulary_id NVARCHAR(20) NOT NULL;
 
 ALTER TABLE Leaf_usagi.mapping_import
-ALTER COLUMN target_concept_code int NOT NULL;
+ALTER COLUMN target_concept_code NVARCHAR(50) NOT NULL;
 
 ALTER TABLE Leaf_usagi.mapping_import
 ALTER COLUMN target_concept_vocabulary_id NVARCHAR(20) NOT NULL;
 
 ALTER TABLE Leaf_usagi.mapping_import
-ADD CONSTRAINT PK_no_dupe_code_mappings PRIMARY KEY (source_concept_code,
-                                                     source_concept_vocabulary_id,
-                                                     target_concept_code,
-                                                     target_concept_vocabulary_id)
+ADD CONSTRAINT PK_no_dupe_code_mappings UNIQUE (source_concept_code,
+                                                source_concept_vocabulary_id,
+                                                target_concept_code,
+                                                target_concept_vocabulary_id)
 
 -- Insert Sharon's existing manual mappings from 'Epic diagnosis ID' to SNOMED in concept_relationship
 INSERT INTO Leaf_usagi.mapping_import(source_concept_id,
