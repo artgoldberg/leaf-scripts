@@ -7,13 +7,13 @@
 -- get count of mapped ICD10 codes for each Epic id 
 WITH epic_id_map_freq AS
     (SELECT DiagnosisDim.DiagnosisEpicId, COUNT(DTD.Value) num_ICD10_codes
-    FROM src.caboodle.DiagnosisDim DiagnosisDim
-         INNER JOIN caboodle.DiagnosisTerminologyDim DTD ON DiagnosisDim.DiagnosisKey = DTD.DiagnosisKey
-    WHERE DTD.[Type] = 'ICD-10-CM'
-    -- avoid non-Clarity data added by Population Health
-    AND DTD._HasSourceClarity = 1 AND DTD._IsDeleted = 0
-    AND DiagnosisDim._HasSourceClarity = 1 AND DiagnosisDim._IsDeleted = 0
-    GROUP BY DiagnosisDim.DiagnosisEpicId)
+     FROM src.caboodle.DiagnosisDim DiagnosisDim
+          INNER JOIN caboodle.DiagnosisTerminologyDim DTD ON DiagnosisDim.DiagnosisKey = DTD.DiagnosisKey
+     WHERE DTD.[Type] = 'ICD-10-CM'
+     -- avoid non-Clarity data added by Population Health
+     AND DTD._HasSourceClarity = 1 AND DTD._IsDeleted = 0
+     AND DiagnosisDim._HasSourceClarity = 1 AND DiagnosisDim._IsDeleted = 0
+     GROUP BY DiagnosisDim.DiagnosisEpicId)
 
 -- get Epic diagnosis codes that map 1-to-1 to ICD10
 SELECT DiagnosisDim.DiagnosisEpicId, DiagnosisDim.name EpicName, DTD.Value ICD10_code, DTD.DisplayString ICD10_name

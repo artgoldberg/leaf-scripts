@@ -1,6 +1,8 @@
 /*
  * Create table rpt.Leaf_usagi.mapping_import with the same schema as src.usagi.mapping_import
- * rpt.Leaf_usagi.mapping_import will be used to map and set concepts in MSDW2
+ * Use it to hold existing, manual mappings from Epic to OMOP standard concepts
+ * Create table Leaf_staging with same schema as src.usagi.mapping_import, which will hold
+ * mappings from Epic to OMOP standard concepts, created by Leaf scripts for loading into MSDW2
  * Author: Arthur.Goldberg@mssm.edu
  */
 
@@ -12,7 +14,7 @@ BEGIN
 END
 GO
 
--- DROP TABLE if it exists
+-- DROP mapping_import if it exists
 DROP TABLE IF EXISTS Leaf_usagi.mapping_import;
 
 SELECT TOP 1 *
@@ -22,36 +24,8 @@ FROM src.usagi.mapping_import
 DELETE
 FROM Leaf_usagi.mapping_import
 
--- Add two primary keys that prevents duplicate source-target mappings in Leaf_usagi.mapping_import
-ALTER TABLE Leaf_usagi.mapping_import
-ALTER COLUMN source_concept_id int NOT NULL;
-
-ALTER TABLE Leaf_usagi.mapping_import
-ALTER COLUMN target_concept_id int NOT NULL;
-
-ALTER TABLE Leaf_usagi.mapping_import
-ADD CONSTRAINT PK_no_dupe_id_mappings UNIQUE (source_concept_id,
-                                              target_concept_id)
-
-ALTER TABLE Leaf_usagi.mapping_import
-ALTER COLUMN source_concept_code NVARCHAR(50) NOT NULL;
-
-ALTER TABLE Leaf_usagi.mapping_import
-ALTER COLUMN source_concept_vocabulary_id NVARCHAR(20) NOT NULL;
-
-ALTER TABLE Leaf_usagi.mapping_import
-ALTER COLUMN target_concept_code NVARCHAR(50) NOT NULL;
-
-ALTER TABLE Leaf_usagi.mapping_import
-ALTER COLUMN target_concept_vocabulary_id NVARCHAR(20) NOT NULL;
-
-ALTER TABLE Leaf_usagi.mapping_import
-ADD CONSTRAINT PK_no_dupe_code_mappings UNIQUE (source_concept_code,
-                                                source_concept_vocabulary_id,
-                                                target_concept_code,
-                                                target_concept_vocabulary_id)
-
--- Insert Sharon's existing manual mappings from 'Epic diagnosis ID' to SNOMED in concept_relationship
+-- Until src.usagi.mapping_import has good data
+-- insert Sharon's existing manual mappings from 'Epic diagnosis ID' to SNOMED in concept_relationship
 INSERT INTO Leaf_usagi.mapping_import(source_concept_id,
                                       source_concept_code,
                                       source_concept_name,
@@ -72,12 +46,53 @@ SELECT concept_EPIC.concept_id,
        'SNOMED',
        'Sharon Nirenberg',
        GETDATE()    -- todo: should be an earlier date; find and use it
-from omop.cdm_std.concept_relationship concept_relationship,
+from omop.cdm_std.concept_relationship,
      omop.cdm_std.concept concept_EPIC,
      omop.cdm_std.concept concept_SNOMED
 WHERE
     concept_EPIC.vocabulary_id = 'EPIC EDG .1'
-    AND concept_relationship.relationship_id = 'Maps to'
+    AND relationship_id = 'Maps to'
     AND concept_SNOMED.vocabulary_id = 'SNOMED'
-    AND concept_EPIC.concept_id = concept_relationship.concept_id_1
-    AND concept_SNOMED.concept_id = concept_relationship.concept_id_2
+    AND concept_EPIC.concept_id = concept_id_1
+    AND concept_SNOMED.concept_id = concept_id_2
+
+
+-- Create Leaf_staging
+-- DROP Leaf_staging if it exists
+DROP TABLE IF EXISTS Leaf_usagi.Leaf_staging;
+
+SELECT TOP 1 *
+INTO Leaf_usagi.Leaf_staging
+FROM src.usagi.mapping_import
+
+DELETE
+FROM Leaf_usagi.Leaf_staging
+
+-- Add two primary keys that prevents duplicate source-target mappings in Leaf_usagi.Leaf_staging
+ALTER TABLE Leaf_usagi.Leaf_staging
+ALTER COLUMN source_concept_id int NOT NULL;
+
+ALTER TABLE Leaf_usagi.Leaf_staging
+ALTER COLUMN target_concept_id int NOT NULL;
+
+ALTER TABLE Leaf_usagi.Leaf_staging
+ADD CONSTRAINT PK_no_dupe_id_mappings UNIQUE (source_concept_id,
+                                              target_concept_id)
+
+ALTER TABLE Leaf_usagi.Leaf_staging
+ALTER COLUMN source_concept_code NVARCHAR(50) NOT NULL;
+
+ALTER TABLE Leaf_usagi.Leaf_staging
+ALTER COLUMN source_concept_vocabulary_id NVARCHAR(20) NOT NULL;
+
+ALTER TABLE Leaf_usagi.Leaf_staging
+ALTER COLUMN target_concept_code NVARCHAR(50) NOT NULL;
+
+ALTER TABLE Leaf_usagi.Leaf_staging
+ALTER COLUMN target_concept_vocabulary_id NVARCHAR(20) NOT NULL;
+
+ALTER TABLE Leaf_usagi.Leaf_staging
+ADD CONSTRAINT PK_no_dupe_code_mappings UNIQUE (source_concept_code,
+                                                source_concept_vocabulary_id,
+                                                target_concept_code,
+                                                target_concept_vocabulary_id)

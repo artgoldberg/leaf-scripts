@@ -28,33 +28,54 @@ conditions done:
     x clean up leaf_icd10.sql tabs
     x rename diagnosis_map -> conditions_map
     x share current leaf_icd10.sql with Nic
-    x create table rpt.usagi.mapping_import with the same schema as src.usagi.mapping_import
-    x insert sharon's mappings in concept_relationship into rpt.usagi.mapping_import
-    x to reliably identify manual mappings, have conditions.sql use rpt.usagi.mapping_import, not concept_relationship
-        x don't make concept_map_for_loading; instead, insert new mappings into rpt.usagi.mapping_import
-        x obtain sharon's mappings from rpt.usagi.mapping_import, not concept_relationship
+    x create table rpt.Leaf_usagi.mapping_import with the same schema as src.usagi.mapping_import
+    x insert sharon's mappings in concept_relationship into rpt.Leaf_usagi.mapping_import
+    x to reliably identify manual mappings, have conditions.sql use rpt.Leaf_usagi.mapping_import, not concept_relationship
+        x don't make concept_map_for_loading; instead, insert new mappings into rpt.Leaf_usagi.mapping_import
+        x obtain sharon's mappings from rpt.Leaf_usagi.mapping_import, not concept_relationship
+    x check for duplicates in UMLS_ICD10 table, and in LeafDB concepts table
+    x modify conditions.sql to avoid adding duplicates to rpt.Leaf_usagi.mapping_import
+    x investigate unexpected output of conditions.sql in rpt.Leaf_usagi.mapping_import
+        x does mapping_import contain duplicates?
+        x what additional records are being created in mapping_import when conditions.sql is re-executed?
+    x ensure that concept has one tree for each domain
 
 conditions:
-    define AUI as PRIMARY KEY for UMLS_ICD10 and create indices on other 
-    save and use sharon's mapping updates: an additional 800 conditions mapped; 305 conditions given SNOMED -> ICD10 mappings
+    define AUI as PRIMARY KEY for UMLS_ICD10 and create indices on other columns
     change "ICD-10-CM TABULAR LIST of DISEASES and INJURIES (ICD10CM:A00.0-Z99.89)" in UMLS_ICD10 to "ICD-10-CM Conditions"
+    when src.usagi.mapping_import is ready, modify conditions.sql to use it
     documentation
-        describe changes needed in concept_relationship & condition_occurrence by conditions_map
+        x describe changes needed in concept_relationship & condition_occurrence by conditions_map
         X add circle & arrows diagram
     tune MSDW2 indexing for Leaf queries
     perhaps create general purpose stored procedure that could be used for conditions.sql & other domains
+
+measurements (labs):
+    query to extract "Epic LRR" code → LOINC mappings
+        - get Epic LRR name → LOINC mappings from sema4
+            - evaluate quality, e.g. number/percent duplicates in LRR name
+        - add Epic LRR name → Epic LRR code from MSDW2
+            - count number/percent Epic LRR name not matched
+        - count number/percent of measurements not mapped
+        - count number/percent of labs not measured
+    load LOINC table from LOINC.sql
+    modify 4_labs.sql to update LeafDB.app.Concept
+
+    save & run Sharon's query
+    investigate necessary indices on Sema4's columns
+    
+    Sharon looking for LabComponentDim, LabComponentResultFact
 
 procedures:
     find Epic code → CPT4 mappings in src
     Review Tim's email on "Additional tables desired in src.caboodle"
 
-measurements (labs):
-    Find relationships between "Epic lab code" & LOINC codes in sema4
-    Sharon looking for LabComponentDim, LabComponentResultFact
-
 drugs:
     learn how to map ‘EPIC ERX .1’ source concepts in drug_exposure to RxNorm (Q to Sharon on 7/28)
     BlueTree extract Caboodle’s MedicationCodeDim table, which maps EPIC ERX .1 in MedicationDim to NDC or RxNorm codes, to [src]
+
+for launch
+    characterize the completeness of each domain
 
 authentication:
     x rm DBeaver networked connections that do not use AD
