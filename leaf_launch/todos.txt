@@ -39,11 +39,22 @@ conditions done:
         x does mapping_import contain duplicates?
         x what additional records are being created in mapping_import when conditions.sql is re-executed?
     x ensure that concept has one tree for each domain
+    x share code with Tim for a code review
+    x run analyze_mapping_import.sql again; add Sharon's conditions mappings to it
+    x try conditions.sql with and without active conditions
+    x diagram conditions.sql
+    x use conditions.sql to update the 1-to-many_manual_mappings_Epic_to_SNOMED.csv file
 
 conditions:
+    x finish updating confluence document
+    use conditions.sql to update the missing_SNOMED_2_ICD10_mappings.csv file
+    share Leaf_usagi.Leaf_staging table with Tim for loading into concept_relationship
+    re-run build_test_omop.sql
+    report UMLS duplicates to them
     define AUI as PRIMARY KEY for UMLS_ICD10 and create indices on other columns
     change "ICD-10-CM TABULAR LIST of DISEASES and INJURIES (ICD10CM:A00.0-Z99.89)" in UMLS_ICD10 to "ICD-10-CM Conditions"
     when src.usagi.mapping_import is ready, modify conditions.sql to use it
+        add filtering that depends on Sharon's comments
     documentation
         x describe changes needed in concept_relationship & condition_occurrence by conditions_map
         X add circle & arrows diagram
@@ -76,6 +87,7 @@ drugs:
 
 for launch
     characterize the completeness of each domain
+    reactivate help button
 
 authentication:
     x rm DBeaver networked connections that do not use AD
@@ -86,14 +98,20 @@ x analyze mapping_import:
     x rows that match the concept relationships I find in omop.cdm
 
 Leaf installation:
-    be ready to change Leaf to use the renamed Azure AD groups Darshan is making
-    Use de-identified data
-
-    prepare for mid-year assessment
-    buy cable needed for new monitors
+    x be ready to change Leaf to use the renamed Azure AD groups Darshan is making
+    obtain new VMs for other Leaf instances
+    map de-identified.leaf.msdw.mountsinai.org to 10.95.46.180
+    release leaf.mssm.edu
+    obtain other new domain names
+        PHI.leaf.msdw.mountsinai.org
+        BioMe.leaf.msdw.mountsinai.org
+        liver.leaf.msdw.mountsinai.org
+        anal_cancer.leaf.msdw.mountsinai.org
+    use de-identified data
 
 training materials
-    meet with Sharon to outline Leaf intro presentation; send to Laura
+    x meet with Sharon to outline Leaf intro presentation; send to Laura
+    review Laura's presentation in more detail
 
 batch update of concepts and search indices:
     run to completion
@@ -102,7 +120,7 @@ batch update of concepts and search indices:
     improve performance of condition queries with better indices
 
 other:
-    prepare for mid-year assessment
+    x prepare for mid-year assessment
     buy cable needed for new monitors
 
 other domains:
