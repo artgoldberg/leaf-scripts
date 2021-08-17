@@ -1,4 +1,4 @@
-"EPIC_CONCEPT_CODE","EPIC_CONCEPT_NAME","SNOMED_CONCEPT_CODE","SNOMED_CONCEPT_NAME"
+"Epic_concept_code","Epic_concept_name","SNOMED_concept_code","SNOMED_concept_name"
 "1000559",Varicose veins of both legs with edema,"12237431000119106",Varicose veins of bilateral lower limbs
 "1000559",Varicose veins of both legs with edema,"706913006",Varicose veins of lower limb co-occurrent with edema
 "10029",Other dyspnea and respiratory abnormality,"267036007",Dyspnea
@@ -7,11 +7,24 @@
 "1112047",Hypothyroidism due to acquired atrophy of thyroid,"111566002",Acquired hypothyroidism
 "1118103",Environmental and seasonal allergies,"444316004",Seasonal allergy
 "1118103",Environmental and seasonal allergies,"426232007",Environmental allergy
+"1124660",Arthralgia of both knees,"316931000119104",Pain in right knee
+"1124660",Arthralgia of both knees,"30989003",Knee pain
+"1124660",Arthralgia of both knees,"316791000119102",Pain in left knee
+"1125663",Acute right ankle pain,"51741000119105",Acute ankle pain
+"1125663",Acute right ankle pain,"15916931000119106",Pain of right ankle joint
+"1125886",Acute left ankle pain,"51741000119105",Acute ankle pain
+"1125886",Acute left ankle pain,"15916891000119103",Pain of left ankle joint
+"112897",Seasonal allergic reaction,"444316004",Seasonal allergy
+"112897",Seasonal allergic reaction,"419076005",Allergic reaction
+"1255981","Urinary tract infection with hematuria, site unspecified","34436003",Blood in urine
+"1255981","Urinary tract infection with hematuria, site unspecified","68566005",Urinary tract infectious disease
 "1255984","Cirrhosis of liver with ascites, unspecified hepatic cirrhosis type","19943007",Cirrhosis of liver
 "1255984","Cirrhosis of liver with ascites, unspecified hepatic cirrhosis type","389026000",Ascites
+"1256151","Hepatitis C virus infection without hepatic coma, unspecified chronicity","50711007",Viral hepatitis C
+"1256151","Hepatitis C virus infection without hepatic coma, unspecified chronicity","111896003",Viral hepatitis without hepatic coma
 "1321255","Diabetes mellitus due to underlying condition with hyperosmolarity without coma, without long-term current use of insulin","8801005",Secondary diabetes mellitus
-"1321255","Diabetes mellitus due to underlying condition with hyperosmolarity without coma, without long-term current use of insulin","710816000",Long-term current use of steroid
 "1321255","Diabetes mellitus due to underlying condition with hyperosmolarity without coma, without long-term current use of insulin","14735008",Hyperosmolarity
+"1321255","Diabetes mellitus due to underlying condition with hyperosmolarity without coma, without long-term current use of insulin","710816000",Long-term current use of steroid
 "1321332","Type 2 diabetes mellitus with hyperglycemia, with long-term current use of insulin","710815001",Long-term current use of insulin
 "1321332","Type 2 diabetes mellitus with hyperglycemia, with long-term current use of insulin","368051000119109",Hyperglycemia due to type 2 diabetes mellitus
 "1321389","Uncontrolled type 2 diabetes mellitus without complication, without long-term current use of insulin","443694000",Type II diabetes mellitus uncontrolled
@@ -20,20 +33,42 @@
 "1321590","Type 2 diabetes mellitus with complication, without long-term current use of insulin","710815001",Long-term current use of insulin
 "1321657","Uncontrolled type 2 diabetes mellitus without complication, with long-term current use of insulin","313436004",Type 2 diabetes mellitus without complication
 "1321657","Uncontrolled type 2 diabetes mellitus without complication, with long-term current use of insulin","443694000",Type II diabetes mellitus uncontrolled
-"1322061","Type 2 diabetes mellitus without complication, with long-term current use of insulin","710815001",Long-term current use of insulin
 "1322061","Type 2 diabetes mellitus without complication, with long-term current use of insulin","313436004",Type 2 diabetes mellitus without complication
+"1322061","Type 2 diabetes mellitus without complication, with long-term current use of insulin","710815001",Long-term current use of insulin
 "1322664",Newborn infant of 40 completed weeks of gestation,"133933007",Newborn
 "1322664",Newborn infant of 40 completed weeks of gestation,"46230007","Gestation period, 40 weeks"
+"1396199","Left shoulder pain, unspecified chronicity","774135008",Pain of left shoulder blade
+"1396199","Left shoulder pain, unspecified chronicity","15916971000119109",Pain of left shoulder joint
+"1431576",Chronic right-sided low back pain with right-sided sciatica,"313501000119105",Lumbago co-occurrent with right-side sciatica
+"1431576",Chronic right-sided low back pain with right-sided sciatica,"278860009",Chronic low back pain
+"1431595",Acute right-sided low back pain without sciatica,"830293008",Pain in right lumbar region
+"1431595",Acute right-sided low back pain without sciatica,"278862001",Acute low back pain
+"1438118",Acute lymphoblastic leukemia (ALL) in remission,"93142004",Leukemia in remission
+"1438118",Acute lymphoblastic leukemia (ALL) in remission,"91857003",Acute lymphoid leukemia
 "144677",Vaginitis and vulvovaginitis,"53277000",Vulvovaginitis
 "144677",Vaginitis and vulvovaginitis,"30800001",Vaginitis
+"1451503",Irritable bowel syndrome with both constipation and diarrhea,"197125005",Irritable bowel syndrome with diarrhea
+"1451503",Irritable bowel syndrome with both constipation and diarrhea,"440630006",Irritable bowel syndrome characterized by constipation
+"146327","Hep C w/o coma, chronic","111896003",Viral hepatitis without hepatic coma
+"146327","Hep C w/o coma, chronic","128302006",Chronic hepatitis C
+"14774",General counseling for prescription of oral contraceptives,"150811000119101",Contraception care education done
+"14774",General counseling for prescription of oral contraceptives,"789537001",Oral contraceptive prescribed
+"14833","Single liveborn, born in hospital, delivered by cesarean delivery","200144004",Deliveries by cesarean
+"14833","Single liveborn, born in hospital, delivered by cesarean delivery","442423001",Single liveborn born in hospital by cesarean section
+"14833","Single liveborn, born in hospital, delivered by cesarean delivery","169826009",Single live birth
 "1493839","Malignant neoplasm of upper-outer quadrant of right breast in female, estrogen receptor positive","188154003",Malignant neoplasm of upper-outer quadrant of female breast
 "1493839","Malignant neoplasm of upper-outer quadrant of right breast in female, estrogen receptor positive","416053008",Estrogen receptor positive tumor
 "1503193","Spinal stenosis, lumbar region with neurogenic claudication","303081002",Neurogenic claudication
 "1503193","Spinal stenosis, lumbar region with neurogenic claudication","18347007",Spinal stenosis of lumbar region
 "1563033","Malignant neoplasm of left breast in female, estrogen receptor positive, unspecified site of breast","416053008",Estrogen receptor positive tumor
 "1563033","Malignant neoplasm of left breast in female, estrogen receptor positive, unspecified site of breast","353431000119107",Primary malignant neoplasm of female left breast
-"1563106","Malignant neoplasm of right breast in female, estrogen receptor positive, unspecified site of breast","353511000119101",Primary malignant neoplasm of female right breast
 "1563106","Malignant neoplasm of right breast in female, estrogen receptor positive, unspecified site of breast","416053008",Estrogen receptor positive tumor
+"1563106","Malignant neoplasm of right breast in female, estrogen receptor positive, unspecified site of breast","353511000119101",Primary malignant neoplasm of female right breast
+"1582369",Dry eye syndrome of both eyes,"335341000119108",Dry eye syndrome of right eye
+"1582369",Dry eye syndrome of both eyes,"46152009",Tear film insufficiency
+"1582369",Dry eye syndrome of both eyes,"340951000119104",Dry eye syndrome of left eye
+"210075","Hypothyroidism, acquired, autoimmune","111566002",Acquired hypothyroidism
+"210075","Hypothyroidism, acquired, autoimmune","237519003",Autoimmune hypothyroidism
 "217187",Obstructive sleep apnea (adult) (pediatric),"1101000119103",Obstructive sleep apnea of adult
 "217187",Obstructive sleep apnea (adult) (pediatric),"1091000119108",Obstructive sleep apnea of child
 "249708","MDS (myelodysplastic syndrome), low grade","277597005",Myelodysplastic syndrome with isolated del(5q)
@@ -46,55 +81,116 @@
 "249709","MDS (myelodysplastic syndrome), high grade","415284008",Refractory anemia with excess blasts-2
 "249709","MDS (myelodysplastic syndrome), high grade","415285009",Refractory cytopenia with multilineage dysplasia
 "249709","MDS (myelodysplastic syndrome), high grade","702476004",Therapy-related myelodysplastic syndrome
+"254679",S/P CABG x 4,"399261000",History of coronary artery bypass grafting
+"254679",S/P CABG x 4,"232722009",Coronary artery bypass grafts x 4
+"301598","Shoulder pain, left","774135008",Pain of left shoulder blade
+"301598","Shoulder pain, left","15916971000119109",Pain of left shoulder joint
+"301599","Shoulder pain, right","15917011000119100",Pain of right shoulder joint
+"301599","Shoulder pain, right","774134007",Pain of right shoulder blade
+"315769",AMA (advanced maternal age) primigravida 35+,"416413003",Advanced maternal age gravida
+"315769",AMA (advanced maternal age) primigravida 35+,"127364007",Primigravida
 "320607","Spinal stenosis, lumbar region, with neurogenic claudication","18347007",Spinal stenosis of lumbar region
 "320607","Spinal stenosis, lumbar region, with neurogenic claudication","303081002",Neurogenic claudication
+"320760",Spinal stenosis of lumbar region with neurogenic claudication,"18347007",Spinal stenosis of lumbar region
+"320760",Spinal stenosis of lumbar region with neurogenic claudication,"303081002",Neurogenic claudication
+"326346",ESRD on peritoneal dialysis,"71192002",Peritoneal dialysis
+"326346",ESRD on peritoneal dialysis,"46177005",End-stage renal disease
+"337654",Rh negative state in antepartum period,"165746003",RhD negative
+"337654",Rh negative state in antepartum period,"405194004",Antepartum maternal status
 "341909",Diabetes mellitus due to underlying condition without complications,"111552007",Diabetes mellitus without complication
 "341909",Diabetes mellitus due to underlying condition without complications,"8801005",Secondary diabetes mellitus
 "349220",Primary osteoarthritis of left hip,"323291000119108",Osteoarthritis of left hip joint
 "349220",Primary osteoarthritis of left hip,"239862000",Idiopathic osteoarthritis
-"362041",Mild intermittent asthma with acute exacerbation,"708038006",Acute exacerbation of asthma
+"358239",Uterine size-date discrepancy in third trimester,"430933008",Uterine size for dates discrepancy
+"358239",Uterine size-date discrepancy in third trimester,"41587001",Third trimester pregnancy
 "362041",Mild intermittent asthma with acute exacerbation,"427679007",Mild intermittent asthma
-"366562",Primary osteoarthritis of right hip,"239862000",Idiopathic osteoarthritis
+"362041",Mild intermittent asthma with acute exacerbation,"708038006",Acute exacerbation of asthma
+"364626",Uterine size-date discrepancy in first trimester,"430933008",Uterine size for dates discrepancy
+"364626",Uterine size-date discrepancy in first trimester,"57630001",First trimester pregnancy
+"364627",Uterine size-date discrepancy in second trimester,"430933008",Uterine size for dates discrepancy
+"364627",Uterine size-date discrepancy in second trimester,"255247007",Second trimester
 "366562",Primary osteoarthritis of right hip,"323311000119107",Osteoarthritis of right hip joint
+"366562",Primary osteoarthritis of right hip,"239862000",Idiopathic osteoarthritis
+"372154",Uncontrolled hypertension,"170578008",Poor hypertension control
+"372154",Uncontrolled hypertension,"38341003",Hypertensive disorder
 "374006",CAD S/P percutaneous coronary angioplasty,"373108000",Post percutaneous transluminal coronary angioplasty
 "374006",CAD S/P percutaneous coronary angioplasty,"53741008",Coronary arteriosclerosis
 "374339",OSA on CPAP,"78275009",Obstructive sleep apnea syndrome
 "374339",OSA on CPAP,"47545007",Continuous positive airway pressure ventilation treatment
 "374363",Viral URI with cough,"49727002",Cough
 "374363",Viral URI with cough,"281794004",Viral upper respiratory tract infection
-"384203",Primary osteoarthritis of both hips,"239862000",Idiopathic osteoarthritis
 "384203",Primary osteoarthritis of both hips,"239872002",Osteoarthritis of hip
-"472073",Obstructive sleep apnea (adult) (pediatric),"1091000119108",Obstructive sleep apnea of child
+"384203",Primary osteoarthritis of both hips,"239862000",Idiopathic osteoarthritis
+"386289",Single liveborn infant delivered vaginally,"169826009",Single live birth
+"386289",Single liveborn infant delivered vaginally,"289259007",Vaginal delivery
 "472073",Obstructive sleep apnea (adult) (pediatric),"1101000119103",Obstructive sleep apnea of adult
+"472073",Obstructive sleep apnea (adult) (pediatric),"1091000119108",Obstructive sleep apnea of child
 "473366","Neuralgia and neuritis, unspecified","21018002",Inflammatory neuropathy
 "473366","Neuralgia and neuritis, unspecified","16269008",Neuralgia
-"474810",Other specified disorders of nose and nasal sinuses,"89488007",Disorder of the nose
+"474373","Abnormal uterine and vaginal bleeding, unspecified","44991000119100",Abnormal uterine bleeding
+"474373","Abnormal uterine and vaginal bleeding, unspecified","301822002",Abnormal vaginal bleeding
 "474810",Other specified disorders of nose and nasal sinuses,"7393007",Disorder of nasal sinus
+"474810",Other specified disorders of nose and nasal sinuses,"89488007",Disorder of the nose
+"521089",Acute kidney failure with tubular necrosis,"35455006",Acute tubular necrosis
+"521089",Acute kidney failure with tubular necrosis,"14669001",Acute renal failure syndrome
+"521450",Excessive and frequent menstruation with regular cycle,"248965005",Finding of regularity of menstrual cycle
+"521450",Excessive and frequent menstruation with regular cycle,"266601003",Excessive and frequent menstruation
+"521740","Single liveborn infant, delivered by cesarean","169826009",Single live birth
+"521740","Single liveborn infant, delivered by cesarean","200144004",Deliveries by cesarean
+"523023",Varicose veins of left lower extremity with inflammation,"24366001",Varicose veins of lower extremity with inflammation
+"523023",Varicose veins of left lower extremity with inflammation,"12237471000119109",Varicose veins of left lower limb
+"523024",Varicose veins of right lower extremity with inflammation,"12237511000119100",Varicose veins of right lower limb
+"523024",Varicose veins of right lower extremity with inflammation,"24366001",Varicose veins of lower extremity with inflammation
+"523365",Severe sepsis without septic shock,"1036671000000106",Severe sepsis
+"523365",Severe sepsis without septic shock,"789043007",Sepsis without septic shock
 "525961",Atherosclerotic heart disease of native coronary artery with unstable angina pectoris,"4557003",Preinfarction syndrome
 "525961",Atherosclerotic heart disease of native coronary artery with unstable angina pectoris,"443502000",Coronary atherosclerosis
-"528419",Atherosclerotic heart disease of native coronary artery with other forms of angina pectoris,"443502000",Coronary atherosclerosis
+"527579",Diabetes mellitus due to underlying condition with hyperosmolarity without nonketotic hyperglycemic-hyperosmolar coma (NKHHC),"73211009",Diabetes mellitus
+"527579",Diabetes mellitus due to underlying condition with hyperosmolarity without nonketotic hyperglycemic-hyperosmolar coma (NKHHC),"14735008",Hyperosmolarity
 "528419",Atherosclerotic heart disease of native coronary artery with other forms of angina pectoris,"194828000",Angina pectoris
-"533527",Personal history of other infectious and parasitic diseases,"10988171000119101",History of parasitic disease
+"528419",Atherosclerotic heart disease of native coronary artery with other forms of angina pectoris,"443502000",Coronary atherosclerosis
+"530428","Alcohol abuse, uncomplicated","15167005",Alcohol abuse
+"530428","Alcohol abuse, uncomplicated","263914008",Uncomplicated
 "533527",Personal history of other infectious and parasitic diseases,"161413004",H/O: infectious disease
-"534092",Occlusion and stenosis of bilateral carotid arteries,"426651005",Bilateral carotid artery occlusion
+"533527",Personal history of other infectious and parasitic diseases,"10988171000119101",History of parasitic disease
 "534092",Occlusion and stenosis of bilateral carotid arteries,"787044009",Bilateral stenosis of carotid arteries
+"534092",Occlusion and stenosis of bilateral carotid arteries,"426651005",Bilateral carotid artery occlusion
 "534457",Stress incontinence (female) (male),"60241006",Female stress incontinence
 "534457",Stress incontinence (female) (male),"444620007",Male urinary stress incontinence
-"534786",Contact with and (suspected) exposure to other viral communicable diseases,"444107005",Exposure to communicable disease
 "534786",Contact with and (suspected) exposure to other viral communicable diseases,"150781000119103",Exposure to viral disease
+"534786",Contact with and (suspected) exposure to other viral communicable diseases,"444107005",Exposure to communicable disease
 "535471",Atherosclerotic heart disease of native coronary artery with unspecified angina pectoris,"194828000",Angina pectoris
 "535471",Atherosclerotic heart disease of native coronary artery with unspecified angina pectoris,"443502000",Coronary atherosclerosis
-"544107","Single liveborn infant, delivered vaginally","169826009",Single live birth
 "544107","Single liveborn infant, delivered vaginally","289259007",Vaginal delivery
-"6493","Vaginitis and vulvovaginitis, unspecified","53277000",Vulvovaginitis
+"544107","Single liveborn infant, delivered vaginally","169826009",Single live birth
+"545227",Dementia in other diseases classified elsewhere with behavioral disturbance,"191519005",Dementia associated with another disease
+"545227",Dementia in other diseases classified elsewhere with behavioral disturbance,"1591000119103",Dementia with behavioral disturbance
+"578885","AMA (advanced maternal age) primigravida 35+, first trimester","416413003",Advanced maternal age gravida
+"578885","AMA (advanced maternal age) primigravida 35+, first trimester","127364007",Primigravida
+"578885","AMA (advanced maternal age) primigravida 35+, first trimester","57630001",First trimester pregnancy
+"641351","Head injury, initial encounter","769681006",First encounter by subject
+"641351","Head injury, initial encounter","82271004",Injury of head
 "6493","Vaginitis and vulvovaginitis, unspecified","30800001",Vaginitis
+"6493","Vaginitis and vulvovaginitis, unspecified","53277000",Vulvovaginitis
+"7441","Elderly primigravida, antepartum","405194004",Antepartum maternal status
+"7441","Elderly primigravida, antepartum","29399001",Elderly primigravida
 "8044","Contact dermatitis and other eczema, due to unspecified cause","40275004",Contact dermatitis
 "8044","Contact dermatitis and other eczema, due to unspecified cause","43116000",Eczema
 "903252","Single liveborn, born in hospital, delivered by vaginal delivery","17561000119102",Single liveborn born in hospital by vaginal delivery
 "903252","Single liveborn, born in hospital, delivered by vaginal delivery","289259007",Vaginal delivery
-"904951",Uncontrolled diabetes mellitus type 2 without complications,"313436004",Type 2 diabetes mellitus without complication
 "904951",Uncontrolled diabetes mellitus type 2 without complications,"443694000",Type II diabetes mellitus uncontrolled
-"906832","Glaucoma suspect, bilateral","15635531000119102",Suspected bilateral glaucoma
+"904951",Uncontrolled diabetes mellitus type 2 without complications,"313436004",Type 2 diabetes mellitus without complication
 "906832","Glaucoma suspect, bilateral","833278008",Glaucoma suspect
+"906832","Glaucoma suspect, bilateral","15635531000119102",Suspected bilateral glaucoma
+"949456","Hepatitis C, without hepatic coma","50711007",Viral hepatitis C
+"949456","Hepatitis C, without hepatic coma","111896003",Viral hepatitis without hepatic coma
+"967060",ASCUS with positive high risk HPV cervical,"720005005","Human papillomavirus deoxyribonucleic acid test positive, high risk on cervical specimen"
+"967060",ASCUS with positive high risk HPV cervical,"441087007",Atypical squamous cells of undetermined significance on cervical Papanicolaou smear
+"978291",Elderly primigravida in third trimester,"41587001",Third trimester pregnancy
+"978291",Elderly primigravida in third trimester,"29399001",Elderly primigravida
+"978850",Elderly multigravida in third trimester,"443460007",Multigravida of advanced maternal age
+"978850",Elderly multigravida in third trimester,"41587001",Third trimester pregnancy
 "980395",High-risk pregnancy in third trimester,"47200007",High risk pregnancy
 "980395",High-risk pregnancy in third trimester,"41587001",Third trimester pregnancy
+"9983",Failure to thrive in childhood,"54840006",Failure to thrive
+"9983",Failure to thrive in childhood,"68433009",Childhood
