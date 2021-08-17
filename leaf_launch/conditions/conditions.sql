@@ -112,7 +112,8 @@ WHERE DTD.[Type] = 'ICD-10-CM'
                                          FROM @cardinality_epic_to_icd10
                                          WHERE [@cardinality_epic_to_icd10].num_ICD10_concept_codes = 1)
     /*
-    -- Get active diagnoses
+    -- Disable so that all mappings are inserted into concept_relationship
+    -- Only get active diagnoses
     AND DiagnosisDim.DiagnosisKey IN (SELECT DISTINCT DiagnosisKey
                                       FROM src.caboodle.DiagnosisEventFact)
      */
@@ -174,6 +175,18 @@ SELECT Epic_concept_code, COUNT(SNOMED_concept_code) num_SNOMED_concept_codes
 FROM #manual_mappings
 GROUP BY Epic_concept_code
 
+-- Generate conditions/limitations/1-to-many_manual_mappings_Epic_to_SNOMED.csv
+SELECT #manual_mappings.Epic_concept_code,
+       #manual_mappings.Epic_concept_name,
+       #manual_mappings.SNOMED_concept_code,
+       #manual_mappings.SNOMED_concept_name
+FROM @cardinality_manual_mappings,
+     #manual_mappings
+WHERE [@cardinality_manual_mappings].Epic_concept_code = #manual_mappings.Epic_concept_code
+      AND 1 < num_SNOMED_concept_codes
+ORDER BY #manual_mappings.Epic_concept_code
+
+-- Delete 1-to-many manual mappings
 DELETE
 FROM #manual_mappings
 WHERE Epic_concept_code IN (SELECT Epic_concept_code
