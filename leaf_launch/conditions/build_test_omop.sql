@@ -70,10 +70,9 @@ IF NOT EXISTS(SELECT *
 
 PRINT '1: Completed loading of condition_occurrence and indexing of it and conditions_map'
 
-DECLARE @num_condition_occurrence_records INT = (SELECT COUNT(*)
-                                                 FROM test_omop_conditions.condition_occurrence)
-PRINT CAST(@num_condition_occurrence_records AS VARCHAR) +
-    ' records in test_omop_conditions.condition_occurrence'
+DECLARE @num_condition_occurrence_records BIGINT = (SELECT COUNT(*)
+                                                    FROM test_omop_conditions.condition_occurrence)
+PRINT CAST(@num_condition_occurrence_records AS VARCHAR) + ' records in condition_occurrence'
 
 -- 2. update condition_occurrence from leaf_scratch.conditions_map
 
@@ -100,18 +99,28 @@ FROM test_omop_conditions.condition_occurrence,
 WHERE NOT condition_source_concept_id = 0
       AND condition_source_concept_id = Epic_concept_id
 
-DECLARE @num_condition_occurrences_w_omop_concepts INT = (SELECT COUNT(*)
-                                                          FROM test_omop_conditions.condition_occurrence
-                                                          WHERE condition_concept_id <> 0)
+DECLARE @num_condition_occurrences_w_omop_concepts BIGINT = (SELECT COUNT(*)
+                                                             FROM test_omop_conditions.condition_occurrence
+                                                             WHERE condition_concept_id <> 0)
 PRINT CAST(@num_condition_occurrences_w_omop_concepts AS VARCHAR) +
-    ' records in test_omop_conditions.condition_occurrence with condition_concept_id set'
+    ' records in condition_occurrence have SNOMED concepts after mapping'
 
 PRINT CAST(100 * @num_condition_occurrences_w_omop_concepts / @num_condition_occurrence_records AS VARCHAR) +
-    '% of condition_occurrence records have condition_concept_id set'
+    '% of condition_occurrence records have SNOMED concepts after mapping'
+
+DECLARE @num_condition_occurrences_w_Epic_concepts BIGINT = (SELECT COUNT(*)
+                                                             FROM test_omop_conditions.condition_occurrence
+                                                             WHERE condition_source_concept_id <> 0)
+
+PRINT CAST(100 * @num_condition_occurrences_w_Epic_concepts / @num_condition_occurrence_records AS VARCHAR) +
+	'% of condition_occurrence records have Epic diagnoses'
+
+PRINT CAST(100 * @num_condition_occurrences_w_omop_concepts / @num_condition_occurrences_w_Epic_concepts AS VARCHAR) +
+	'% of condition_occurrence records with initialized Epic diagnosis have mapped SNOMED concepts'
 
 PRINT 'Completed update condition_occurrence fields with conditions_map SNOMED info'
 
--- 3. create record in LeafDB.app.ConceptSqlSet for this test condition_occurrence
+-- todo: 3. create record in LeafDB.app.ConceptSqlSet for this test condition_occurrence
 
 PRINT 'Finishing ''build_test_omop.sql'' at ' + CONVERT(VARCHAR, GETDATE(), 120)
 PRINT ''
