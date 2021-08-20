@@ -1,3 +1,11 @@
+authentication:
+    x rm DBeaver networked connections that do not use AD
+    x clean up DBeaver connections, filtering DBMSes & schemas 
+    configure Leaf API to use AD authorization for Leaf service account
+x analyze mapping_import:
+    x rows that are all NULL in either all source or all target concepts
+    x rows that match the concept relationships I find in omop.cdm
+
 conditions done:
     X run additional_scripts/large_files/icd10.sql to create temp UMLS_ICD10 table
     X Map ICD-10-CM → SNOMED in temp table, using Athena's reference data
@@ -44,21 +52,31 @@ conditions done:
     x try conditions.sql with and without active conditions
     x diagram conditions.sql
     x use conditions.sql to update the 1-to-many_manual_mappings_Epic_to_SNOMED.csv file
+    x finish updating confluence document
+    x use conditions.sql to update the missing_SNOMED_2_ICD10_mappings.csv file
+    x share Leaf_usagi.Leaf_staging table with Tim for loading into concept_relationship
+    x re-run build_test_omop.sql, and retry Leaf
+    x write script to check on updates made by post_concept_creation_tasks.sql
+
+impt
+    start doing actual and revised estimated times
+    mouse pad for wrist
+
+leaf beta:
+    fix sqlcmd that runs post_concept_creation_tasks.sql on Leaf VM
+    characterize completeness of each domain, probably as % of domain records with mapped concepts
+    reactivate help button
 
 conditions:
-    x finish updating confluence document
-    use conditions.sql to update the missing_SNOMED_2_ICD10_mappings.csv file
-    share Leaf_usagi.Leaf_staging table with Tim for loading into concept_relationship
-    re-run build_test_omop.sql
-    report UMLS duplicates to them
-    define AUI as PRIMARY KEY for UMLS_ICD10 and create indices on other columns
+    get and address Tim's comments on conditions.sql
     change "ICD-10-CM TABULAR LIST of DISEASES and INJURIES (ICD10CM:A00.0-Z99.89)" in UMLS_ICD10 to "ICD-10-CM Conditions"
     when src.usagi.mapping_import is ready, modify conditions.sql to use it
         add filtering that depends on Sharon's comments
+    define AUI as PRIMARY KEY for UMLS_ICD10 and create indices on other columns
     documentation
         x describe changes needed in concept_relationship & condition_occurrence by conditions_map
         X add circle & arrows diagram
-    tune MSDW2 indexing for Leaf queries
+    report UMLS duplicates to them
     perhaps create general purpose stored procedure that could be used for conditions.sql & other domains
 
 measurements (labs):
@@ -85,20 +103,9 @@ drugs:
     learn how to map ‘EPIC ERX .1’ source concepts in drug_exposure to RxNorm (Q to Sharon on 7/28)
     BlueTree extract Caboodle’s MedicationCodeDim table, which maps EPIC ERX .1 in MedicationDim to NDC or RxNorm codes, to [src]
 
-for launch
-    characterize the completeness of each domain
-    reactivate help button
-
-authentication:
-    x rm DBeaver networked connections that do not use AD
-    x clean up DBeaver connections, filtering DBMSes & schemas 
-    configure Leaf API to use AD authorization for Leaf service account
-x analyze mapping_import:
-    x rows that are all NULL in either all source or all target concepts
-    x rows that match the concept relationships I find in omop.cdm
-
 Leaf installation:
     x be ready to change Leaf to use the renamed Azure AD groups Darshan is making
+    tune MSDW2 indexing for Leaf queries
     obtain new VMs for other Leaf instances
     map de-identified.leaf.msdw.mountsinai.org to 10.95.46.180
     release leaf.mssm.edu
