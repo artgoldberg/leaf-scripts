@@ -1,1 +1,3 @@
 additional_scripts/large_files/
+# libraoffice lock files
+.~lock*
