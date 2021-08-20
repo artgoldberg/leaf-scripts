@@ -11,7 +11,7 @@ PRINT CAST(@num_concepts_need_patient_counts AS VARCHAR) +
     ' records in app.Concept should have patient counts.'
 
 -- todo: make this time period an input param
-DECLARE @hours_ago INT = 12
+DECLARE @hours_ago INT = 24
 
 DECLARE @now_minus_hours_ago DATETIME = dateadd(hour, -@hours_ago, GETDATE())
 PRINT '@now_minus_hours_ago: ' + CONVERT(VARCHAR, @now_minus_hours_ago, 120)
