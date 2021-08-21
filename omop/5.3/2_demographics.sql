@@ -13,15 +13,33 @@ BEGIN
     DECLARE @yes BIT = 1
     DECLARE @no  BIT = 0
 
-    DECLARE @sqlset_person               INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.person')
-    DECLARE @sqlset_visit_occurrence     INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.visit_occurrence')  
-    DECLARE @sqlset_condition_occurrence INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.condition_occurrence')  
-    DECLARE @sqlset_death                INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.death')  
-    DECLARE @sqlset_device_exposure      INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.device_exposure')  
-    DECLARE @sqlset_drug_exposure        INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.drug_exposure')  
-    DECLARE @sqlset_measurement          INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.measurement')  
-    DECLARE @sqlset_observation          INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.observation')  
-    DECLARE @sqlset_procedure_occurrence INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_std.procedure_occurrence')  
+    DECLARE @sqlset_person               INT = (SELECT TOP 1 Id
+                                                FROM LeafDB.app.ConceptSqlSet
+                                                WHERE SqlSetFrom = 'omop.cdm_std.person')
+    DECLARE @sqlset_visit_occurrence     INT = (SELECT TOP 1 Id
+                                                FROM LeafDB.app.ConceptSqlSet
+                                                WHERE SqlSetFrom = 'omop.cdm_std.visit_occurrence')
+    DECLARE @sqlset_condition_occurrence INT = (SELECT TOP 1 Id
+                                                FROM LeafDB.app.ConceptSqlSet
+                                                WHERE SqlSetFrom = 'omop.cdm_std.condition_occurrence')
+    DECLARE @sqlset_death                INT = (SELECT TOP 1 Id
+                                                FROM LeafDB.app.ConceptSqlSet
+                                                WHERE SqlSetFrom = 'omop.cdm_std.death')
+    DECLARE @sqlset_device_exposure      INT = (SELECT TOP 1 Id
+                                                FROM LeafDB.app.ConceptSqlSet
+                                                WHERE SqlSetFrom = 'omop.cdm_std.device_exposure')
+    DECLARE @sqlset_drug_exposure        INT = (SELECT TOP 1 Id
+                                                FROM LeafDB.app.ConceptSqlSet
+                                                WHERE SqlSetFrom = 'omop.cdm_std.drug_exposure')
+    DECLARE @sqlset_measurement          INT = (SELECT TOP 1 Id
+                                                FROM LeafDB.app.ConceptSqlSet
+                                                WHERE SqlSetFrom = 'omop.cdm_std.measurement')
+    DECLARE @sqlset_observation          INT = (SELECT TOP 1 Id
+                                                FROM LeafDB.app.ConceptSqlSet
+                                                WHERE SqlSetFrom = 'omop.cdm_std.observation')
+    DECLARE @sqlset_procedure_occurrence INT = (SELECT TOP 1 Id
+                                                FROM LeafDB.app.ConceptSqlSet
+                                                WHERE SqlSetFrom = 'omop.cdm_std.procedure_occurrence')
 
     DECLARE @demog_root   NVARCHAR(50) = 'demographics'
     DECLARE @demog_gender NVARCHAR(50) = 'demographics:gender'
@@ -54,9 +72,9 @@ BEGIN
     )
 
     /* INSERT */
-    INSERT INTO LeafDB.app.Concept (ExternalId, ExternalParentId, [IsNumeric], IsParent, IsRoot, SqlSetId, SqlSetWhere, 
+    INSERT INTO LeafDB.app.Concept (ExternalId, ExternalParentId, [IsNumeric], IsParent, IsRoot, SqlSetId, SqlSetWhere,
                                     SqlFieldNumeric, UiDisplayName, UiDisplayText, UiDisplayUnits, UiNumericDefaultText, UiDisplayPatientCount)
-    
+
     /* Root */
     SELECT ExternalId            = @demog_root
          , ExternalParentId      = NULL
@@ -71,9 +89,9 @@ BEGIN
          , UiDisplayUnits        = NULL
          , UiNumericDefaultText  = NULL
          , UiDisplayPatientCount = (SELECT COUNT(*) FROM omop.cdm_std.person)
-    UNION ALL 
- 
-    /* Gender */ 
+    UNION ALL
+
+    /* Gender */
     SELECT ExternalId            = @demog_gender
          , ExternalParentId      = @demog_root
          , [IsNumeric]           = @no
@@ -87,7 +105,7 @@ BEGIN
          , UiDisplayUnits        = NULL
          , UiNumericDefaultText  = NULL
          , UiDisplayPatientCount = (SELECT SUM(cnt) FROM gender)
-    UNION ALL 
+    UNION ALL
     SELECT ExternalId            = @demog_gender + ':' + X.concept_id_string
          , ExternalParentId      = @demog_gender
          , [IsNumeric]           = @no
@@ -101,10 +119,10 @@ BEGIN
          , UiDisplayUnits        = NULL
          , UiNumericDefaultText  = NULL
          , UiDisplayPatientCount = X.cnt
-    FROM gender AS X     
-    UNION ALL     
-     
-    /* Ethnicity */     
+    FROM gender AS X
+    UNION ALL
+
+    /* Ethnicity */
     SELECT ExternalId            = @demog_ethnic
          , ExternalParentId      = @demog_root
          , [IsNumeric]           = @no
@@ -118,7 +136,7 @@ BEGIN
          , UiDisplayUnits        = NULL
          , UiNumericDefaultText  = NULL
          , UiDisplayPatientCount = (SELECT SUM(cnt) FROM ethnicity)
-    UNION ALL     
+    UNION ALL
     SELECT ExternalId            = @demog_ethnic + ':' + X.concept_id_string
          , ExternalParentId      = @demog_ethnic
          , [IsNumeric]           = @no
@@ -132,10 +150,10 @@ BEGIN
          , UiDisplayUnits        = NULL
          , UiNumericDefaultText  = NULL
          , UiDisplayPatientCount = X.cnt
-    FROM ethnicity AS X     
-    UNION ALL     
-     
-    /* Race */     
+    FROM ethnicity AS X
+    UNION ALL
+
+    /* Race */
     SELECT ExternalId            = @demog_race
          , ExternalParentId      = @demog_root
          , [IsNumeric]           = @no
@@ -149,7 +167,7 @@ BEGIN
          , UiDisplayUnits        = NULL
          , UiNumericDefaultText  = NULL
          , UiDisplayPatientCount = (SELECT SUM(cnt) FROM race)
-    UNION ALL     
+    UNION ALL
     SELECT ExternalId            = @demog_race + ':' + X.concept_id_string
          , ExternalParentId      = @demog_race
          , [IsNumeric]           = @no
@@ -163,10 +181,10 @@ BEGIN
          , UiDisplayUnits        = NULL
          , UiNumericDefaultText  = NULL
          , UiDisplayPatientCount = X.cnt
-    FROM race AS X     
-    UNION ALL     
-     
-    /* Age */     
+    FROM race AS X
+    UNION ALL
+
+    /* Age */
     SELECT ExternalId            = @demog_age
          , ExternalParentId      = @demog_root
          , [IsNumeric]           = @yes
@@ -180,9 +198,9 @@ BEGIN
          , UiDisplayUnits        = 'years old'
          , UiNumericDefaultText  = 'any current age'
          , UiDisplayPatientCount = (SELECT COUNT(*) FROM omop.cdm_std.person)
-    UNION ALL 
- 
-    /* Vital status */     
+    UNION ALL
+
+    /* Vital status */
     SELECT ExternalId            = @demog_vital
          , ExternalParentId      = @demog_root
          , [IsNumeric]           = @no
@@ -196,9 +214,9 @@ BEGIN
          , UiDisplayUnits        = NULL
          , UiNumericDefaultText  = NULL
          , UiDisplayPatientCount = (SELECT COUNT(*) FROM omop.cdm_std.person)
-    UNION ALL 
- 
-    /* Living */     
+    UNION ALL
+
+    /* Living */
     SELECT ExternalId            = @demog_vital + ':living'
          , ExternalParentId      = @demog_vital
          , [IsNumeric]           = @no
@@ -212,9 +230,9 @@ BEGIN
          , UiDisplayUnits        = NULL
          , UiNumericDefaultText  = NULL
          , UiDisplayPatientCount = (SELECT COUNT(*) FROM omop.cdm_std.person AS P WHERE NOT EXISTS (SELECT 1 FROM omop.cdm_std.death AS D WHERE P.person_id = D.person_id))
-    UNION ALL 
- 
-    /* Deceased */     
+    UNION ALL
+
+    /* Deceased */
     SELECT ExternalId            = @demog_vital + ':deceased'
          , ExternalParentId      = @demog_vital
          , [IsNumeric]           = @no

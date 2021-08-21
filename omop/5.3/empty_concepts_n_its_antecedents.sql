@@ -1,3 +1,8 @@
+/*
+ * Empty the Leaf Concept table and the indicies and dependency maps that depend on it
+ * Author: Arthur.Goldberg@mssm.edu
+ */
+
 /* Empty indices */
 DELETE FROM LeafDB.app.ConceptForwardIndex;
 DELETE FROM LeafDB.app.ConceptInvertedIndex;
