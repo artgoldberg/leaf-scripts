@@ -57,12 +57,64 @@ conditions done:
     x share Leaf_usagi.Leaf_staging table with Tim for loading into concept_relationship
     x re-run build_test_omop.sql, and retry Leaf
     x write script to check on updates made by post_concept_creation_tasks.sql
+    x get post_concept_creation_tasks.sql to run
+    x forward Leaf complements to Nic
+
+full report on Leaf results
+    Demographics, Age & Vital Status all show 13,166,263 patients == #rows in omop.cdm_std.person
+    all concept ids for Ethnicity, Gender and Race are wrong
+    we have this distribution of Encounter counts ()
+    
+
+    birth_datetime IS NULL 
+    
+concepts 
+    
+
+Leaf beta
+    reload all Leaf concepts with new MSDW2 data:
+        x run empty_concepts_n_its_antecedents.sql
+        x run 2_demographics.sql, 3_visits.sql, & 5_vitals.sql
+        run leaf_icd10.sql
+        try LeafDB.app.sp_UpdateSearchIndexTables
+        restart post_concept_creation_tasks.sh
+    try cdm_deid - what about NULLs in person.birth_datetime (3.4 M of them)?
+    get post_concept_creation_tasks.sql to run to completion - check error log
+    work on Leaf beta features & Monday presentation
+    tune MSDW2 indices so LeafDB.app.sp_CalculatePatientCounts runs ~20x faster
+    debug LeafDB.app.sp_UpdateSearchIndexTables
+    domain names
+    public achilles reports
+    read "MSDW2 Database Roles & Permissions"
+    Update "[CRIO] Digital Concierge Service: Informatics and Data Science Online “Walk-in” Clinic" emails
+    create a Leaf dev instance (probably PHI) that I can use after the beta
 
 impt
     start doing actual and revised estimated times
     mouse pad for wrist
 
-leaf beta:
+manage CQT 2.0 beta
+    approach
+        beta features
+            must have
+            nice to have
+        beta date - Joe recommends Aug 31
+        methodological changes
+            use sprints (3 weeks?)
+            Joe join us (Tim supports) -- Chip tell me to invite Joe
+
+Leaf beta features
+    must have
+        use cdm_deid or cdm_deid_std
+        access omop.cdm_deid.condition_occurrence
+        use de-identified.leaf.msdw.mountsinai.org
+        patient counts for all concepts
+        "Coming soon" for drugs, labs and procedures not deployed
+        SailPoint workflows for Leaf's Azure AD apps
+        tutorial published on msdw.mountsinai.org
+    like to have
+        another clinical domain
+        redesign initial login choices
     fix sqlcmd that runs post_concept_creation_tasks.sql on Leaf VM
     characterize completeness of each domain, probably as % of domain records with mapped concepts
     reactivate help button
@@ -143,7 +195,6 @@ accessing PHI data:
 later:
     enable DBeaver connection via AD without trustServerCertificate=true for Leaf service account
     add to Leaf suggestions: Leaf concept table should be renamed to leaf_concept, to avoid confusion with CDM concept
-    investigate the small difference between the ICD10 -> SNOMED relationships in concept_relationship and the ones obtained in leaf_scratch.diagnosis_map
     remove (or set aside) small programs in leaf-scripts/leaf_launch/conditions no longer being used, like map_Epic_to_ICD10.sql
     Share Leaf_ideas.txt with Nic
     revisit filtering out of inactive with Tim & Sharon
