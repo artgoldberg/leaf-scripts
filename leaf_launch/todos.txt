@@ -59,28 +59,26 @@ conditions done:
     x write script to check on updates made by post_concept_creation_tasks.sql
     x get post_concept_creation_tasks.sql to run
     x forward Leaf complements to Nic
+    x get and address Tim's comments on conditions.sql
+
+    reload all Leaf concepts with new MSDW2 data:
+        x run empty_concepts_n_its_antecedents.sql
+        x run 2_demographics.sql, 3_visits.sql, & 5_vitals.sql
+        x run leaf_icd10.sql
+        x try LeafDB.app.sp_UpdateSearchIndexTables
+
+Leaf beta
+    x restart post_concept_creation_tasks.sh
+    x debug LeafDB.app.sp_UpdateSearchIndexTables
 
 full report on Leaf results
     Demographics, Age & Vital Status all show 13,166,263 patients == #rows in omop.cdm_std.person
     all concept ids for Ethnicity, Gender and Race are wrong
     we have this distribution of Encounter counts ()
-    
-
-    birth_datetime IS NULL 
-    
-concepts 
-    
 
 Leaf beta
-    reload all Leaf concepts with new MSDW2 data:
-        x run empty_concepts_n_its_antecedents.sql
-        x run 2_demographics.sql, 3_visits.sql, & 5_vitals.sql
-        run leaf_icd10.sql
-        try LeafDB.app.sp_UpdateSearchIndexTables
-        restart post_concept_creation_tasks.sh
     try cdm_deid - what about NULLs in person.birth_datetime (3.4 M of them)?
     get post_concept_creation_tasks.sql to run to completion - check error log
-    work on Leaf beta features & Monday presentation
     tune MSDW2 indices so LeafDB.app.sp_CalculatePatientCounts runs ~20x faster
     debug LeafDB.app.sp_UpdateSearchIndexTables
     domain names
@@ -93,34 +91,7 @@ impt
     start doing actual and revised estimated times
     mouse pad for wrist
 
-manage CQT 2.0 beta
-    approach
-        beta features
-            must have
-            nice to have
-        beta date - Joe recommends Aug 31
-        methodological changes
-            use sprints (3 weeks?)
-            Joe join us (Tim supports) -- Chip tell me to invite Joe
-
-Leaf beta features
-    must have
-        use cdm_deid or cdm_deid_std
-        access omop.cdm_deid.condition_occurrence
-        use de-identified.leaf.msdw.mountsinai.org
-        patient counts for all concepts
-        "Coming soon" for drugs, labs and procedures not deployed
-        SailPoint workflows for Leaf's Azure AD apps
-        tutorial published on msdw.mountsinai.org
-    like to have
-        another clinical domain
-        redesign initial login choices
-    fix sqlcmd that runs post_concept_creation_tasks.sql on Leaf VM
-    characterize completeness of each domain, probably as % of domain records with mapped concepts
-    reactivate help button
-
 conditions:
-    get and address Tim's comments on conditions.sql
     change "ICD-10-CM TABULAR LIST of DISEASES and INJURIES (ICD10CM:A00.0-Z99.89)" in UMLS_ICD10 to "ICD-10-CM Conditions"
     when src.usagi.mapping_import is ready, modify conditions.sql to use it
         add filtering that depends on Sharon's comments
