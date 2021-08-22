@@ -5,6 +5,7 @@
    Initial template from https://leafdocs.rit.uw.edu/administration/concept_reference/
 */
 
+/*
 EXEC LeafDB.app.sp_CalculatePatientCounts
     @PersonIdField = 'person_id'                   -- PersonId field for this Leaf instance
   , @TargetDataBaseName = 'omop.cdm_std'           -- Clinical database to query for this Leaf instance
@@ -13,13 +14,8 @@ EXEC LeafDB.app.sp_CalculatePatientCounts
   , @SpecificRootConcept = NULL                    -- Optional, specify a Root ConceptId to only 
                                                    -- recalculate counts for part of the tree
 
+*/
 
 -- Script to index concepts so they can be searched
 -- From https://leafdocs.rit.uw.edu/administration/concepts/
--- EXEC LeafDB.app.sp_UpdateSearchIndexTables
-/*
-Disable until this bug fixed:
-
-Msg 515, Level 16, State 2, Server MSDW2-MSSQL-PRD, Procedure LeafDB.app.sp_UpdateSearchIndexTables, Line 191
-Cannot insert the value NULL into column 'RootId', table 'LeafDB.app.ConceptForwardIndex'; column does not allow nulls. INSERT fails.
-*/
+EXEC LeafDB.app.sp_UpdateSearchIndexTables

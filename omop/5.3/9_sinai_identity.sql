@@ -8,7 +8,7 @@ SELECT
    ,[Name] = 'Mount Sinai Health System'
    ,[Abbreviation] = 'MSHS'
    ,[Description] = 'The Mount Sinai Health System is an integrated health care system providing exceptional medical care to our local and global communities.'
-   ,[TotalPatients] = 5300000
+   ,[TotalPatients] = 13000000
    ,[Latitude] = 40.79
    ,[Longitude] = -73.95
    ,[PrimaryColor] = '#06ABEB'
