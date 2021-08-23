@@ -70,6 +70,7 @@ conditions done:
 Leaf beta
     x restart post_concept_creation_tasks.sh
     x debug LeafDB.app.sp_UpdateSearchIndexTables
+    move old code in leaf-scripts/leaf_launch/conditions into old sub-dir
 
 full report on Leaf results
     Demographics, Age & Vital Status all show 13,166,263 patients == #rows in omop.cdm_std.person
