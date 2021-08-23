@@ -60,12 +60,23 @@ GROUP BY concept.concept_name, concept.concept_id
 ORDER BY concept.concept_name;
 
 -- Vital status (alive or dead)
-/*
-SELECT 'Deceased', COUNT(*)
+-- Strangely, this returns "Deceased	12751902915"
+SELECT 'Deceased', COUNT_BIG(*)
 FROM omop.cdm_deid.death death,
      omop.cdm_deid.person person
 WHERE death.person_id = person.person_id;
-*/
+
+SELECT 'Deceased', COUNT_BIG(*)
+-- whereas this returns "Deceased	0".
+FROM omop.cdm_std.death death,
+     omop.cdm_std.person person
+WHERE death.person_id = person.person_id;
+
+-- The problem is that all the person_ids in death are the same.
+-- This returns one row: "                                	31065":
+SELECT person_id, COUNT(*)
+FROM omop.cdm_deid.death
+GROUP BY person_id
 
 -- Vitals
 
