@@ -61,10 +61,13 @@ ORDER BY concept.concept_name;
 
 -- Vital status (alive or dead)
 -- Strangely, this returns "Deceased	12751902915"
+/*
+Comment out, as runs very slowly.
 SELECT 'Deceased', COUNT_BIG(*)
 FROM omop.cdm_deid.death death,
      omop.cdm_deid.person person
 WHERE death.person_id = person.person_id;
+*/
 
 SELECT 'Deceased', COUNT_BIG(*)
 -- whereas this returns "Deceased	0".
@@ -178,3 +181,13 @@ FROM omop.cdm_std.visit_occurrence AS visit_occurrence INNER JOIN omop.cdm_std.c
      ON visit_occurrence.visit_concept_id = concept.concept_id
 WHERE visit_occurrence.visit_concept_id != 0
 GROUP BY concept.concept_name, concept.concept_id;
+
+-- person.person_id values
+-- These two queries should return the same values, but as of 2021-08-24 they return
+-- 13,247,329 and 72,767, respectively
+
+SELECT COUNT(person_id)
+FROM cdm_deid.person;
+
+SELECT COUNT(DISTINCT person_id)
+FROM cdm_deid.person;
