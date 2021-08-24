@@ -7,9 +7,9 @@ SELECT DISTINCT concept_ICD10.concept_id ICD10_concept_id,
        concept_SNOMED.concept_code SNOMED_concept_code,
        concept_SNOMED.concept_name SNOMED_concept_name
 FROM rpt.leaf_scratch.conditions_map conditions_map,
-     omop.cdm_std.concept concept_ICD10,
-     omop.cdm_std.concept concept_SNOMED,
-     omop.cdm_std.concept_relationship concept_relationship
+     omop.cdm_deid.concept concept_ICD10,
+     omop.cdm_deid.concept concept_SNOMED,
+     omop.cdm_deid.concept_relationship concept_relationship
 WHERE concept_ICD10.vocabulary_id = 'ICD10CM'
       AND concept_ICD10.concept_code = conditions_map.ICD10_concept_code
       AND concept_SNOMED.vocabulary_id = 'SNOMED'
@@ -25,8 +25,8 @@ SELECT DISTINCT concept_ICD10.concept_id ICD10_concept_id,
        concept_SNOMED.concept_code SNOMED_concept_code,
        concept_SNOMED.concept_name SNOMED_concept_name
 FROM rpt.leaf_scratch.conditions_map conditions_map,
-     omop.cdm_std.concept concept_ICD10,
-     omop.cdm_std.concept concept_SNOMED
+     omop.cdm_deid.concept concept_ICD10,
+     omop.cdm_deid.concept concept_SNOMED
 WHERE concept_ICD10.vocabulary_id = 'ICD10CM'
       AND concept_ICD10.concept_code = conditions_map.ICD10_concept_code
       AND concept_SNOMED.vocabulary_id = 'SNOMED'
@@ -45,9 +45,9 @@ SELECT DISTINCT concept_ICD10.concept_id ICD10_concept_id,
                 concept_SNOMED.concept_code SNOMED_concept_code,
                 concept_SNOMED.concept_name SNOMED_concept_name
 INTO #tmp_ICD10_maps_to_SNOMED
-FROM omop.cdm_std.concept concept_ICD10,
-     omop.cdm_std.concept concept_SNOMED,
-     omop.cdm_std.concept_relationship concept_relationship
+FROM omop.cdm_deid.concept concept_ICD10,
+     omop.cdm_deid.concept concept_SNOMED,
+     omop.cdm_deid.concept_relationship concept_relationship
 WHERE concept_ICD10.vocabulary_id = 'ICD10CM'
       AND concept_ICD10.concept_id = concept_relationship.concept_id_1
       AND concept_relationship.relationship_id = 'Maps to'
@@ -65,9 +65,9 @@ SELECT DISTINCT concept_ICD10.concept_id ICD10_concept_id,
                 concept_SNOMED.concept_code SNOMED_concept_code,
                 concept_SNOMED.concept_name SNOMED_concept_name
 INTO #tmp_SNOMED_mapped_from_ICD10
-FROM omop.cdm_std.concept concept_SNOMED,
-     omop.cdm_std.concept concept_ICD10,
-     omop.cdm_std.concept_relationship concept_relationship
+FROM omop.cdm_deid.concept concept_SNOMED,
+     omop.cdm_deid.concept concept_ICD10,
+     omop.cdm_deid.concept_relationship concept_relationship
 WHERE concept_SNOMED.vocabulary_id = 'SNOMED'
       AND concept_SNOMED.concept_id = concept_relationship.concept_id_1
       AND concept_relationship.relationship_id = 'Mapped from'
@@ -94,9 +94,9 @@ SELECT DISTINCT concept_ICD10.concept_id ICD10_concept_id,
                 concept_SNOMED.concept_id SNOMED_concept_id,
                 concept_SNOMED.concept_code SNOMED_concept_code,
                 concept_SNOMED.concept_name SNOMED_concept_name
-FROM omop.cdm_std.concept concept_SNOMED,
-     omop.cdm_std.concept concept_ICD10,
-     omop.cdm_std.concept_relationship concept_relationship
+FROM omop.cdm_deid.concept concept_SNOMED,
+     omop.cdm_deid.concept concept_ICD10,
+     omop.cdm_deid.concept_relationship concept_relationship
 WHERE concept_SNOMED.vocabulary_id = 'SNOMED'
       AND concept_SNOMED.concept_id = concept_relationship.concept_id_1
       AND concept_relationship.relationship_id = 'Maps to'

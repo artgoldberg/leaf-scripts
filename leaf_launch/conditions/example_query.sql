@@ -12,9 +12,9 @@ FROM
                 SELECT
                     1
                 FROM
-                    omop.cdm_std.concept AS _S000C_ICD10CM,
-                    omop.cdm_std.concept_relationship AS _S000CR,
-                    omop.cdm_std.concept AS _S000C_SNOMED
+                    omop.cdm_deid.concept AS _S000C_ICD10CM,
+                    omop.cdm_deid.concept_relationship AS _S000CR,
+                    omop.cdm_deid.concept AS _S000C_SNOMED
                 WHERE
                     _S000C_ICD10CM.vocabulary_id = 'ICD10CM'
                     AND _S000C_ICD10CM.concept_id = _S000CR.concept_id_1
