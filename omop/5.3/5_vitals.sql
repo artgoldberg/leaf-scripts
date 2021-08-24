@@ -15,31 +15,31 @@ BEGIN
 
     DECLARE @sqlset_person               INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom = 'omop.cdm_std.person')
+                                                WHERE SqlSetFrom = 'omop.cdm_deid.person')
     DECLARE @sqlset_visit_occurrence     INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom = 'omop.cdm_std.visit_occurrence')
+                                                WHERE SqlSetFrom = 'omop.cdm_deid.visit_occurrence')
     DECLARE @sqlset_condition_occurrence INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom = 'omop.cdm_std.condition_occurrence')
+                                                WHERE SqlSetFrom = 'rpt.test_omop_conditions.condition_occurrence')
     DECLARE @sqlset_death                INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom = 'omop.cdm_std.death')
+                                                WHERE SqlSetFrom = 'omop.cdm_deid.death')
     DECLARE @sqlset_device_exposure      INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom = 'omop.cdm_std.device_exposure')
+                                                WHERE SqlSetFrom = 'omop.cdm_deid.device_exposure')
     DECLARE @sqlset_drug_exposure        INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom = 'omop.cdm_std.drug_exposure')
+                                                WHERE SqlSetFrom = 'omop.cdm_deid.drug_exposure')
     DECLARE @sqlset_measurement          INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom = 'omop.cdm_std.measurement')
+                                                WHERE SqlSetFrom = 'omop.cdm_deid.measurement')
     DECLARE @sqlset_observation          INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom = 'omop.cdm_std.observation')
+                                                WHERE SqlSetFrom = 'omop.cdm_deid.observation')
     DECLARE @sqlset_procedure_occurrence INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom = 'omop.cdm_std.procedure_occurrence')
+                                                WHERE SqlSetFrom = 'omop.cdm_deid.procedure_occurrence')
 
     DECLARE @vitals_root   NVARCHAR(50) = 'vitals'
 
@@ -56,8 +56,8 @@ BEGIN
     ; WITH vitals AS
     (
         SELECT C.concept_name, C.concept_id, cnt = COUNT(DISTINCT person_id), concept_id_string = CONVERT(NVARCHAR(50), C.concept_id)
-        FROM omop.cdm_std.measurement AS X
-			 LEFT JOIN omop.cdm_std.concept AS C
+        FROM omop.cdm_deid.measurement AS X
+			 LEFT JOIN omop.cdm_deid.concept AS C
 				ON X.measurement_concept_id = C.concept_id
         WHERE X.measurement_concept_id IN (@bpSyst, @bpDiast, @bmi, @height, @weight, @heartRate, @tempC, @pulse, @respRate)
         GROUP BY C.concept_name, C.concept_id
@@ -80,7 +80,7 @@ BEGIN
          , UiDisplayText         = 'Had vitals measured'
          , UiDisplayUnits        = NULL
          , UiNumericDefaultText  = NULL
-         , UiDisplayPatientCount = (SELECT COUNT(DISTINCT person_id) FROM omop.cdm_std.measurement WHERE measurement_concept_id IN (@bpSyst, @bpDiast, @bmi, @height, @weight, @heartRate, @tempC, @pulse, @respRate))
+         , UiDisplayPatientCount = (SELECT COUNT(DISTINCT person_id) FROM omop.cdm_deid.measurement WHERE measurement_concept_id IN (@bpSyst, @bpDiast, @bmi, @height, @weight, @heartRate, @tempC, @pulse, @respRate))
 
     UNION ALL
 

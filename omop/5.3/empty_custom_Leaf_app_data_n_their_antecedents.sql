@@ -1,5 +1,6 @@
 /*
- * Empty the Leaf Concept table and the indicies and dependency maps that depend on it
+ * Empty the customized LeafDB app tables, including the Concept table and the indicies and
+ * dependency maps that depend on it
  * Author: Arthur.Goldberg@mssm.edu
  */
 
@@ -13,3 +14,6 @@ DELETE FROM LeafDB.rela.QueryConceptDependency;
 
 /* Empty Concepts */
 DELETE FROM LeafDB.app.Concept;
+
+/* Empty ConceptSqlSet */
+DELETE FROM LeafDB.app.ConceptSqlSet;
