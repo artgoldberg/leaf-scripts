@@ -4,13 +4,15 @@
  * Author: Arthur.Goldberg@mssm.edu
  */
 
+USE omop;
+
 -- Gender, assuming omop codes
 SELECT concept.concept_name,
        concept.concept_id,
        [count] = COUNT(DISTINCT person_id),
        concept_id_string = CONVERT(NVARCHAR(50), concept.concept_id)
-FROM omop.cdm_deid.person AS person
-     INNER JOIN omop.cdm_deid.concept AS concept
+FROM cdm_deid.person AS person
+     INNER JOIN cdm_deid.concept AS concept
      ON person.gender_concept_id = concept.concept_id
 WHERE person.gender_concept_id <> 0
 GROUP BY concept.concept_name, concept.concept_id
@@ -21,11 +23,11 @@ SELECT OMOP_concept.concept_name,
        OMOP_concept.concept_id,
        [count] = COUNT(DISTINCT person_id),
        concept_id_string = CONVERT(NVARCHAR(50), OMOP_concept.concept_id)
-FROM omop.cdm_deid.person AS person
-     INNER JOIN omop.cdm_deid.concept AS Epic_concept
+FROM cdm_deid.person AS person
+     INNER JOIN cdm_deid.concept AS Epic_concept
      ON person.gender_concept_id = Epic_concept.concept_id,
-     omop.cdm_deid.concept AS OMOP_concept,
-     omop.cdm_deid.concept_relationship concept_relationship
+     cdm_deid.concept AS OMOP_concept,
+     cdm_deid.concept_relationship concept_relationship
 WHERE person.gender_concept_id <> 0
       AND Epic_concept.vocabulary_id LIKE 'EPIC%'
       AND Epic_concept.concept_id = concept_relationship.concept_id_1
@@ -40,8 +42,8 @@ SELECT concept.concept_name,
        concept.concept_id,
        [count] = COUNT(DISTINCT person_id),
        concept_id_string = CONVERT(NVARCHAR(50), concept.concept_id)
-FROM omop.cdm_deid.person AS person
-     INNER JOIN omop.cdm_deid.concept AS concept
+FROM cdm_deid.person AS person
+     INNER JOIN cdm_deid.concept AS concept
      ON person.ethnicity_concept_id = concept.concept_id
 WHERE person.ethnicity_concept_id <> 0
 GROUP BY concept.concept_name, concept.concept_id
@@ -52,8 +54,8 @@ SELECT concept.concept_name,
        concept.concept_id,
        [count] = COUNT(DISTINCT person_id),
        concept_id_string = CONVERT(NVARCHAR(50), concept.concept_id)
-FROM omop.cdm_deid.person AS person
-     INNER JOIN omop.cdm_deid.concept AS concept
+FROM cdm_deid.person AS person
+     INNER JOIN cdm_deid.concept AS concept
      ON person.race_concept_id = concept.concept_id
 WHERE person.race_concept_id <> 0
 GROUP BY concept.concept_name, concept.concept_id
@@ -64,21 +66,21 @@ ORDER BY concept.concept_name;
 /*
 Comment out, as runs very slowly.
 SELECT 'Deceased', COUNT_BIG(*)
-FROM omop.cdm_deid.death death,
-     omop.cdm_deid.person person
+FROM cdm_deid.death death,
+     cdm_deid.person person
 WHERE death.person_id = person.person_id;
 */
 
 SELECT 'Deceased', COUNT_BIG(*)
 -- whereas this returns "Deceased	0".
-FROM omop.cdm_std.death death,
-     omop.cdm_std.person person
+FROM cdm_std.death death,
+     cdm_std.person person
 WHERE death.person_id = person.person_id;
 
 -- The problem is that all the person_ids in death are the same.
 -- This returns one row: "                                	31065":
 SELECT person_id, COUNT(*)
-FROM omop.cdm_deid.death
+FROM cdm_deid.death
 GROUP BY person_id
 
 -- Vitals
@@ -98,7 +100,7 @@ Dropping pulse, which isn't in concept, and bmi which has passed its valid end d
 */
 
 DECLARE @tempC INT = (SELECT concept_id
-                             FROM omop.cdm_deid.concept
+                             FROM cdm_deid.concept
                              WHERE concept_name = 'Body temperature'
                                    AND standard_concept = 'S'
                                    AND concept_class_id = 'Clinical Observation'
@@ -106,7 +108,7 @@ DECLARE @tempC INT = (SELECT concept_id
 PRINT '@tempC = ' + CAST(@tempC AS VARCHAR)
 
 DECLARE @heartRate INT = (SELECT concept_id
-                                 FROM omop.cdm_deid.concept
+                                 FROM cdm_deid.concept
                                  WHERE concept_name = 'Heart rate'
                                        AND standard_concept = 'S'
                                        AND concept_class_id = 'Clinical Observation'
@@ -114,7 +116,7 @@ DECLARE @heartRate INT = (SELECT concept_id
 PRINT '@heartRate = ' + CAST(@heartRate AS VARCHAR)
 
 DECLARE @respRate INT = (SELECT concept_id
-                                FROM omop.cdm_deid.concept
+                                FROM cdm_deid.concept
                                 WHERE concept_name = 'Respiratory rate'
                                       AND standard_concept = 'S'
                                       AND concept_class_id = 'Clinical Observation'
@@ -122,7 +124,7 @@ DECLARE @respRate INT = (SELECT concept_id
 PRINT '@respRate = ' + CAST(@respRate AS VARCHAR)
 
 DECLARE @bpDiast INT = (SELECT concept_id
-                               FROM omop.cdm_deid.concept
+                               FROM cdm_deid.concept
                                WHERE concept_name = 'Diastolic blood pressure'
                                      AND standard_concept = 'S'
                                      AND concept_class_id = 'Clinical Observation'
@@ -130,7 +132,7 @@ DECLARE @bpDiast INT = (SELECT concept_id
 PRINT '@bpDiast = ' + CAST(@bpDiast AS VARCHAR)
 
 DECLARE @bpSyst INT = (SELECT concept_id
-                              FROM omop.cdm_deid.concept
+                              FROM cdm_deid.concept
                               WHERE concept_name = 'Systolic blood pressure'
                                     AND standard_concept = 'S'
                                     AND concept_class_id = 'Clinical Observation'
@@ -138,7 +140,7 @@ DECLARE @bpSyst INT = (SELECT concept_id
 PRINT '@bpSyst = ' + CAST(@bpSyst AS VARCHAR)
 
 DECLARE @weight INT = (SELECT concept_id
-                              FROM omop.cdm_deid.concept
+                              FROM cdm_deid.concept
                               WHERE concept_name = 'Body weight'
                                     AND standard_concept = 'S'
                                     AND concept_class_id = 'Clinical Observation'
@@ -146,7 +148,7 @@ DECLARE @weight INT = (SELECT concept_id
 PRINT '@weight = ' + CAST(@weight AS VARCHAR)
 
 DECLARE @height INT = (SELECT concept_id
-                              FROM omop.cdm_deid.concept
+                              FROM cdm_deid.concept
                               WHERE concept_name = 'Body height'
                                     AND standard_concept = 'S'
                                     AND concept_class_id = 'Clinical Observation'
@@ -156,8 +158,8 @@ PRINT '@height = ' + CAST(@height AS VARCHAR)
 SELECT concept.concept_name,
        concept.concept_id,
        [count] = COUNT(DISTINCT person_id)
-FROM omop.cdm_deid.measurement
-     LEFT JOIN omop.cdm_deid.concept AS concept
+FROM cdm_deid.measurement
+     LEFT JOIN cdm_deid.concept AS concept
         ON measurement_concept_id = concept.concept_id
 WHERE measurement_concept_id IN (@bpSyst, @bpDiast, @height, @weight, @heartRate, @tempC, @respRate)
 GROUP BY concept.concept_name, concept.concept_id;
@@ -167,7 +169,7 @@ SELECT concept.concept_name,
        concept.concept_id,
        [count] = COUNT(DISTINCT person_id),
        'cdm_deid visits'
-FROM omop.cdm_deid.visit_occurrence AS visit_occurrence INNER JOIN omop.cdm_deid.concept AS concept
+FROM cdm_deid.visit_occurrence AS visit_occurrence INNER JOIN cdm_deid.concept AS concept
      ON visit_occurrence.visit_concept_id = concept.concept_id
 WHERE visit_occurrence.visit_concept_id != 0
 GROUP BY concept.concept_name, concept.concept_id;
@@ -177,7 +179,7 @@ SELECT concept.concept_name,
        concept.concept_id,
        [count] = COUNT(DISTINCT person_id),
        'cdm_std visits'
-FROM omop.cdm_std.visit_occurrence AS visit_occurrence INNER JOIN omop.cdm_std.concept AS concept
+FROM cdm_std.visit_occurrence AS visit_occurrence INNER JOIN cdm_std.concept AS concept
      ON visit_occurrence.visit_concept_id = concept.concept_id
 WHERE visit_occurrence.visit_concept_id != 0
 GROUP BY concept.concept_name, concept.concept_id;
