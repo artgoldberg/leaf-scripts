@@ -42,7 +42,9 @@ CREATE TABLE #TableSchemaAndTVs(
 	[SchemaName] NVARCHAR(200),
 	[ObjectName] NVARCHAR(200));
 
--- select schemas to count
+USE omop;
+
+-- Select schemas whose tables and view should have their rows counted
 WITH health_data_schema_ids AS 
    (SELECT s.schema_id
     FROM sys.schemas s
