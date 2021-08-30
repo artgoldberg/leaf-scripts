@@ -15,32 +15,32 @@ BEGIN
 
     DECLARE @sqlset_person               INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom LIKE '%[person%]')
+                                                WHERE SqlSetFrom LIKE '%[person]%')
     DECLARE @sqlset_visit_occurrence     INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom LIKE '%[visit_occurrence%]')
+                                                WHERE SqlSetFrom LIKE '%[visit_occurrence]%')
     DECLARE @sqlset_condition_occurrence INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
                                                 -- TODO: Change this to '%[condition_occurrence]%' when it is ready
                                                 WHERE SqlSetFrom LIKE '%rpt.test_omop_conditions.condition_occurrence%')
     DECLARE @sqlset_death                INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom LIKE '%[death%]')
+                                                WHERE SqlSetFrom LIKE '%[death]%')
     DECLARE @sqlset_device_exposure      INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom LIKE '%[device_exposure%]')
+                                                WHERE SqlSetFrom LIKE '%[device_exposure]%')
     DECLARE @sqlset_drug_exposure        INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom LIKE '%[drug_exposure%]')
+                                                WHERE SqlSetFrom LIKE '%[drug_exposure]%')
     DECLARE @sqlset_measurement          INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom LIKE '%[measurement%]')
+                                                WHERE SqlSetFrom LIKE '%[measurement]%')
     DECLARE @sqlset_observation          INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom LIKE '%[observation%]')
+                                                WHERE SqlSetFrom LIKE '%[observation]%')
     DECLARE @sqlset_procedure_occurrence INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom LIKE '%[procedure_occurrence%]')
+                                                WHERE SqlSetFrom LIKE '%[procedure_occurrence]%')
 
     DECLARE @demog_root   NVARCHAR(50) = 'demographics'
     DECLARE @demog_gender NVARCHAR(50) = 'demographics:gender'
@@ -132,7 +132,7 @@ BEGIN
          , SqlSetId              = @sqlset_person
          , SqlSetWhere           = NULL
          , SqlFieldNumeric       = NULL
-         , UiDisplayName         = 'Ethncity'
+         , UiDisplayName         = 'Ethnicity'
          , UiDisplayText         = 'Have ethnicity data'
          , UiDisplayUnits        = NULL
          , UiNumericDefaultText  = NULL
@@ -216,8 +216,6 @@ BEGIN
          , UiNumericDefaultText  = NULL
          , UiDisplayPatientCount = (SELECT COUNT(*) FROM omop.cdm_deid_std.person)
 
-    /*
-    TODO: Reactivate living and Deceased concepts after person and death person_ids are cleaned up
     UNION ALL
 
     -- Living
@@ -250,7 +248,6 @@ BEGIN
          , UiDisplayUnits        = NULL
          , UiNumericDefaultText  = NULL
          , UiDisplayPatientCount = (SELECT COUNT(*) FROM omop.cdm_deid_std.person AS P WHERE EXISTS (SELECT 1 FROM omop.cdm_deid_std.death AS D WHERE P.person_id = D.person_id))
-    */
 
     /**
     * Set ParentId based on ExternalIds

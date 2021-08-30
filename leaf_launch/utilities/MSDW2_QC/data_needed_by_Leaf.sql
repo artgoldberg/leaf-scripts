@@ -62,23 +62,22 @@ GROUP BY concept.concept_name, concept.concept_id
 ORDER BY concept.concept_name;
 
 -- Vital status (alive or dead)
--- This returns "Deceased	12,751,902,915" because death.person_id and/or person.person_id contains many duplicates
-/*
-Comment out, as runs very slowly.
+-- This returned "Deceased	12,751,902,915" because death.person_id and/or person.person_id contains many duplicates
+-- Comment out, as runs very slowly.
 SELECT 'Deceased', COUNT_BIG(*)
 FROM cdm_deid_std.death death,
      cdm_deid_std.person person
 WHERE death.person_id = person.person_id;
 
 SELECT 'Deceased', COUNT_BIG(*)
--- whereas this returns "Deceased	0".
-FROM cdm_std.death death,
-     cdm_std.person person
+-- whereas this returned "Deceased	0".
+FROM cdm_deid_std.death death,
+     cdm_deid_std.person person
 WHERE death.person_id = person.person_id;
-*/
 
--- The problem is that all the person_ids in death are the same.
+-- The problem was that all the person_ids in death are the same.
 -- This returns one row: "                                	31065":
+-- FIXED
 SELECT person_id, COUNT(*)
 FROM cdm_deid_std.death
 GROUP BY person_id
@@ -187,7 +186,8 @@ GROUP BY concept.concept_name, concept.concept_id;
 -- person.person_id values
 -- These two queries should return the same values, but as of 2021-08-24 they return
 -- 13,247,329 and 72,767, respectively
-
+-- Fixed!
+-- TODO: PRINT the result
 SELECT COUNT(person_id)
 FROM cdm_deid_std.person;
 
