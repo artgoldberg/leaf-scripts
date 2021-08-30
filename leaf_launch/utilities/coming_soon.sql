@@ -3,6 +3,11 @@
  * Author: Arthur.Goldberg@mssm.edu
  */
 
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
 USE LeafDB;
 
 DECLARE @yes BIT = 1

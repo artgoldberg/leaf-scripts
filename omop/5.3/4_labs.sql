@@ -145,6 +145,7 @@ BEGIN
 
     DECLARE @sqlset_person               INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_deid.person')
     DECLARE @sqlset_visit_occurrence     INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_deid.visit_occurrence')
+    -- TODO: Change this to omop.cdm_deid_std.condition_occurrence when it is ready
     DECLARE @sqlset_condition_occurrence INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'rpt.test_omop_conditions.condition_occurrence')
     DECLARE @sqlset_death                INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_deid.death')
     DECLARE @sqlset_device_exposure      INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_deid.device_exposure')

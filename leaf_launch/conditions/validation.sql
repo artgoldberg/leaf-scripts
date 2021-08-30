@@ -5,6 +5,16 @@
 
 -- UMLS_ICD10 should not contain duplicate entries
 
+-- Duplicate AUI values
+SELECT duped_AUI
+FROM (SELECT AUI duped_AUI,
+             COUNT(*) num_records
+      FROM rpt.leaf_scratch.UMLS_ICD10
+      GROUP BY AUI) sub_query,
+      rpt.leaf_scratch.UMLS_ICD10 UMLS_ICD10
+WHERE 1 < num_records
+ORDER BY duped_AUI;
+
 -- Duplicate display names
 SELECT duped_UI_display_name,
        AUI,
@@ -37,7 +47,7 @@ WHERE 1 < num_records
 ORDER BY duped_SqlSetWhere;
 
 
--- After running conditions.sql and leaf_icd10.sql, should not contain duplicate entries
+-- After running conditions.sql and leaf_icd10.sql, Concept should not contain duplicate entries
 
 -- Duplicated display names
 SELECT duped_UI_display_name,

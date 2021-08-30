@@ -4,6 +4,11 @@
  * Author: Arthur.Goldberg@mssm.edu
  */
 
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
 /* Empty indices */
 DELETE FROM LeafDB.app.ConceptForwardIndex;
 DELETE FROM LeafDB.app.ConceptInvertedIndex;
@@ -17,3 +22,6 @@ DELETE FROM LeafDB.app.Concept;
 
 /* Empty ConceptSqlSet */
 DELETE FROM LeafDB.app.ConceptSqlSet;
+
+/* Empty DemographicQuery */
+DELETE FROM LeafDB.app.DemographicQuery;

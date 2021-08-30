@@ -169,6 +169,7 @@ WHERE procedures_map.Epic_concept_id = Epic_concept.concept_id
       AND procedures_map.CPT4_concept_code = CPT4_concept.concept_code
 
 /*
+figure out why Epic_concept_codes and CPT4_concept_ids are NULL, and fix
 read sharon's procedure mappings into a table_name
 incorporate them into procedures_map
 have Sharon review

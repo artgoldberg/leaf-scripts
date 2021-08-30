@@ -13,22 +13,41 @@ BEGIN
     DECLARE @yes BIT = 1
     DECLARE @no  BIT = 0
 
-    DECLARE @sqlset_person               INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_deid.person')
-    DECLARE @sqlset_visit_occurrence     INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_deid.visit_occurrence')
-    DECLARE @sqlset_condition_occurrence INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'rpt.test_omop_conditions.condition_occurrence')
-    DECLARE @sqlset_death                INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_deid.death')
-    DECLARE @sqlset_device_exposure      INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_deid.device_exposure')
-    DECLARE @sqlset_drug_exposure        INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_deid.drug_exposure')
-    DECLARE @sqlset_measurement          INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_deid.measurement')
-    DECLARE @sqlset_observation          INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_deid.observation')
-    DECLARE @sqlset_procedure_occurrence INT = (SELECT TOP 1 Id FROM LeafDB.app.ConceptSqlSet WHERE SqlSetFrom = 'omop.cdm_deid.procedure_occurrence')
+    DECLARE @sqlset_person               INT = (SELECT TOP 1 Id
+                                                FROM LeafDB.app.ConceptSqlSet
+                                                WHERE SqlSetFrom LIKE '%[person%]')
+    DECLARE @sqlset_visit_occurrence     INT = (SELECT TOP 1 Id
+                                                FROM LeafDB.app.ConceptSqlSet
+                                                WHERE SqlSetFrom LIKE '%[visit_occurrence%]')
+    DECLARE @sqlset_condition_occurrence INT = (SELECT TOP 1 Id
+                                                FROM LeafDB.app.ConceptSqlSet
+                                                -- TODO: Change this to '%[condition_occurrence]%' when it is ready
+                                                WHERE SqlSetFrom LIKE '%rpt.test_omop_conditions.condition_occurrence%')
+    DECLARE @sqlset_death                INT = (SELECT TOP 1 Id
+                                                FROM LeafDB.app.ConceptSqlSet
+                                                WHERE SqlSetFrom LIKE '%[death%]')
+    DECLARE @sqlset_device_exposure      INT = (SELECT TOP 1 Id
+                                                FROM LeafDB.app.ConceptSqlSet
+                                                WHERE SqlSetFrom LIKE '%[device_exposure%]')
+    DECLARE @sqlset_drug_exposure        INT = (SELECT TOP 1 Id
+                                                FROM LeafDB.app.ConceptSqlSet
+                                                WHERE SqlSetFrom LIKE '%[drug_exposure%]')
+    DECLARE @sqlset_measurement          INT = (SELECT TOP 1 Id
+                                                FROM LeafDB.app.ConceptSqlSet
+                                                WHERE SqlSetFrom LIKE '%[measurement%]')
+    DECLARE @sqlset_observation          INT = (SELECT TOP 1 Id
+                                                FROM LeafDB.app.ConceptSqlSet
+                                                WHERE SqlSetFrom LIKE '%[observation%]')
+    DECLARE @sqlset_procedure_occurrence INT = (SELECT TOP 1 Id
+                                                FROM LeafDB.app.ConceptSqlSet
+                                                WHERE SqlSetFrom LIKE '%[procedure_occurrence%]')
 
     DECLARE @visit_root NVARCHAR(50) = 'visit'
 
     ; WITH visit_types AS
     (
         SELECT C.concept_name, C.concept_id, cnt = COUNT(DISTINCT person_id), concept_id_string = CONVERT(NVARCHAR(50), C.concept_id)
-        FROM omop.cdm_deid.visit_occurrence AS X INNER JOIN omop.cdm_deid.concept AS C
+        FROM omop.cdm_deid_std.visit_occurrence AS X INNER JOIN omop.cdm_deid_std.concept AS C
              ON X.visit_concept_id = C.concept_id
         WHERE X.visit_concept_id != 0
         GROUP BY C.concept_name, C.concept_id
@@ -51,7 +70,7 @@ BEGIN
          , UiDisplayText         = 'Have had an encounter'
          , UiDisplayUnits        = NULL
          , UiNumericDefaultText  = NULL
-         , UiDisplayPatientCount = (SELECT COUNT(DISTINCT person_id) FROM omop.cdm_deid.visit_occurrence)
+         , UiDisplayPatientCount = (SELECT COUNT(DISTINCT person_id) FROM omop.cdm_deid_std.visit_occurrence)
     UNION ALL
 
     /* Visit types */

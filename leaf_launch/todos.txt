@@ -67,10 +67,48 @@ conditions done:
         x run leaf_icd10.sql
         x try LeafDB.app.sp_UpdateSearchIndexTables
 
-Leaf beta
+Leaf beta done
     x restart post_concept_creation_tasks.sh
     x debug LeafDB.app.sp_UpdateSearchIndexTables
-    move old code in leaf-scripts/leaf_launch/conditions into old sub-dir
+    x move old code in leaf-scripts/leaf_launch/conditions into old sub-dir
+    try cdm_deid
+        x modify sql to use it & rpt.test_omop_conditions.condition_occurrence
+        x empty the customized LeafDB app tables
+        x set LEAF_SVC_PWD env. var.
+        x run run_leaf_omop_scripts.sh
+        x run leaf_icd10.sql
+        x run post_concept_creation_tasks.sql, with sp_UpdateSearchIndexTables first, which finishes quickly
+        x run eval_post_concept_creation_tasks.sql
+        x try Leaf, esp. Age queries and Patient list
+    debug cdm_deid
+        configure Leaf to use rpt.leaf_scratch.person
+            update LeafDB.app.ConceptSqlSet.SqlSetFrom to rpt.LEAF_SCRATCH.person
+
+Leaf beta, synch with MSDW2, 2021-08-27
+    MAKE SINGLE SCRIPT TO UPDATE LEAFDB AFTER CHANGES TO THE CDM
+        x incorporate special de-id Sql From sub-queries
+        x try to use de-id schema
+    x empty the customized LeafDB app tables
+    x kinit goldba06
+    x run run_leaf_omop_scripts.sh
+    x kdestroy
+    x run leaf_icd10.sql
+    x run post_concept_creation_tasks.sql, w sp_UpdateSearchIndexTables first, which finishes fast
+    x fix "WHERE SqlSetFrom = 'omop.cdm_deid.person'" expressions
+    x change remaining uses of cdm_std to cdm_deid
+    x make all searches for omop.cdm_deid_std use LIKE
+    x empty and run DemographicQuery
+    x change ConceptSqlFrom clauses
+    ** test all ConceptSqlFrom clauses
+    run eval_post_concept_creation_tasks.sql
+    switch to using the set of vitals that Sharon selected
+    fix 'leaf_icd10.sql' Line 74 "Subquery returned more than 1 value. This is not permitted ... when the subquery is used as an expression."
+    reactivate living and Deceased concepts after person and death person_ids are cleaned up
+    use omop.cdm_deid_std.condition_occurrence & REMOVE ALL REFERENCES TO 'TEST_OMOP_CONDITIONS'
+    have update_leaf.sh exit if any of the sqlcmd runs returns an error
+    Use a Kerberos keytab file so kinit doesn't need to be run by hand before update_leaf.sh
+    configure update_leaf.sh so it can be run automatically nightly
+        use user other than goldba06
 
 full report on Leaf results
     Demographics, Age & Vital Status all show 13,166,263 patients == #rows in omop.cdm_std.person
@@ -78,7 +116,7 @@ full report on Leaf results
     we have this distribution of Encounter counts ()
 
 Leaf beta
-    try cdm_deid - what about NULLs in person.birth_datetime (3.4 M of them)?
+    x try cdm_deid - what about NULLs in person.birth_datetime (3.4 M of them)?
     get post_concept_creation_tasks.sql to run to completion - check error log
     tune MSDW2 indices so LeafDB.app.sp_CalculatePatientCounts runs ~20x faster
     debug LeafDB.app.sp_UpdateSearchIndexTables
@@ -93,7 +131,6 @@ impt
     mouse pad for wrist
 
 conditions:
-    change "ICD-10-CM TABULAR LIST of DISEASES and INJURIES (ICD10CM:A00.0-Z99.89)" in UMLS_ICD10 to "ICD-10-CM Conditions"
     when src.usagi.mapping_import is ready, modify conditions.sql to use it
         add filtering that depends on Sharon's comments
     define AUI as PRIMARY KEY for UMLS_ICD10 and create indices on other columns
@@ -165,6 +202,7 @@ training & helping users:
 accessing PHI data:
     Turn off de-identified mode
 later:
+    why isn't ICD10 N18.6 in UMLS MRHIER.RRF?
     enable DBeaver connection via AD without trustServerCertificate=true for Leaf service account
     add to Leaf suggestions: Leaf concept table should be renamed to leaf_concept, to avoid confusion with CDM concept
     remove (or set aside) small programs in leaf-scripts/leaf_launch/conditions no longer being used, like map_Epic_to_ICD10.sql

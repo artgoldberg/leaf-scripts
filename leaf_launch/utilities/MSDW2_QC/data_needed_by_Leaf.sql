@@ -62,7 +62,7 @@ GROUP BY concept.concept_name, concept.concept_id
 ORDER BY concept.concept_name;
 
 -- Vital status (alive or dead)
--- Strangely, this returns "Deceased	12751902915"
+-- This returns "Deceased	12,751,902,915" because death.person_id and/or person.person_id contains many duplicates
 /*
 Comment out, as runs very slowly.
 SELECT 'Deceased', COUNT_BIG(*)
@@ -87,7 +87,7 @@ GROUP BY person_id
 
 /*
 Was
-DECLARE @tempC         INT = 3020891
+DECLARE @temp          INT = 3020891
 DECLARE @heartRate     INT = 3027018
 DECLARE @respRate      INT = 3024171
 DECLARE @bpDiast       INT = 3012888
@@ -99,13 +99,13 @@ DECLARE @bmi           INT = 40540383
 Dropping pulse, which isn't in concept, and bmi which has passed its valid end date
 */
 
-DECLARE @tempC INT = (SELECT concept_id
+DECLARE @temp  INT = (SELECT concept_id
                              FROM cdm_deid.concept
                              WHERE concept_name = 'Body temperature'
                                    AND standard_concept = 'S'
                                    AND concept_class_id = 'Clinical Observation'
                                    AND vocabulary_id = 'LOINC')
-PRINT '@tempC = ' + CAST(@tempC AS VARCHAR)
+PRINT '@temp  = ' + CAST(@temp  AS VARCHAR)
 
 DECLARE @heartRate INT = (SELECT concept_id
                                  FROM cdm_deid.concept
@@ -161,7 +161,7 @@ SELECT concept.concept_name,
 FROM cdm_deid.measurement
      LEFT JOIN cdm_deid.concept AS concept
         ON measurement_concept_id = concept.concept_id
-WHERE measurement_concept_id IN (@bpSyst, @bpDiast, @height, @weight, @heartRate, @tempC, @respRate)
+WHERE measurement_concept_id IN (@bpSyst, @bpDiast, @height, @weight, @heartRate, @temp, @respRate)
 GROUP BY concept.concept_name, concept.concept_id;
 
 -- Visits

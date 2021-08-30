@@ -15,31 +15,32 @@ BEGIN
 
     DECLARE @sqlset_person               INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom = 'omop.cdm_deid.person')
+                                                WHERE SqlSetFrom LIKE '%[person%]')
     DECLARE @sqlset_visit_occurrence     INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom = 'omop.cdm_deid.visit_occurrence')
+                                                WHERE SqlSetFrom LIKE '%[visit_occurrence%]')
     DECLARE @sqlset_condition_occurrence INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom = 'rpt.test_omop_conditions.condition_occurrence')
+                                                -- TODO: Change this to '%[condition_occurrence]%' when it is ready
+                                                WHERE SqlSetFrom LIKE '%rpt.test_omop_conditions.condition_occurrence%')
     DECLARE @sqlset_death                INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom = 'omop.cdm_deid.death')
+                                                WHERE SqlSetFrom LIKE '%[death%]')
     DECLARE @sqlset_device_exposure      INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom = 'omop.cdm_deid.device_exposure')
+                                                WHERE SqlSetFrom LIKE '%[device_exposure%]')
     DECLARE @sqlset_drug_exposure        INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom = 'omop.cdm_deid.drug_exposure')
+                                                WHERE SqlSetFrom LIKE '%[drug_exposure%]')
     DECLARE @sqlset_measurement          INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom = 'omop.cdm_deid.measurement')
+                                                WHERE SqlSetFrom LIKE '%[measurement%]')
     DECLARE @sqlset_observation          INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom = 'omop.cdm_deid.observation')
+                                                WHERE SqlSetFrom LIKE '%[observation%]')
     DECLARE @sqlset_procedure_occurrence INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom = 'omop.cdm_deid.procedure_occurrence')
+                                                WHERE SqlSetFrom LIKE '%[procedure_occurrence%]')
 
     DECLARE @demog_root   NVARCHAR(50) = 'demographics'
     DECLARE @demog_gender NVARCHAR(50) = 'demographics:gender'
@@ -51,21 +52,21 @@ BEGIN
     ; WITH gender AS
     (
         SELECT C.concept_name, C.concept_id, cnt = COUNT(DISTINCT person_id), concept_id_string = CONVERT(NVARCHAR(50), C.concept_id)
-        FROM omop.cdm_deid.person AS X INNER JOIN omop.cdm_deid.concept AS C
+        FROM omop.cdm_deid_std.person AS X INNER JOIN omop.cdm_deid_std.concept AS C
              ON X.gender_concept_id = C.concept_id
         WHERE X.gender_concept_id != 0
         GROUP BY C.concept_name, C.concept_id
     ), ethnicity AS
     (
         SELECT C.concept_name, C.concept_id, cnt = COUNT(DISTINCT person_id), concept_id_string = CONVERT(NVARCHAR(50), C.concept_id)
-        FROM omop.cdm_deid.person AS X INNER JOIN omop.cdm_deid.concept AS C
+        FROM omop.cdm_deid_std.person AS X INNER JOIN omop.cdm_deid_std.concept AS C
              ON X.ethnicity_concept_id = C.concept_id
         WHERE X.ethnicity_concept_id != 0
         GROUP BY C.concept_name, C.concept_id
     ), race AS
     (
         SELECT C.concept_name, C.concept_id, cnt = COUNT(DISTINCT person_id), concept_id_string = CONVERT(NVARCHAR(50), C.concept_id)
-        FROM omop.cdm_deid.person AS X INNER JOIN omop.cdm_deid.concept AS C
+        FROM omop.cdm_deid_std.person AS X INNER JOIN omop.cdm_deid_std.concept AS C
              ON X.race_concept_id = C.concept_id
         WHERE X.race_concept_id != 0
         GROUP BY C.concept_name, C.concept_id
@@ -88,7 +89,7 @@ BEGIN
          , UiDisplayText         = 'Have demographics'
          , UiDisplayUnits        = NULL
          , UiNumericDefaultText  = NULL
-         , UiDisplayPatientCount = (SELECT COUNT(*) FROM omop.cdm_deid.person)
+         , UiDisplayPatientCount = (SELECT COUNT(*) FROM omop.cdm_deid_std.person)
     UNION ALL
 
     /* Gender */
@@ -197,7 +198,7 @@ BEGIN
          , UiDisplayText         = 'Are'
          , UiDisplayUnits        = 'years old'
          , UiNumericDefaultText  = 'any current age'
-         , UiDisplayPatientCount = (SELECT COUNT(*) FROM omop.cdm_deid.person)
+         , UiDisplayPatientCount = (SELECT COUNT(*) FROM omop.cdm_deid_std.person)
     UNION ALL
 
     /* Vital status */
@@ -213,26 +214,29 @@ BEGIN
          , UiDisplayText         = 'Are living or deceased'
          , UiDisplayUnits        = NULL
          , UiNumericDefaultText  = NULL
-         , UiDisplayPatientCount = (SELECT COUNT(*) FROM omop.cdm_deid.person)
+         , UiDisplayPatientCount = (SELECT COUNT(*) FROM omop.cdm_deid_std.person)
+
+    /*
+    TODO: Reactivate living and Deceased concepts after person and death person_ids are cleaned up
     UNION ALL
 
-    /* Living */
+    -- Living
     SELECT ExternalId            = @demog_vital + ':living'
          , ExternalParentId      = @demog_vital
          , [IsNumeric]           = @no
          , IsParent              = @no
          , IsRoot                = @no
          , SqlSetId              = @sqlset_person
-         , SqlSetWhere           = '/* Not deceased */ NOT EXISTS (SELECT 1 FROM omop.cdm_deid.death AS @D WHERE @.person_id = @D.person_id)'
+         , SqlSetWhere           = '/* Not deceased */ NOT EXISTS (SELECT 1 FROM omop.cdm_deid_std.death AS @D WHERE @.person_id = @D.person_id)'
          , SqlFieldNumeric       = NULL
          , UiDisplayName         = 'Living'
          , UiDisplayText         = 'Are living or not known to be deceased'
          , UiDisplayUnits        = NULL
          , UiNumericDefaultText  = NULL
-         , UiDisplayPatientCount = (SELECT COUNT(*) FROM omop.cdm_deid.person AS P WHERE NOT EXISTS (SELECT 1 FROM omop.cdm_deid.death AS D WHERE P.person_id = D.person_id))
+         , UiDisplayPatientCount = (SELECT COUNT(*) FROM omop.cdm_deid_std.person AS P WHERE NOT EXISTS (SELECT 1 FROM omop.cdm_deid_std.death AS D WHERE P.person_id = D.person_id))
     UNION ALL
 
-    /* Deceased */
+    -- Deceased
     SELECT ExternalId            = @demog_vital + ':deceased'
          , ExternalParentId      = @demog_vital
          , [IsNumeric]           = @no
@@ -245,7 +249,8 @@ BEGIN
          , UiDisplayText         = 'Are known to be deceased'
          , UiDisplayUnits        = NULL
          , UiNumericDefaultText  = NULL
-         , UiDisplayPatientCount = (SELECT COUNT(*) FROM omop.cdm_deid.person AS P WHERE EXISTS (SELECT 1 FROM omop.cdm_deid.death AS D WHERE P.person_id = D.person_id))
+         , UiDisplayPatientCount = (SELECT COUNT(*) FROM omop.cdm_deid_std.person AS P WHERE EXISTS (SELECT 1 FROM omop.cdm_deid_std.death AS D WHERE P.person_id = D.person_id))
+    */
 
     /**
     * Set ParentId based on ExternalIds
