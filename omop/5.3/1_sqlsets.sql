@@ -50,7 +50,7 @@ SET SqlSetFrom = '(SELECT [person_id] = CONVERT(NVARCHAR(50), [person_id]),
                           [race_source_concept_id],
                           [ethnicity_source_value],
                           [ethnicity_source_concept_id]
-                   FROM omop.cdm_deid_std.[person])'
+                   FROM omop.cdm_deid_std.person)'
 WHERE SqlSetFrom LIKE '%person';
 
 UPDATE LeafDB.app.ConceptSqlSet
@@ -71,7 +71,7 @@ SET SqlSetFrom = '(SELECT [visit_occurrence_id],
                           [discharge_to_concept_id],
                           [discharge_to_source_value],
                           [preceding_visit_occurrence_id]
-                   FROM omop.cdm_deid_std.[visit_occurrence])'
+                   FROM omop.cdm_deid_std.visit_occurrence)'
 WHERE SqlSetFrom LIKE '%visit_occurrence';
 
 /*
@@ -95,7 +95,7 @@ SET SqlSetFrom = '(SELECT [condition_occurrence_id],
                           [condition_source_concept_id],
                           [condition_status_source_value],
                           [condition_status_concept_id]
-                   FROM omop.cdm_deid_std.[condition_occurrence])'
+                   FROM omop.cdm_deid_std.condition_occurrence)'
 WHERE SqlSetFrom LIKE '%condition_occurrence';
 */
 
@@ -114,7 +114,7 @@ SET SqlSetFrom = '(SELECT [person_id] = CONVERT(NVARCHAR(50), [person_id]),
                           [cause_source_value],
                           [death_date],
                           [death_datetime]
-                   FROM omop.cdm_deid_std.[death])'
+                   FROM omop.cdm_deid_std.death)'
 WHERE SqlSetFrom LIKE '%death';
 
 UPDATE LeafDB.app.ConceptSqlSet
@@ -139,7 +139,7 @@ SET SqlSetFrom = '(SELECT [device_exposure_id],
                           [device_exposure_end_date],
                           [device_exposure_end_datetime],
                           [quantity]
-                   FROM omop.cdm_deid_std.[device_exposure])'
+                   FROM omop.cdm_deid_std.device_exposure)'
 WHERE SqlSetFrom LIKE '%device_exposure';
 
 UPDATE LeafDB.app.ConceptSqlSet
@@ -166,7 +166,7 @@ SET SqlSetFrom = '(SELECT [drug_exposure_id],
                           [drug_source_concept_id],
                           [route_source_value],
                           [dose_unit_source_value]
-                   FROM omop.cdm_deid_std.[drug_exposure])'
+                   FROM omop.cdm_deid_std.drug_exposure)'
 WHERE SqlSetFrom LIKE '%drug_exposure';
 
 UPDATE LeafDB.app.ConceptSqlSet
@@ -190,7 +190,7 @@ SET SqlSetFrom = '(SELECT [measurement_id],
                           [measurement_source_concept_id],
                           [unit_source_value],
                           [value_source_value]
-                   FROM omop.cdm_deid_std.[measurement])'
+                   FROM omop.cdm_deid_std.measurement)'
 WHERE SqlSetFrom LIKE '%measurement';
 
 UPDATE LeafDB.app.ConceptSqlSet
@@ -212,23 +212,23 @@ SET SqlSetFrom = '(SELECT [observation_id],
                           [observation_source_concept_id],
                           [unit_source_value],
                           [qualifier_source_value]
-                   FROM omop.cdm_deid_std.[observation])'
+                   FROM omop.cdm_deid_std.observation)'
 WHERE SqlSetFrom LIKE '%observation';
 
 UPDATE LeafDB.app.ConceptSqlSet
-SET SqlSetFrom = '(SELECT  [procedure_occurrence_id],
-                           [person_id] = CONVERT(NVARCHAR(50), [person_id]),
-                           [procedure_concept_id],
-                           [procedure_date],
-                           [procedure_datetime],
-                           [procedure_type_concept_id],
-                           [modifier_concept_id],
-                           [quantity],
-                           [provider_id],
-                           [visit_occurrence_id],
-                           [visit_detail_id],
-                           [procedure_source_value],
-                           [procedure_source_concept_id],
-                           [modifier_source_value]
-                   FROM omop.cdm_deid_std.[procedure_occurrence])'
+SET SqlSetFrom = '(SELECT [procedure_occurrence_id],
+                          [person_id] = CONVERT(NVARCHAR(50), [person_id]),
+                          [procedure_concept_id],
+                          [procedure_date],
+                          [procedure_datetime],
+                          [procedure_type_concept_id],
+                          [modifier_concept_id],
+                          [quantity],
+                          [provider_id],
+                          [visit_occurrence_id],
+                          [visit_detail_id],
+                          [procedure_source_value],
+                          [procedure_source_concept_id],
+                          [modifier_source_value]
+                  FROM omop.cdm_deid_std.procedure_occurrence)'
 WHERE SqlSetFrom LIKE '%procedure_occurrence';

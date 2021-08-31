@@ -18,7 +18,7 @@ DECLARE @user NVARCHAR(20)     = 'bootstrap_omop.sql'
 DECLARE @demog_query_shape INT = 3
 DECLARE @sql NVARCHAR(MAX)     = 
     'SELECT
-      personId          = CONVERT(NVARCHAR(10),P.person_id)
+      personId          = CONVERT(NVARCHAR(30), P.person_id)
     , addressPostalCode = L.zip
     , addressState      = CONVERT(NVARCHAR(20), L.[state])
     , birthDate         = P.birth_datetime

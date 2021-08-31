@@ -41,7 +41,7 @@ FROM (VALUES (@no,
               @no,
               (SELECT TOP 1 Id
                FROM app.ConceptSqlSet
-               WHERE SqlSetFrom LIKE '%[measurement]%'),
+               WHERE SqlSetFrom LIKE '%cdm_deid_std.measurement%'),
               @labs_root_name,
               GETDATE(),
               GETDATE()),
@@ -52,7 +52,7 @@ FROM (VALUES (@no,
               @no,
               (SELECT TOP 1 Id
                FROM app.ConceptSqlSet
-               WHERE SqlSetFrom LIKE '%[drug_exposure]%'),
+               WHERE SqlSetFrom LIKE '%cdm_deid_std.drug_exposure%'),
               @drugs_root_name,
               GETDATE(),
               GETDATE()),
@@ -63,7 +63,7 @@ FROM (VALUES (@no,
               @no,
               (SELECT TOP 1 Id
                FROM app.ConceptSqlSet
-               WHERE SqlSetFrom LIKE '%[procedure_occurrence]%'),
+               WHERE SqlSetFrom LIKE '%cdm_deid_std.procedure_occurrence%'),
               @procedures_root_name,
               GETDATE(),
               GETDATE())
