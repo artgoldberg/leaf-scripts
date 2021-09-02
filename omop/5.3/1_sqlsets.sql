@@ -32,7 +32,7 @@ is needed because they're stored as BINARY(32) in omop.cdm_deid_std; remove thes
 type reverts to an int (or to a bigint and Leaf can support bigints).
 */
 UPDATE LeafDB.app.ConceptSqlSet
-SET SqlSetFrom = '(SELECT [person_id] = CONVERT(NVARCHAR(50), [person_id]),
+SET SqlSetFrom = '(SELECT [person_id] = CONVERT(NVARCHAR(64), [person_id], 2),
                           [gender_concept_id],
                           [year_of_birth],
                           [month_of_birth],
@@ -55,7 +55,7 @@ WHERE SqlSetFrom LIKE '%person';
 
 UPDATE LeafDB.app.ConceptSqlSet
 SET SqlSetFrom = '(SELECT [visit_occurrence_id],
-                          [person_id] = CONVERT(NVARCHAR(50), [person_id]),
+                          [person_id] = CONVERT(NVARCHAR(64), [person_id], 2),
                           [visit_concept_id],
                           [visit_start_date],
                           [visit_start_datetime],
@@ -80,7 +80,7 @@ which can be done when it contains omop concepts in condition_occurrence_id and
 omop.cdm_deid_std.concept_relationship contains Epic diagnosis to SNOMED codes.
 UPDATE LeafDB.app.ConceptSqlSet
 SET SqlSetFrom = '(SELECT [condition_occurrence_id],
-                          [person_id] = CONVERT(NVARCHAR(50), [person_id]),
+                          [person_id] = CONVERT(NVARCHAR(64), [person_id], 2),
                           [condition_concept_id],
                           [condition_start_date],
                           [condition_start_datetime],
@@ -100,7 +100,7 @@ WHERE SqlSetFrom LIKE '%condition_occurrence';
 */
 
 UPDATE LeafDB.app.ConceptSqlSet
-SET SqlSetFrom = '(SELECT [person_id] = CONVERT(NVARCHAR(50), [person_id]),
+SET SqlSetFrom = '(SELECT [person_id] = CONVERT(NVARCHAR(64), [person_id], 2),
                           [death_type_concept_id],
                           [death_type_concept_code],
                           [death_type_concept_name],
@@ -124,7 +124,7 @@ SET SqlSetFrom = '(SELECT [device_exposure_id],
                           [device_type_concept_name],
                           [visit_occurrence_id],
                           [visit_detail_id],
-                          [person_id] = CONVERT(NVARCHAR(50), [person_id]),
+                          [person_id] = CONVERT(NVARCHAR(64), [person_id], 2),
                           [provider_id],
                           [device_concept_id],
                           [device_concept_code],
@@ -144,7 +144,7 @@ WHERE SqlSetFrom LIKE '%device_exposure';
 
 UPDATE LeafDB.app.ConceptSqlSet
 SET SqlSetFrom = '(SELECT [drug_exposure_id],
-                          [person_id] = CONVERT(NVARCHAR(50), [person_id]),
+                          [person_id] = CONVERT(NVARCHAR(64), [person_id], 2),
                           [drug_concept_id],
                           [drug_exposure_start_date],
                           [drug_exposure_start_datetime],
@@ -171,7 +171,7 @@ WHERE SqlSetFrom LIKE '%drug_exposure';
 
 UPDATE LeafDB.app.ConceptSqlSet
 SET SqlSetFrom = '(SELECT [measurement_id],
-                          [person_id] = CONVERT(NVARCHAR(50), [person_id]),
+                          [person_id] = CONVERT(NVARCHAR(64), [person_id], 2),
                           [measurement_concept_id],
                           [measurement_date],
                           [measurement_datetime],
@@ -195,7 +195,7 @@ WHERE SqlSetFrom LIKE '%measurement';
 
 UPDATE LeafDB.app.ConceptSqlSet
 SET SqlSetFrom = '(SELECT [observation_id],
-                          [person_id] = CONVERT(NVARCHAR(50), [person_id]),
+                          [person_id] = CONVERT(NVARCHAR(64), [person_id], 2),
                           [observation_concept_id],
                           [observation_date],
                           [observation_datetime],
@@ -217,7 +217,7 @@ WHERE SqlSetFrom LIKE '%observation';
 
 UPDATE LeafDB.app.ConceptSqlSet
 SET SqlSetFrom = '(SELECT [procedure_occurrence_id],
-                          [person_id] = CONVERT(NVARCHAR(50), [person_id]),
+                          [person_id] = CONVERT(NVARCHAR(64), [person_id], 2),
                           [procedure_concept_id],
                           [procedure_date],
                           [procedure_datetime],

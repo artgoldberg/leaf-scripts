@@ -7,9 +7,9 @@
 
 # Preparation: an active Kerberos ticket for Arthur Goldberg (goldba06) must be available to run sqlcmd -E
 # TODO: Use a Kerberos keytab file so kinit doesn't need to be run by hand before this script
-if ! klist 2> /dev/null | grep -q 'Principal: goldba06@MSNYUHEALTH.ORG'
+if ! klist 2> /dev/null | grep -q 'Principal: goldba06@MSSMCAMPUS.MSSM.EDU'
 then
-   echo "Error: a Kerberos ticket for goldba06@MSNYUHEALTH.ORG is needed."
+   echo "Error: a Kerberos ticket for goldba06@MSSMCAMPUS.MSSM.EDU is needed."
    exit 1
 fi
 

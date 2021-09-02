@@ -1,13 +1,17 @@
 /*
- * Duplicate code: CTEs for gender, ethnicity, race and vital status from the Leaf 2_demographics.sql script
+ * Mimic the CTEs for gender, ethnicity, race and vital status from the Leaf 2_demographics.sql script
  * and for vital signs from 5_vitals.sql.
  * Author: Arthur.Goldberg@mssm.edu
  */
 
+-- Don't acquire READ locks
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+
 USE omop;
 
 -- Gender, assuming omop codes
-SELECT concept.concept_name,
+SELECT 'cdm_deid_std',
+       concept.concept_name,
        concept.concept_id,
        [count] = COUNT(DISTINCT person_id),
        concept_id_string = CONVERT(NVARCHAR(50), concept.concept_id)
@@ -19,7 +23,8 @@ GROUP BY concept.concept_name, concept.concept_id
 ORDER BY concept.concept_name;
 
 -- Gender, assuming Epic codes
-SELECT OMOP_concept.concept_name,
+SELECT 'cdm_deid_std',
+       OMOP_concept.concept_name,
        OMOP_concept.concept_id,
        [count] = COUNT(DISTINCT person_id),
        concept_id_string = CONVERT(NVARCHAR(50), OMOP_concept.concept_id)
@@ -38,7 +43,8 @@ GROUP BY OMOP_concept.concept_name, OMOP_concept.concept_id
 ORDER BY OMOP_concept.concept_name;
 
 -- Ethnicity
-SELECT concept.concept_name,
+SELECT 'cdm_deid_std',
+       concept.concept_name,
        concept.concept_id,
        [count] = COUNT(DISTINCT person_id),
        concept_id_string = CONVERT(NVARCHAR(50), concept.concept_id)
@@ -50,7 +56,8 @@ GROUP BY concept.concept_name, concept.concept_id
 ORDER BY concept.concept_name;
 
 -- Race
-SELECT concept.concept_name,
+SELECT 'cdm_deid_std',
+       concept.concept_name,
        concept.concept_id,
        [count] = COUNT(DISTINCT person_id),
        concept_id_string = CONVERT(NVARCHAR(50), concept.concept_id)
@@ -64,13 +71,14 @@ ORDER BY concept.concept_name;
 -- Vital status (alive or dead)
 -- This returned "Deceased	12,751,902,915" because death.person_id and/or person.person_id contains many duplicates
 -- Comment out, as runs very slowly.
-SELECT 'Deceased', COUNT_BIG(*)
-FROM cdm_deid_std.death death,
-     cdm_deid_std.person person
+-- Fixed!
+SELECT COUNT_BIG(*) AS 'Deceased in cdm'
+FROM cdm.death death,
+     cdm.person person
 WHERE death.person_id = person.person_id;
 
-SELECT 'Deceased', COUNT_BIG(*)
 -- whereas this returned "Deceased	0".
+SELECT COUNT_BIG(*) AS 'Deceased in cdm_deid_std'
 FROM cdm_deid_std.death death,
      cdm_deid_std.person person
 WHERE death.person_id = person.person_id;
@@ -154,7 +162,8 @@ DECLARE @height INT = (SELECT concept_id
                                     AND vocabulary_id = 'LOINC')
 PRINT '@height = ' + CAST(@height AS VARCHAR)
 
-SELECT concept.concept_name,
+SELECT 'vitals in cdm_deid_std',
+       concept.concept_name,
        concept.concept_id,
        [count] = COUNT(DISTINCT person_id)
 FROM cdm_deid_std.measurement
@@ -164,20 +173,34 @@ WHERE measurement_concept_id IN (@bpSyst, @bpDiast, @height, @weight, @heartRate
 GROUP BY concept.concept_name, concept.concept_id;
 
 -- Visits
-SELECT concept.concept_name,
+SELECT 'cdm visits' AS 'Schema',
+       concept.concept_name,
        concept.concept_id,
-       [count] = COUNT(DISTINCT person_id),
-       'cdm_deid_std visits'
-FROM cdm_deid_std.visit_occurrence AS visit_occurrence INNER JOIN cdm_deid_std.concept AS concept
+       [count] = COUNT(DISTINCT person_id)
+FROM cdm.visit_occurrence AS visit_occurrence INNER JOIN cdm.concept AS concept
      ON visit_occurrence.visit_concept_id = concept.concept_id
 WHERE visit_occurrence.visit_concept_id != 0
-GROUP BY concept.concept_name, concept.concept_id;
+GROUP BY concept.concept_name, concept.concept_id
+
+UNION ALL
 
 -- Visits
-SELECT concept.concept_name,
+SELECT 'cdm_deid visits' AS 'Schema',
+       concept.concept_name,
        concept.concept_id,
-       [count] = COUNT(DISTINCT person_id),
-       'cdm_deid_std visits'
+       [count] = COUNT(DISTINCT person_id)
+FROM cdm_deid.visit_occurrence AS visit_occurrence INNER JOIN cdm_deid.concept AS concept
+     ON visit_occurrence.visit_concept_id = concept.concept_id
+WHERE visit_occurrence.visit_concept_id != 0
+GROUP BY concept.concept_name, concept.concept_id
+
+UNION ALL
+
+-- Visits
+SELECT 'cdm_deid_std visits' AS 'Schema',
+       concept.concept_name,
+       concept.concept_id,
+       [count] = COUNT(DISTINCT person_id)
 FROM cdm_deid_std.visit_occurrence AS visit_occurrence INNER JOIN cdm_deid_std.concept AS concept
      ON visit_occurrence.visit_concept_id = concept.concept_id
 WHERE visit_occurrence.visit_concept_id != 0

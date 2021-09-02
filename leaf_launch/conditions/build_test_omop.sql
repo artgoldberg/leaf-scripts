@@ -4,7 +4,7 @@
  */
 
 /*
-Must be executed as goldba06@MSNYUHEALTH.ORG.
+Must be executed as goldba06@MSSMCAMPUS.MSSM.EDU.
 
 Steps:
 1. create, load and index the table I need to modify: condition_occurrence

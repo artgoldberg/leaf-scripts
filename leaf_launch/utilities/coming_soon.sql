@@ -13,9 +13,9 @@ USE LeafDB;
 DECLARE @yes BIT = 1
 DECLARE @no  BIT = 0
 
-DECLARE @labs_root_name VARCHAR(100) = 'LOINC labs search coming soon'
-DECLARE @drugs_root_name VARCHAR(100) = 'RxNorm drugs search coming soon'
-DECLARE @procedures_root_name VARCHAR(100) = 'CPT4 procedures search coming soon'
+DECLARE @drugs_root_name VARCHAR(100) = '~ Coming soon: Drugs (RxNorm)'
+DECLARE @labs_root_name VARCHAR(100) = '~ Coming soon: Labs (LOINC)'
+DECLARE @procedures_root_name VARCHAR(100) = '~ Coming soon: Procedures (CPT4)'
 
 -- Don't create duplicates
 DELETE

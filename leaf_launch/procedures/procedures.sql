@@ -5,7 +5,7 @@
  */
 
 /*
-Must be executed as goldba06@MSNYUHEALTH.ORG.
+Must be executed as goldba06@MSSMCAMPUS.MSSM.EDU.
 
 Steps
 0. Create procedures_map table
