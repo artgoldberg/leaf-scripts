@@ -1,0 +1,128 @@
+{"Timestamp":"2021-08-31T19:02:06.3561467-04:00","Level":"Information","MessageTemplate":"Refreshed TokenBlacklistCache","Properties":{"SourceContext":"API.Jobs.BackgroundTokenBlacklistSynchronizer"}}
+{"Timestamp":"2021-08-31T19:02:11.0857775-04:00","Level":"Information","MessageTemplate":"FullCount cohort retrieved. Cohort:{@Cohort}","Properties":{"Cohort":{"Count":15,"SqlStatements":["DECLARE @IsIdentified BIT = 0; DECLARE @IsResearch   BIT = 0; DECLARE @IsQI         BIT = 1; WITH wrapper (personId) AS ( SELECT P1.person_id FROM ( SELECT  _S100.person_id FROM (SELECT [person_id] = CONVERT(NVARCHAR(64), [person_id], 2),
+                             [gender_concept_id],
+                             [year_of_birth],
+                             [month_of_birth],
+                             [day_of_birth],
+                             [birth_datetime],
+                             [race_concept_id],
+                             [ethnicity_concept_id],
+                             [location_id],
+                             [provider_id],
+                             [care_site_id],
+                             [person_source_value],
+                             [gender_source_value],
+                             [gender_source_concept_id],
+                             [race_source_value],
+                             [race_source_concept_id],
+                             [ethnicity_source_value],
+                             [ethnicity_source_concept_id]
+                      FROM omop.cdm_deid_std.person) AS _S100 WHERE /* Iwo Jiman */ _S100.race_concept_id = 38003593 ) AS P1 INTERSECT SELECT P0.person_id FROM ( SELECT  _S000.person_id FROM (SELECT [person_id] = CONVERT(NVARCHAR(64), [person_id], 2),
+                             [gender_concept_id],
+                             [year_of_birth],
+                             [month_of_birth],
+                             [day_of_birth],
+                             [birth_datetime],
+                             [race_concept_id],
+                             [ethnicity_concept_id],
+                             [location_id],
+                             [provider_id],
+                             [care_site_id],
+                             [person_source_value],
+                             [gender_source_value],
+                             [gender_source_concept_id],
+                             [race_source_value],
+                             [race_source_concept_id],
+                             [ethnicity_source_value],
+                             [ethnicity_source_concept_id]
+                      FROM omop.cdm_deid_std.person) AS _S000 WHERE /* American Indian */ _S000.race_concept_id = 38003572 UNION ALL SELECT  _S001.person_id FROM (SELECT [person_id] = CONVERT(NVARCHAR(64), [person_id], 2),
+                             [death_type_concept_id],
+                             [death_type_concept_code],
+                             [death_type_concept_name],
+                             [visit_occurrence_id],
+                             [cause_concept_id],
+                             [cause_concept_code],
+                             [cause_concept_name],
+                             [cause_source_concept_id],
+                             [cause_source_concept_code],
+                             [cause_source_concept_name],
+                             [cause_source_value],
+                             [death_date],
+                             [death_datetime]
+                      FROM omop.cdm_deid_std.death) AS _S001  GROUP BY _S001.person_id ) AS P0 ) SELECT personId FROM wrapper"]},"SourceContext":"Model.Cohort.CohortCounter","ActionId":"0460fa9e-292c-4cc9-a286-e7358700dd12","ActionName":"API.Controllers.CohortCountController.Count (API)","RequestId":"0HMB9ER01CNIS:00000004","RequestPath":"/api/cohort/count","SpanId":"|eacbf79d-417cea76f0199663.","TraceId":"eacbf79d-417cea76f0199663","ParentId":"","ConnectionId":"0HMB9ER01CNIS","SessionId":"21bef171-de50-463d-ac08-5057b6905700","User":"arthur.p.goldberg@mssm.edu@urn:leaf:issuer:leaf.mssm.edu"}}
+{"Timestamp":"2021-08-31T19:02:11.0861275-04:00","Level":"Information","MessageTemplate":"Cohort caching started.","Properties":{"SourceContext":"Model.Cohort.CohortCounter","ActionId":"0460fa9e-292c-4cc9-a286-e7358700dd12","ActionName":"API.Controllers.CohortCountController.Count (API)","RequestId":"0HMB9ER01CNIS:00000004","RequestPath":"/api/cohort/count","SpanId":"|eacbf79d-417cea76f0199663.","TraceId":"eacbf79d-417cea76f0199663","ParentId":"","ConnectionId":"0HMB9ER01CNIS","SessionId":"21bef171-de50-463d-ac08-5057b6905700","User":"arthur.p.goldberg@mssm.edu@urn:leaf:issuer:leaf.mssm.edu"}}
+{"Timestamp":"2021-08-31T19:02:11.6678930-04:00","Level":"Information","MessageTemplate":"Cohort caching complete. QueryId:{@QueryId}, Panels:{@Panels}","Properties":{"QueryId":"f11da878-af0a-ec11-9c22-000c29db1cc8","Panels":[{"_typeTag":"Panel","SubPanels":[{"_typeTag":"SubPanel","PanelItems":[{"_typeTag":"PanelItem","Concept":{"_typeTag":"Concept","ParentId":"232e0859-ae0a-ec11-9c22-000c29db1cc8","RootId":"132e0859-ae0a-ec11-9c22-000c29db1cc8","ExternalId":"demographics:race:38003572","ExternalParentId":"demographics:race","IsNumeric":false,"IsEventBased":false,"IsParent":false,"IsEncounterBased":false,"IsPatientCountAutoCalculated":false,"IsSpecializable":false,"SqlSetFrom":"
+(SELECT [person_id] = CONVERT(NVARCHAR(64), [person_id], 2),
+                             [gender_concept_id],
+                             [year_of_birth],
+                             [month_of_birth],
+                             [day_of_birth],
+                             [birth_datetime],
+                             [race_concept_id],
+                             [ethnicity_concept_id],
+                             [location_id],
+                             [provider_id],
+                             [care_site_id],
+                             [person_source_value],
+                             [gender_source_value],
+                             [gender_source_concept_id],
+                             [race_source_value],
+                             [race_source_concept_id],
+                             [ethnicity_source_value],
+                             [ethnicity_source_concept_id]
+                      FROM omop.cdm_deid_std.person)
+","SqlSetWhere":"
+/* American Indian */ @.race_concept_id = 38003572
+","SqlFieldDate":null,"SqlFieldNumeric":null,"SqlFieldEvent":null,"UiDisplayName":"American Indian","UiDisplayText":"Identify as American Indian","UiDisplaySubtext":null,"UiDisplayUnits":null,"UiDisplayTooltip":null,"UiDisplayEventName":null,"UiDisplayPatientCount":92,"EventTypeId":null,"SpecializationGroups":[],"UiDisplayPatientCountByYear":null,"UiNumericDefaultText":null,"Id":"0b2e0859-ae0a-ec11-9c22-000c29db1cc8","UniversalId":null},"Specializations":[],"SqlRecencyFilter":null,"UseNumericFilter":false,"HasSpecializations":false,"UseRecencyFilter":false,"NumericFilter":{"_typeTag":"NumericFilter","FilterType":"None","Filter":[]},"RecencyFilter":"None","Index":0,"SubPanelIndex":0,"PanelIndex":0},{"_typeTag":"PanelItem","Concept":{"_typeTag":"Concept","ParentId":"152e0859-ae0a-ec11-9c22-000c29db1cc8","RootId":"132e0859-ae0a-ec11-9c22-000c29db1cc8","ExternalId":"demographics:vital:deceased","ExternalParentId":"demographics:vital","IsNumeric":false,"IsEventBased":false,"IsParent":false,"IsEncounterBased":true,"IsPatientCountAutoCalculated":false,"IsSpecializable":false,"SqlSetFrom":"
+(SELECT [person_id] = CONVERT(NVARCHAR(64), [person_id], 2),
+                             [death_type_concept_id],
+                             [death_type_concept_code],
+                             [death_type_concept_name],
+                             [visit_occurrence_id],
+                             [cause_concept_id],
+                             [cause_concept_code],
+                             [cause_concept_name],
+                             [cause_source_concept_id],
+                             [cause_source_concept_code],
+                             [cause_source_concept_name],
+                             [cause_source_value],
+                             [death_date],
+                             [death_datetime]
+                      FROM omop.cdm_deid_std.death)","SqlSetWhere":null,"SqlFieldDate":"@.death_datetime","SqlFieldNumeric":null,"SqlFieldEvent":null,"UiDisplayName":"Deceased","UiDisplayText":"Are known to be deceased","UiDisplaySubtext":null,"UiDisplayUnits":null,"UiDisplayTooltip":null,"UiDisplayEventName":null,"UiDisplayPatientCount":31594,"EventTypeId":null,"SpecializationGroups":[],"UiDisplayPatientCountByYear":null,"UiNumericDefaultText":null,"Id":"312e0859-ae0a-ec11-9c22-000c29db1cc8","UniversalId":null},"Specializations":[],"SqlRecencyFilter":null,"UseNumericFilter":false,"HasSpecializations":false,"UseRecencyFilter":false,"NumericFilter":{"_typeTag":"NumericFilter","FilterType":"None","Filter":[]},"RecencyFilter":"None","Index":1,"SubPanelIndex":0,"PanelIndex":0}],"HasCountFilter":false,"PanelIndex":0,"Index":0,"IncludeSubPanel":true,"MinimumCount":1,"JoinSequence":{"_typeTag":"SubPanelJoinSequence","Increment":1,"DateIncrementType":"Day","SequenceType":"Encounter"},"DateFilter":{"_typeTag":"DateFilter","Date":"0001-01-01T00:00:00.0000000","Increment":0,"DateIncrementType":"None"}}],"PanelType":"Patient","IsDateFiltered":false,"DateFilter":{"_typeTag":"DateBoundary","Start":{"_typeTag":"DateFilter","Date":"0001-01-01T00:00:00.0000000","Increment":1,"DateIncrementType":"None"},"End":{"_typeTag":"DateFilter","Date":"0001-01-01T00:00:00.0000000","Increment":1,"DateIncrementType":"None"}},"IncludePanel":true,"Domain":"Panel","Index":0},{"_typeTag":"Panel","SubPanels":[{"_typeTag":"SubPanel","PanelItems":[{"_typeTag":"PanelItem","Concept":{"_typeTag":"Concept","ParentId":"232e0859-ae0a-ec11-9c22-000c29db1cc8","RootId":"132e0859-ae0a-ec11-9c22-000c29db1cc8","ExternalId":"demographics:race:38003593","ExternalParentId":"demographics:race","IsNumeric":false,"IsEventBased":false,"IsParent":false,"IsEncounterBased":false,"IsPatientCountAutoCalculated":false,"IsSpecializable":false,"SqlSetFrom":"(SELECT [person_id] = CONVERT(NVARCHAR(64), [person_id], 2),
+                             [gender_concept_id],
+                             [year_of_birth],
+                             [month_of_birth],
+                             [day_of_birth],
+                             [birth_datetime],
+                             [race_concept_id],
+                             [ethnicity_concept_id],
+                             [location_id],
+                             [provider_id],
+                             [care_site_id],
+                             [person_source_value],
+                             [gender_source_value],
+                             [gender_source_concept_id],
+                             [race_source_value],
+                             [race_source_concept_id],
+                             [ethnicity_source_value],
+                             [ethnicity_source_concept_id]
+                      FROM omop.cdm_deid_std.person)","SqlSetWhere":"/* Iwo Jiman */ @.race_concept_id = 38003593","SqlFieldDate":null,"SqlFieldNumeric":null,"SqlFieldEvent":null,"UiDisplayName":"Iwo Jiman","UiDisplayText":"Identify as Iwo Jiman","UiDisplaySubtext":null,"UiDisplayUnits":null,"UiDisplayTooltip":null,"UiDisplayEventName":null,"UiDisplayPatientCount":3508,"EventTypeId":null,"SpecializationGroups":[],"UiDisplayPatientCountByYear":null,"UiNumericDefaultText":null,"Id":"fe2d0859-ae0a-ec11-9c22-000c29db1cc8","UniversalId":null},"Specializations":[],"SqlRecencyFilter":null,"UseNumericFilter":false,"HasSpecializations":false,"UseRecencyFilter":false,"NumericFilter":{"_typeTag":"NumericFilter","FilterType":"None","Filter":[]},"RecencyFilter":"None","Index":0,"SubPanelIndex":0,"PanelIndex":1}],"HasCountFilter":false,"PanelIndex":1,"Index":0,"IncludeSubPanel":true,"MinimumCount":1,"JoinSequence":{"_typeTag":"SubPanelJoinSequence","Increment":1,"DateIncrementType":"Day","SequenceType":"Encounter"},"DateFilter":{"_typeTag":"DateFilter","Date":"0001-01-01T00:00:00.0000000","Increment":0,"DateIncrementType":"None"}}],"PanelType":"Patient","IsDateFiltered":false,"DateFilter":{"_typeTag":"DateBoundary","Start":{"_typeTag":"DateFilter","Date":"0001-01-01T00:00:00.0000000","Increment":1,"DateIncrementType":"None"},"End":{"_typeTag":"DateFilter","Date":"0001-01-01T00:00:00.0000000","Increment":1,"DateIncrementType":"None"}},"IncludePanel":true,"Domain":"Panel","Index":1}],"SourceContext":"Model.Cohort.CohortCounter","ActionId":"0460fa9e-292c-4cc9-a286-e7358700dd12","ActionName":"API.Controllers.CohortCountController.Count (API)","RequestId":"0HMB9ER01CNIS:00000004","RequestPath":"/api/cohort/count","SpanId":"|eacbf79d-417cea76f0199663.","TraceId":"eacbf79d-417cea76f0199663","ParentId":"","ConnectionId":"0HMB9ER01CNIS","SessionId":"21bef171-de50-463d-ac08-5057b6905700","User":"arthur.p.goldberg@mssm.edu@urn:leaf:issuer:leaf.mssm.edu"}}
+{"Timestamp":"2021-08-31T19:02:11.6686483-04:00","Level":"Information","MessageTemplate":"Executing ObjectResult, writing value of type '{Type}'.","Properties":{"Type":"API.DTO.Cohort.CohortCountDTO","EventId":{"Id":1,"Name":"ObjectResultExecuting"},"SourceContext":"Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor","ActionId":"0460fa9e-292c-4cc9-a286-e7358700dd12","ActionName":"API.Controllers.CohortCountController.Count (API)","RequestId":"0HMB9ER01CNIS:00000004","RequestPath":"/api/cohort/count","SpanId":"|eacbf79d-417cea76f0199663.","TraceId":"eacbf79d-417cea76f0199663","ParentId":"","ConnectionId":"0HMB9ER01CNIS","SessionId":"21bef171-de50-463d-ac08-5057b6905700","User":"arthur.p.goldberg@mssm.edu@urn:leaf:issuer:leaf.mssm.edu"}}
+{"Timestamp":"2021-08-31T19:02:11.6693848-04:00","Level":"Information","MessageTemplate":"Executed action {ActionName} in {ElapsedMilliseconds}ms","Properties":{"ActionName":"API.Controllers.CohortCountController.Count (API)","ElapsedMilliseconds":59052.3201,"EventId":{"Id":2,"Name":"ActionExecuted"},"SourceContext":"Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker","ActionId":"0460fa9e-292c-4cc9-a286-e7358700dd12","RequestId":"0HMB9ER01CNIS:00000004","RequestPath":"/api/cohort/count","SpanId":"|eacbf79d-417cea76f0199663.","TraceId":"eacbf79d-417cea76f0199663","ParentId":"","ConnectionId":"0HMB9ER01CNIS","SessionId":"21bef171-de50-463d-ac08-5057b6905700","User":"arthur.p.goldberg@mssm.edu@urn:leaf:issuer:leaf.mssm.edu"}}
+{"Timestamp":"2021-08-31T19:02:11.6695413-04:00","Level":"Information","MessageTemplate":"{HostingRequestFinishedLog:l}","Properties":{"ElapsedMilliseconds":59054.0804,"StatusCode":200,"ContentType":"application/json; charset=utf-8","HostingRequestFinishedLog":"Request finished in 59054.0804ms 200 application/json; charset=utf-8","EventId":{"Id":2},"SourceContext":"Microsoft.AspNetCore.Hosting.Diagnostics","RequestId":"0HMB9ER01CNIS:00000004","RequestPath":"/api/cohort/count","SpanId":"|eacbf79d-417cea76f0199663.","TraceId":"eacbf79d-417cea76f0199663","ParentId":"","ConnectionId":"0HMB9ER01CNIS"},"Renderings":{"HostingRequestFinishedLog":[{"Format":"l","Rendering":"Request finished in 59054.0804ms 200 application/json; charset=utf-8"}]}}
+{"Timestamp":"2021-08-31T19:02:14.3714140-04:00","Level":"Information","MessageTemplate":"{HostingRequestStartingLog:l}","Properties":{"Protocol":"HTTP/1.1","Method":"GET","ContentType":null,"ContentLength":null,"Scheme":"http","Host":"10.95.46.180:5001","PathBase":"","Path":"/api/cohort/1c39416b-af0a-ec11-9c22-000c29db1cc8/demographics","QueryString":"","HostingRequestStartingLog":"Request starting HTTP/1.1 GET http://10.95.46.180:5001/api/cohort/1c39416b-af0a-ec11-9c22-000c29db1cc8/demographics  ","EventId":{"Id":1},"SourceContext":"Microsoft.AspNetCore.Hosting.Diagnostics","RequestId":"0HMB9ER01CNIS:00000005","RequestPath":"/api/cohort/1c39416b-af0a-ec11-9c22-000c29db1cc8/demographics","SpanId":"|eacbf7a0-417cea76f0199663.","TraceId":"eacbf7a0-417cea76f0199663","ParentId":"","ConnectionId":"0HMB9ER01CNIS"},"Renderings":{"HostingRequestStartingLog":[{"Format":"l","Rendering":"Request starting HTTP/1.1 GET http://10.95.46.180:5001/api/cohort/1c39416b-af0a-ec11-9c22-000c29db1cc8/demographics  "}]}}
+{"Timestamp":"2021-08-31T19:02:14.3724876-04:00","Level":"Information","MessageTemplate":"Successfully validated the token.","Properties":{"EventId":{"Id":2,"Name":"TokenValidationSucceeded"},"SourceContext":"Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerHandler","RequestId":"0HMB9ER01CNIS:00000005","RequestPath":"/api/cohort/1c39416b-af0a-ec11-9c22-000c29db1cc8/demographics","SpanId":"|eacbf7a0-417cea76f0199663.","TraceId":"eacbf7a0-417cea76f0199663","ParentId":"","ConnectionId":"0HMB9ER01CNIS"}}
+{"Timestamp":"2021-08-31T19:02:14.3728408-04:00","Level":"Information","MessageTemplate":"Route matched with {RouteData}. Executing controller action with signature {MethodInfo} on controller {Controller} ({AssemblyName}).","Properties":{"RouteData":"{action = \"Demographics\", controller = \"Cohort\"}","MethodInfo":"System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Model.Cohort.Demographic]] Demographics(System.String, Model.Cohort.DemographicProvider, System.Threading.CancellationToken)","Controller":"API.Controllers.CohortController","AssemblyName":"API","EventId":{"Id":3,"Name":"ControllerActionExecuting"},"SourceContext":"Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker","ActionId":"b0585975-675c-42ea-b97c-d41f4c5df797","ActionName":"API.Controllers.CohortController.Demographics (API)","RequestId":"0HMB9ER01CNIS:00000005","RequestPath":"/api/cohort/1c39416b-af0a-ec11-9c22-000c29db1cc8/demographics","SpanId":"|eacbf7a0-417cea76f0199663.","TraceId":"eacbf7a0-417cea76f0199663","ParentId":"","ConnectionId":"0HMB9ER01CNIS","SessionId":"21bef171-de50-463d-ac08-5057b6905700","User":"arthur.p.goldberg@mssm.edu@urn:leaf:issuer:leaf.mssm.edu"}}
+{"Timestamp":"2021-08-31T19:02:14.3730269-04:00","Level":"Information","MessageTemplate":"Authorization was successful.","Properties":{"EventId":{"Id":1,"Name":"UserAuthorizationSucceeded"},"SourceContext":"Microsoft.AspNetCore.Authorization.DefaultAuthorizationService","ActionId":"b0585975-675c-42ea-b97c-d41f4c5df797","ActionName":"API.Controllers.CohortController.Demographics (API)","RequestId":"0HMB9ER01CNIS:00000005","RequestPath":"/api/cohort/1c39416b-af0a-ec11-9c22-000c29db1cc8/demographics","SpanId":"|eacbf7a0-417cea76f0199663.","TraceId":"eacbf7a0-417cea76f0199663","ParentId":"","ConnectionId":"0HMB9ER01CNIS","SessionId":"21bef171-de50-463d-ac08-5057b6905700","User":"arthur.p.goldberg@mssm.edu@urn:leaf:issuer:leaf.mssm.edu"}}
+{"Timestamp":"2021-08-31T19:02:14.3734537-04:00","Level":"Information","MessageTemplate":"Demographics starting. QueryRef:{QueryRef}","Properties":{"QueryRef":"Model.Compiler.QueryRef","SourceContext":"Model.Cohort.DemographicProvider","ActionId":"b0585975-675c-42ea-b97c-d41f4c5df797","ActionName":"API.Controllers.CohortController.Demographics (API)","RequestId":"0HMB9ER01CNIS:00000005","RequestPath":"/api/cohort/1c39416b-af0a-ec11-9c22-000c29db1cc8/demographics","SpanId":"|eacbf7a0-417cea76f0199663.","TraceId":"eacbf7a0-417cea76f0199663","ParentId":"","ConnectionId":"0HMB9ER01CNIS","SessionId":"21bef171-de50-463d-ac08-5057b6905700","User":"arthur.p.goldberg@mssm.edu@urn:leaf:issuer:leaf.mssm.edu"}}
+{"Timestamp":"2021-08-31T19:02:14.3737020-04:00","Level":"Information","MessageTemplate":"Getting DemographicQueryCompilerContext. QueryRef:{@QueryRef}","Properties":{"QueryRef":{"_typeTag":"QueryRef","Id":"1c39416b-af0a-ec11-9c22-000c29db1cc8","UniversalId":null},"SourceContext":"Model.Compiler.DemographicCompilerValidationContextProvider","ActionId":"b0585975-675c-42ea-b97c-d41f4c5df797","ActionName":"API.Controllers.CohortController.Demographics (API)","RequestId":"0HMB9ER01CNIS:00000005","RequestPath":"/api/cohort/1c39416b-af0a-ec11-9c22-000c29db1cc8/demographics","SpanId":"|eacbf7a0-417cea76f0199663.","TraceId":"eacbf7a0-417cea76f0199663","ParentId":"","ConnectionId":"0HMB9ER01CNIS","SessionId":"21bef171-de50-463d-ac08-5057b6905700","User":"arthur.p.goldberg@mssm.edu@urn:leaf:issuer:leaf.mssm.edu"}}
+{"Timestamp":"2021-08-31T19:02:14.3738325-04:00","Level":"Information","MessageTemplate":"Getting DemographicQueryCompilerContext by QueryId","Properties":{"SourceContext":"Services.Search.DemographicCompilerContextProvider","ActionId":"b0585975-675c-42ea-b97c-d41f4c5df797","ActionName":"API.Controllers.CohortController.Demographics (API)","RequestId":"0HMB9ER01CNIS:00000005","RequestPath":"/api/cohort/1c39416b-af0a-ec11-9c22-000c29db1cc8/demographics","SpanId":"|eacbf7a0-417cea76f0199663.","TraceId":"eacbf7a0-417cea76f0199663","ParentId":"","ConnectionId":"0HMB9ER01CNIS","SessionId":"21bef171-de50-463d-ac08-5057b6905700","User":"arthur.p.goldberg@mssm.edu@urn:leaf:issuer:leaf.mssm.edu"}}
+{"Timestamp":"2021-08-31T19:02:16.5130296-04:00","Level":"Error","MessageTemplate":"Failed to fetch demographics. QueryID:{QueryID} Error:{Error}","Properties":{"QueryID":"1c39416b-af0a-ec11-9c22-000c29db1cc8","Error":"System.NullReferenceException: Object reference not set to an instance of an object.
+      at Model.Compiler.DemographicCompilerValidationContextProvider.GetContextState(DemographicCompilerContext context) in /var/opt/leafapi/leaf_download/leaf/src/server/Model/Compiler/DemographicCompilerValidationContextProvider.cs:line 69
+      at Model.Compiler.DemographicCompilerValidationContextProvider.GetCompilerContextAsync(QueryRef qr) in /var/opt/leafapi/leaf_download/leaf/src/server/Model/Compiler/DemographicCompilerValidationContextProvider.cs:line 47
+      at Model.Cohort.DemographicProvider.GetDemographicsAsync(QueryRef query, CancellationToken token) in /var/opt/leafapi/leaf_download/leaf/src/server/Model/Cohort/DemographicProvider.cs:line 80
+      at API.Controllers.CohortController.Demographics(String queryid, DemographicProvider provider, CancellationToken cancelToken) in /var/opt/leafapi/leaf_download/leaf/src/server/API/Controllers/CohortController.cs:line 46","SourceContext":"API.Controllers.CohortController","ActionId":"b0585975-675c-42ea-b97c-d41f4c5df797","ActionName":"API.Controllers.CohortController.Demographics (API)","RequestId":"0HMB9ER01CNIS:00000005","RequestPath":"/api/cohort/1c39416b-af0a-ec11-9c22-000c29db1cc8/demographics","SpanId":"|eacbf7a0-417cea76f0199663.","TraceId":"eacbf7a0-417cea76f0199663","ParentId":"","ConnectionId":"0HMB9ER01CNIS","SessionId":"21bef171-de50-463d-ac08-5057b6905700","User":"arthur.p.goldberg@mssm.edu@urn:leaf:issuer:leaf.mssm.edu"}}
+{"Timestamp":"2021-08-31T19:02:16.5135502-04:00","Level":"Information","MessageTemplate":"Executing HttpStatusCodeResult, setting HTTP status code {StatusCode}","Properties":{"StatusCode":500,"EventId":{"Id":1,"Name":"HttpStatusCodeResultExecuting"},"SourceContext":"Microsoft.AspNetCore.Mvc.StatusCodeResult","ActionId":"b0585975-675c-42ea-b97c-d41f4c5df797","ActionName":"API.Controllers.CohortController.Demographics (API)","RequestId":"0HMB9ER01CNIS:00000005","RequestPath":"/api/cohort/1c39416b-af0a-ec11-9c22-000c29db1cc8/demographics","SpanId":"|eacbf7a0-417cea76f0199663.","TraceId":"eacbf7a0-417cea76f0199663","ParentId":"","ConnectionId":"0HMB9ER01CNIS","SessionId":"21bef171-de50-463d-ac08-5057b6905700","User":"arthur.p.goldberg@mssm.edu@urn:leaf:issuer:leaf.mssm.edu"}}
+{"Timestamp":"2021-08-31T19:02:16.5137177-04:00","Level":"Information","MessageTemplate":"Executed action {ActionName} in {ElapsedMilliseconds}ms","Properties":{"ActionName":"API.Controllers.CohortController.Demographics (API)","ElapsedMilliseconds":2140.7435,"EventId":{"Id":2,"Name":"ActionExecuted"},"SourceContext":"Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker","ActionId":"b0585975-675c-42ea-b97c-d41f4c5df797","RequestId":"0HMB9ER01CNIS:00000005","RequestPath":"/api/cohort/1c39416b-af0a-ec11-9c22-000c29db1cc8/demographics","SpanId":"|eacbf7a0-417cea76f0199663.","TraceId":"eacbf7a0-417cea76f0199663","ParentId":"","ConnectionId":"0HMB9ER01CNIS","SessionId":"21bef171-de50-463d-ac08-5057b6905700","User":"arthur.p.goldberg@mssm.edu@urn:leaf:issuer:leaf.mssm.edu"}}
+{"Timestamp":"2021-08-31T19:02:16.5139481-04:00","Level":"Information","MessageTemplate":"{HostingRequestFinishedLog:l}","Properties":{"ElapsedMilliseconds":2142.5811,"StatusCode":500,"ContentType":null,"HostingRequestFinishedLog":"Request finished in 2142.5811ms 500 ","EventId":{"Id":2},"SourceContext":"Microsoft.AspNetCore.Hosting.Diagnostics","RequestId":"0HMB9ER01CNIS:00000005","RequestPath":"/api/cohort/1c39416b-af0a-ec11-9c22-000c29db1cc8/demographics","SpanId":"|eacbf7a0-417cea76f0199663.","TraceId":"eacbf7a0-417cea76f0199663","ParentId":"","ConnectionId":"0HMB9ER01CNIS"},"Renderings":{"HostingRequestFinishedLog":[{"Format":"l","Rendering":"Request finished in 2142.5811ms 500 "}]}}
+{"Timestamp":"2021-08-31T19:02:36.3593919-04:00","Level":"Information","MessageTemplate":"Refreshed TokenBlacklistCache","Properties":{"SourceContext":"API.Jobs.BackgroundTokenBlacklistSynchronizer"}}
