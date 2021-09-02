@@ -102,14 +102,13 @@ Leaf beta, synch with MSDW2, 2021-08-27
     X (unsure why fixed) fix 'leaf_icd10.sql' Line 74 "Subquery returned more than 1 value. This is not permitted ... when the subquery is used as an expression."
     x reactivate living and Deceased concepts after person and death person_ids are cleaned up
     x run eval_post_concept_creation_tasks.sql
-    switch to using the set of vitals that Sharon selected
-    perhaps recreate rpt.test_omop_conditions.condition_occurrence with deid data
+    recreate rpt.test_omop_conditions.condition_occurrence with deid data
     switch Leaf API Kerberos account back to service_leaf@MSNYUHEALTH.ORG when omop.cdm_deid_std.condition_occurrence is ready
     ** test all ConceptSqlFrom clauses
     use omop.cdm_deid_std.condition_occurrence & REMOVE ALL REFERENCES TO 'TEST_OMOP_CONDITIONS'
+    perhaps switch to using the set of vitals that Sharon selected
     have update_leaf.sh exit if any of the sqlcmd runs returns an error
     Use a Kerberos keytab file so kinit doesn't need to be run by hand before update_leaf.sh
-    
     configure update_leaf.sh so it can be run automatically nightly
         use user other than goldba06
 
@@ -120,13 +119,14 @@ full report on Leaf results
 
 Leaf beta
     x try cdm_deid - what about NULLs in person.birth_datetime (3.4 M of them)?
+    x debug LeafDB.app.sp_UpdateSearchIndexTables
+    x Update "[CRIO] Digital Concierge Service: Informatics and Data Science Online “Walk-in” Clinic" emails (Laura handling)
+    Work with Darshan to modify AD groups for de-identified.leaf.msdw.mountsinai.org
     get post_concept_creation_tasks.sql to run to completion - check error log
     tune MSDW2 indices so LeafDB.app.sp_CalculatePatientCounts runs ~20x faster
-    debug LeafDB.app.sp_UpdateSearchIndexTables
     domain names
-    public achilles reports
+    public achilles reports in git repo
     read "MSDW2 Database Roles & Permissions"
-    Update "[CRIO] Digital Concierge Service: Informatics and Data Science Online “Walk-in” Clinic" emails
     create a Leaf dev instance (probably PHI) that I can use after the beta
 
 impt
@@ -170,8 +170,8 @@ drugs:
 Leaf installation:
     x be ready to change Leaf to use the renamed Azure AD groups Darshan is making
     tune MSDW2 indexing for Leaf queries
+    x map de-identified.leaf.msdw.mountsinai.org to leaf.mssm.edu
     obtain new VMs for other Leaf instances
-    map de-identified.leaf.msdw.mountsinai.org to 10.95.46.180
     release leaf.mssm.edu
     obtain other new domain names
         PHI.leaf.msdw.mountsinai.org
@@ -205,6 +205,7 @@ training & helping users:
 accessing PHI data:
     Turn off de-identified mode
 later:
+    control over order of Leaf facets; might like Demographics, Encounters, and Vitals; then clinical domains
     why isn't ICD10 N18.6 in UMLS MRHIER.RRF?
     enable DBeaver connection via AD without trustServerCertificate=true for Leaf service account
     add to Leaf suggestions: Leaf concept table should be renamed to leaf_concept, to avoid confusion with CDM concept
