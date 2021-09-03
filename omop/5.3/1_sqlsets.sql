@@ -17,7 +17,7 @@ SELECT *
 FROM (VALUES ('omop.cdm_deid_std.person',               @no,  @no, NULL,                               GETDATE(), @user, GETDATE(), @user),
              ('omop.cdm_deid_std.visit_occurrence',     @yes, @no, '@.visit_start_datetime',           GETDATE(), @user, GETDATE(), @user),
              -- TODO: Change this to omop.cdm_deid_std.condition_occurrence when it is ready
-             ('rpt.test_omop_conditions.condition_occurrence', @yes, @no, '@.condition_start_datetime',       GETDATE(), @user, GETDATE(), @user),
+             ('rpt.test_omop_conditions.condition_occurrence_deid', @yes, @no, '@.condition_start_datetime',       GETDATE(), @user, GETDATE(), @user),
              ('omop.cdm_deid_std.death',                @yes, @no, '@.death_datetime',                 GETDATE(), @user, GETDATE(), @user),
              ('omop.cdm_deid_std.device_exposure',      @yes, @no, '@.device_exposure_start_datetime', GETDATE(), @user, GETDATE(), @user),
              ('omop.cdm_deid_std.drug_exposure',        @yes, @no, '@.drug_exposure_start_datetime',   GETDATE(), @user, GETDATE(), @user),

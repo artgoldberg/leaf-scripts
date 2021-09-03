@@ -19,7 +19,7 @@ DECLARE @SqlSetId INT
 SET @SqlSetId = (SELECT Id
                  FROM LeafDB.app.ConceptSqlSet
                  -- TODO: Change this to '%[condition_occurrence]%' when it is ready
-                 WHERE SqlSetFrom LIKE '%rpt.test_omop_conditions.condition_occurrence%')
+                 WHERE SqlSetFrom LIKE '%rpt.test_omop_conditions.condition_occurrence_deid%')
 
 -- As discussed in https://github.com/uwrit/leaf/discussions/438, user queries employ ICD-10-CM.
 -- But condition_occurrence.condition_concept_id will store an omop standard SNOMED value.

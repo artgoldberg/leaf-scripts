@@ -39,14 +39,15 @@ BEGIN
 END
 DROP TABLE IF EXISTS test_omop_conditions.condition_occurrence_deid;
 
-SET @msg = 'Copying test_omop_conditions.condition_occurrence at ' + CONVERT(VARCHAR, GETDATE(), 120);
+SET @msg = 'Start copying 1 %% of test_omop_conditions.condition_occurrence at ' + CONVERT(VARCHAR, GETDATE(), 120);
 RAISERROR(@msg, 0, 1) WITH NOWAIT;
 
-SELECT *
+-- Use small fraction of test_omop_conditions.condition_occurrence to speed up execution
+SELECT TOP 1 PERCENT *
 INTO test_omop_conditions.condition_occurrence_deid
 FROM test_omop_conditions.condition_occurrence;
 
-SET @msg = 'EXEC sp_rename at ' + CONVERT(VARCHAR, GETDATE(), 120);
+SET @msg = 'Start EXEC sp_rename at ' + CONVERT(VARCHAR, GETDATE(), 120);
 RAISERROR(@msg, 0, 1) WITH NOWAIT;
 
 -- Rename person_id in condition_occurrence_deid to PHI_person_id, which will be ignored, except below
@@ -66,20 +67,17 @@ ADD person_id BINARY(32);
 -- GO, so lame SQL Server won't compile code below with person_id & throw invalid error before person_id is made
 GO
 
-/*
-DECLARE @SQL NVARCHAR(1000)
-SELECT @SQL = N'UPDATE condition_occurrence_deid
-                SET condition_occurrence_deid.person_id =
-                    HASHBYTES(''SHA2_256''', CONCAT(condition_occurrence_deid.PHI_person_id, patient_secret.salt_value))
-                FROM test_omop_conditions.condition_occurrence_deid condition_occurrence_deid
-                     JOIN omop_stg.etl_metadata.patient_secret patient_secret
-                     ON condition_occurrence_deid.PHI_person_id = patient_secret.person_id;'
-EXEC sp_executesql @SQL
-*/
-
-DECLARE @msg NVARCHAR(MAX) = 'Store de-identified person_id in condition_occurrence_deid at ' +
+DECLARE @msg NVARCHAR(MAX) = 'Start storing de-identified person_ids in condition_occurrence_deid at ' +
                               CONVERT(VARCHAR, GETDATE(), 120);
 RAISERROR(@msg, 0, 1) WITH NOWAIT;
+-- SET @msg = 'Store 5 pct. of de-identified person_ids (WHERE PHI_person_id %% 20 = 0)';
+-- RAISERROR(@msg, 0, 1) WITH NOWAIT;
+GO
+
+/*
+SET SHOWPLAN_ALL ON;
+GO
+*/
 
 -- Update person_id in condition_occurrence_deid to a de-identified transformation of its PHI_person_id
 UPDATE condition_occurrence_deid
@@ -87,11 +85,16 @@ SET person_id =
     HASHBYTES('SHA2_256', CONCAT(condition_occurrence_deid.PHI_person_id, patient_secret.salt_value))
 FROM test_omop_conditions.condition_occurrence_deid condition_occurrence_deid
      INNER MERGE JOIN omop_stg.etl_metadata.patient_secret patient_secret
-     ON condition_occurrence_deid.PHI_person_id = patient_secret.person_id
-WHERE PHI_person_id % 100 = 0;
+     ON condition_occurrence_deid.PHI_person_id = patient_secret.person_id;
+GO
+
+/*
+SET SHOWPLAN_ALL OFF;
+GO
+*/
 
 -- Lastly, modify Leaf to access condition_occurrence_deid instead of test_omop_conditions.condition_occurrence
 -- Do this by hand
 
-SET @msg = 'Finishing ''set_rpt_person_ids_to_de_id_ids.sql'' at ' + CONVERT(VARCHAR, GETDATE(), 120);
+DECLARE @msg NVARCHAR(MAX) = 'Finishing ''set_rpt_person_ids_to_de_id_ids.sql'' at ' + CONVERT(VARCHAR, GETDATE(), 120);
 RAISERROR(@msg, 0, 1) WITH NOWAIT;
