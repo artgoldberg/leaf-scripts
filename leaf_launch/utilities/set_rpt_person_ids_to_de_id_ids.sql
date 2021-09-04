@@ -1,7 +1,11 @@
 /*
-To test Leaf with cdm_deid_std and rpt.test_omop_conditions.condition_occurrence,
-replace all person_ids in this condition_occurrence with de-identified IDs.
+ * To test Leaf with cdm_deid_std and condition_occurrence, replace person_ids in
+ * rpt.test_omop_conditions.condition_occurrence with de-identified IDs.
+ * Author: Arthur.Goldberg@mssm.edu
+ * Author: Joseph.Nahmias@mountsinai.org
  */
+
+-- SET STATISTICS TIME, IO ON;
 
 DECLARE @msg NVARCHAR(MAX) = 'Starting ''set_rpt_person_ids_to_de_id_ids.sql'' at ' + CONVERT(VARCHAR, GETDATE(), 120);
 RAISERROR(@msg, 0, 1) WITH NOWAIT;
@@ -27,8 +31,26 @@ FROM rpt.test_omop_conditions.condition_occurrence condition_occurrence
     ON condition_occurrence.person_id = patient_secret.person_id;
 */
 
+-- Create temporary table with all person_ids and their de-identified equivalents
+SET @msg = 'Start making temporary table with all person_ids and their de-identified equivalents at ' +
+           CONVERT(VARCHAR, GETDATE(), 120);
+RAISERROR(@msg, 0, 1) WITH NOWAIT;
+
+DROP TABLE IF EXISTS #deid_mapping;
+SELECT person_id,
+       deid_person_id = HASHBYTES('SHA2_256', CONCAT(person_id, salt_value))
+INTO #deid_mapping
+FROM omop_stg.etl_metadata.patient_secret;
+
+CREATE CLUSTERED INDEX ci_deid_mapping ON #deid_mapping (person_id);
+
+GO
+
 -- Create a table which contains a copy of my condition_occurrence table and will use de-identified person_ids
 USE rpt;
+
+DECLARE @msg NVARCHAR(MAX) = 'Start removing test_omop_conditions.condition_occurrence_deid at ' + CONVERT(VARCHAR, GETDATE(), 120);
+RAISERROR(@msg, 0, 1) WITH NOWAIT;
 
 IF (EXISTS (SELECT *
             FROM INFORMATION_SCHEMA.TABLES
@@ -39,62 +61,46 @@ BEGIN
 END
 DROP TABLE IF EXISTS test_omop_conditions.condition_occurrence_deid;
 
-SET @msg = 'Start copying 1 %% of test_omop_conditions.condition_occurrence at ' + CONVERT(VARCHAR, GETDATE(), 120);
+SET @msg = 'Start creating condition_occurrence_deid at ' + CONVERT(VARCHAR, GETDATE(), 120);
 RAISERROR(@msg, 0, 1) WITH NOWAIT;
 
--- Use small fraction of test_omop_conditions.condition_occurrence to speed up execution
-SELECT TOP 1 PERCENT *
+SELECT
+  co.condition_occurrence_id,
+  co.condition_type_concept_id,
+  co.condition_type_concept_code,
+  co.condition_type_concept_name,
+  co.visit_occurrence_id,
+  co.visit_detail_id,
+  person_id = map.deid_person_id,
+  co.provider_id,
+  co.condition_concept_id,
+  co.condition_concept_code,
+  co.condition_concept_name,
+  co.condition_source_concept_id,
+  co.condition_source_concept_code,
+  co.condition_source_concept_name,
+  co.condition_source_value,
+  co.condition_status_concept_id,
+  co.condition_status_concept_code,
+  co.condition_status_concept_name,
+  co.condition_status_source_value,
+  co.condition_start_date,
+  co.condition_start_datetime,
+  co.condition_end_date,
+  co.condition_end_datetime,
+  co.stop_reason
 INTO test_omop_conditions.condition_occurrence_deid
-FROM test_omop_conditions.condition_occurrence;
+FROM test_omop_conditions.condition_occurrence co
+     JOIN #deid_mapping map ON map.person_id = co.person_id;
 
-SET @msg = 'Start EXEC sp_rename at ' + CONVERT(VARCHAR, GETDATE(), 120);
+DECLARE @num_condition_occurrence_deid INT = (SELECT COUNT(*)
+                                              FROM test_omop_conditions.condition_occurrence_deid);
+SET @msg = CAST(@num_condition_occurrence_deid AS VARCHAR) +
+                ' records in test_omop_conditions.condition_occurrence_deid';
 RAISERROR(@msg, 0, 1) WITH NOWAIT;
 
--- Rename person_id in condition_occurrence_deid to PHI_person_id, which will be ignored, except below
-EXEC sp_rename 'test_omop_conditions.condition_occurrence_deid.person_id', 'PHI_person_id', 'COLUMN';
-
--- GO, so SQL Server won't compile code below with PHI_person_id & throw invalid error before PHI_person_id is made
-GO
-
--- Create index on PHI_person_id
-CREATE INDEX ix_PHI_person_id
-ON test_omop_conditions.condition_occurrence_deid (PHI_person_id);
-
--- Create BINARY(32) person_id column to hold de-identified person identifier in condition_occurrence_deid
-ALTER TABLE test_omop_conditions.condition_occurrence_deid
-ADD person_id BINARY(32);
-
--- GO, so lame SQL Server won't compile code below with person_id & throw invalid error before person_id is made
-GO
-
-DECLARE @msg NVARCHAR(MAX) = 'Start storing de-identified person_ids in condition_occurrence_deid at ' +
-                              CONVERT(VARCHAR, GETDATE(), 120);
+SET @msg = 'Finishing ''set_rpt_person_ids_to_de_id_ids.sql'' at ' + CONVERT(VARCHAR, GETDATE(), 120);
 RAISERROR(@msg, 0, 1) WITH NOWAIT;
--- SET @msg = 'Store 5 pct. of de-identified person_ids (WHERE PHI_person_id %% 20 = 0)';
--- RAISERROR(@msg, 0, 1) WITH NOWAIT;
-GO
-
-/*
-SET SHOWPLAN_ALL ON;
-GO
-*/
-
--- Update person_id in condition_occurrence_deid to a de-identified transformation of its PHI_person_id
-UPDATE condition_occurrence_deid
-SET person_id =
-    HASHBYTES('SHA2_256', CONCAT(condition_occurrence_deid.PHI_person_id, patient_secret.salt_value))
-FROM test_omop_conditions.condition_occurrence_deid condition_occurrence_deid
-     INNER MERGE JOIN omop_stg.etl_metadata.patient_secret patient_secret
-     ON condition_occurrence_deid.PHI_person_id = patient_secret.person_id;
-GO
-
-/*
-SET SHOWPLAN_ALL OFF;
-GO
-*/
 
 -- Lastly, modify Leaf to access condition_occurrence_deid instead of test_omop_conditions.condition_occurrence
 -- Do this by hand
-
-DECLARE @msg NVARCHAR(MAX) = 'Finishing ''set_rpt_person_ids_to_de_id_ids.sql'' at ' + CONVERT(VARCHAR, GETDATE(), 120);
-RAISERROR(@msg, 0, 1) WITH NOWAIT;
