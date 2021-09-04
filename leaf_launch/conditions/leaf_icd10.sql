@@ -74,7 +74,8 @@ INSERT INTO LeafDB.app.Concept
        ,[IsRoot]                       = CASE WHEN UMLS_ICD10.ParentAUI IS NULL THEN 1 ELSE 0 END
        ,[IsSpecializable]              = 0
        ,[SqlSetId]                     = @SqlSetId
-       ,[SqlSetWhere]                  = CONCAT( @ConstantSqlSetWhere, UMLS_ICD10.SqlSetWhere, ')' )
+       ,[SqlSetWhere]                  = CONCAT( @ConstantSqlSetWhere, UMLS_ICD10.SqlSetWhere, ')',
+                                                  ' /* ', SUBSTRING(UMLS_ICD10.uiDisplayName, 1, 100), ' */ ' )
        ,[UiDisplayName]                = UMLS_ICD10.uiDisplayName
        ,[UiDisplayText]                = 'Had diagnosis of ' + UMLS_ICD10.uiDisplayName
        ,[AddDateTime]                  = GETDATE()
