@@ -1,0 +1,77 @@
+From: Timothy Quinn <Timothy.Quinn@mountsinai.org>
+Date: Friday, July 16, 2021 at 9:23 AM
+To: "Goldberg, Arthur P" <arthur.p.goldberg@mssm.edu>, Sharon Nirenberg <sharon.nirenberg@mssm.edu>
+Cc: Timothy Quinn <Timothy.Quinn@mountsinai.org>
+Subject: RE: Searching procedure occurrences in Leaf using CPT codes
+
+Arthur,
+
+CPT4 refers to the “Fourth Edition” of the Current Procedural Terminology (CPT) published by the AMA in 1977 (http://www.ajnr.org/content/37/11/1972)
+
+Yes, CPT4 is the OHDSI standard vocabulary for the procedure domain.  As such, the identifiers in procedure_occurrence.procedure_concept_id shall refer to CPT4 concepts in the OMOP concept table.
+
+Epic’s procedure master files EAP (general) and ORP (surgical) has CPT4 codes assigned to some, but not all, records.  Even for the ones that do, I believe Sharon would like to review them to ensure that the CPT code on each Epic master file record is correct.
+
+Sharon has the EAP and ORP master files on her list of clinical vocabularies to map.  Please see the attached Excel file.
+
+
+-----
+
+From: Timothy Quinn <Timothy.Quinn@mountsinai.org>
+Date: Saturday, July 31, 2021 at 4:17 PM
+To: "Goldberg, Arthur P" <arthur.p.goldberg@mssm.edu>, Sharon Nirenberg <sharon.nirenberg@mssm.edu>
+Cc: Timothy Quinn <Timothy.Quinn@mountsinai.org>
+Subject: RE: Additional tables desired in src.caboodle
+
+Arthur & Sharon,
+
+Sharon is correct that mappings from EPIC ERX .1 in MedicationDim to either NDC or RxNorm codes (or both) are stored in Caboodle’s MedicationCodeDim table.  I will ask BlueTree to extract that table to [src].
+
+In case you’re unaware, Mt Sinai’s Population Health folks load non-Clarity data to some Caboodle tables, so we typically apply these WHERE clause conditions to our queries:
+
+WHERE tbl._HasSourceClarity = 1 and tbl._IsDeleted = 0
+
+For mappings from EPIC EAP .1 and EPIC ORP .1 to either CPT4 or HCPCS, the Caboodle table SurgicalProcedureEventFact isn’t the silver bullet it might first appear to be.  ProcedureDim already includes the columns Code, CodeSet, CptCode, and HcpcsCode – which constitute the bulk of the procedure code-mapping information currently stored in Epic (at least until we implement the Resolute billing module).
+
+SurgicalProcedureEventFact does contain two pairs of explicit foreign-key links to ProcedureDim: Procedure(Durable)Key for the ordered/performed  surgical procedure (EPIC ORP .1), and ProcedureCode(Durable)Key for the billed procedure (which are actually EPIC EAP .1 records).
+
+Sharon discovered that the numeric-only SurgicalProcedureEpicId values (ie, the ones that do not start with “M”) almost always contain the CPT code embedded in the 4th through 8th position.  There are only a hand-full of EPIC ORP .1 records for which this isn’t true, as identified by my query below.
+
+The bottom line:  I am hesitant to ask BlueTree to extract a large transaction table like SurgicalProcedureEventFact from Caboodle unless we’re planning to load it to OMOP.  (Think HIPAA’s “minimum necessary” principle.)  At the moment, I am not sure if we’re going to do that, because I don’t know its degree of overlap (if any) with ProcedureEventFact, which we are loading to OMOP.
+
+I think we should just leverage the information we already have in ProcedureDim.
+
+Tim
+
+select
+eap.ProcedureEpicId
+,eap.SurgicalProcedureEpicId
+,eap.Code
+,eap.CodeSet
+,cd.ProcedureEpicId
+,cd.SurgicalProcedureEpicId
+,cd.Code
+,cd.CodeSet
+,count(*)
+from SurgicalProcedureEventFact spef
+join ProcedureDim eap
+on spef.ProcedureDurableKey = eap.DurableKey
+and eap.IsCurrent = 1
+join ProcedureDim cd
+on spef.ProcedureCodeDurableKey = cd.DurableKey
+and cd.IsCurrent = 1
+where spef.ProcedureDurableKey > 0
+and spef.ProcedureCodeDurableKey > 0
+and substring(eap.SurgicalProcedureEpicId, 4, 5) != cd.Code
+and cd.Code != '*Unspecified'
+group by
+eap.ProcedureEpicId
+,eap.SurgicalProcedureEpicId
+,eap.Code
+,eap.CodeSet
+,cd.ProcedureEpicId
+,cd.SurgicalProcedureEpicId
+,cd.Code
+,cd.CodeSet
+;
+ 

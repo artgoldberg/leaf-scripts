@@ -22,7 +22,7 @@ Steps
 
 -- 0. Create procedures_map table
 
-PRINT 'Starting ''procedures.sql'' at ' + CONVERT(VARCHAR, GETDATE(), 120)
+PRINT CONVERT(VARCHAR, GETDATE(), 120) + ': starting ''procedures.sql'''
 
 USE rpt;
 
@@ -48,15 +48,12 @@ IF (NOT EXISTS (SELECT *
 ELSE
     DELETE FROM leaf_scratch.procedures_map
 
-
 -- 1. Map 'Epic procedure codes' to CPT, from the Epic concept in src.caboodle.ProcedureDim
 USE src;
 
 -- DROP temp tables
-IF OBJECT_ID(N'tempdb..#proc_mappings_from_code') IS NOT NULL
-	DROP TABLE #proc_mappings_from_code
-IF OBJECT_ID(N'tempdb..#proc_mappings_from_cpt_code') IS NOT NULL
-	DROP TABLE #proc_mappings_from_cpt_code
+DROP TABLE IF EXISTS #proc_mappings_from_code;
+DROP TABLE IF EXISTS #proc_mappings_from_cpt_code;
 
 -- Get mappings from Code
 SELECT procedure_dim.ProcedureEpicId,
@@ -114,8 +111,7 @@ GROUP BY procedure_dim.ProcedureEpicId,
 
 -- Conflicting codes from the two methods, which can be reconciled or ignored
 -- Join on ProcedureEpicId, showing both Code and CptCode
-IF OBJECT_ID(N'tempdb..#conflicting_proc_mappings') IS NOT NULL
-	DROP TABLE #conflicting_proc_mappings;
+DROP TABLE IF EXISTS #conflicting_proc_mappings;
 
 SELECT #proc_mappings_from_cpt_code.ProcedureEpicId,
        #proc_mappings_from_cpt_code.Epic_name,
@@ -130,9 +126,29 @@ WHERE #proc_mappings_from_cpt_code.ProcedureEpicId = #proc_mappings_from_code.Pr
 SELECT *
 FROM #conflicting_proc_mappings;
 
+-- Map 'EPIC ORP .1' codes
+-- Leverage Sharon's observation: the SurgicalProcedureEpicId values that do not start with 'M'
+-- almost always contain the CPT code embedded in the 4th through 8th position.
+SELECT procedure_dim.SurgicalProcedureEpicId AS 'Epic Id',
+       SUBSTRING(procedure_dim.SurgicalProcedureEpicId, 4, 5) AS 'CPT4 Code',
+       procedure_dim.[Name] AS 'Epic name',
+       CPT4_concept.concept_name AS 'CPT4 name'
+FROM src.caboodle.ProcedureDim procedure_dim,
+     omop.cdm.concept CPT4_concept
+WHERE NOT procedure_dim.SurgicalProcedureEpicId LIKE 'M%'
+      AND procedure_dim.SurgicalProcedureEpicId NOT IN ('*Not Applicable', '*Unknown')
+      -- Skip SurgicalProcedureEpicIds that are too short
+      AND 8 <= LEN(procedure_dim.SurgicalProcedureEpicId)
+      AND procedure_dim.IsCurrent = 1
+      -- Avoid non-Clarity data added by Population Health
+      AND procedure_dim._HasSourceClarity = 1 AND procedure_dim._IsDeleted = 0
+      AND CPT4_concept.vocabulary_id = 'CPT4'
+      AND CPT4_concept.concept_code = SUBSTRING(procedure_dim.SurgicalProcedureEpicId, 4, 5);
+
+-- TODO: Look for poor matches in 'EPIC ORP .1' codes: export to csv file, and analyze similarity of Epic and CPT4 names (in Python)
+
 -- Code mappings that do not conflict or are provided by only one method, which will be used as is
-IF OBJECT_ID(N'tempdb..#non_conflicting_proc_mappings') IS NOT NULL
-	DROP TABLE #non_conflicting_proc_mappings;
+DROP TABLE IF EXISTS #non_conflicting_proc_mappings;
 
 USE rpt;
 
@@ -169,9 +185,10 @@ WHERE procedures_map.Epic_concept_id = Epic_concept.concept_id
       AND procedures_map.CPT4_concept_code = CPT4_concept.concept_code
 
 /*
+TODO:
 figure out why Epic_concept_codes and CPT4_concept_ids are NULL, and fix
 read sharon's procedure mappings into a table_name
 incorporate them into procedures_map
 have Sharon review
 */
-PRINT 'Finishing ''procedures.sql'' at ' + CONVERT(VARCHAR, GETDATE(), 120)
+PRINT CONVERT(VARCHAR, GETDATE(), 120) + ': finishing ''procedures.sql'''

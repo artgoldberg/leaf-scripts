@@ -5,6 +5,7 @@
 
 USE src;
 
+/*
 -- DROP temp tables
 IF OBJECT_ID(N'tempdb..#proc_mappings_from_code') IS NOT NULL
 	DROP TABLE #proc_mappings_from_code
@@ -104,33 +105,24 @@ FROM (SELECT *
 
 SELECT *
 FROM #non_conflicting_proc_mappings;
+*/
 
-/*
--- Despite Tim's note "Sharon determined that the numeric-only SurgicalProcedureEpicId values
--- (ie, the ones that do not start with “M”) almost always contain the CPT code embedded in the 4th through 8th position",
--- this finds nothing as procedure_dim.SurgicalProcedureEpicId = '*Not Applicable' always
-SELECT procedure_dim.ProcedureEpicId,
-       procedure_dim.[Name],
-       procedure_dim.SurgicalProcedureEpicId,
-       SUBSTRING(procedure_dim.SurgicalProcedureEpicId, 4, 5) AS 'Code',
-       procedure_dim.CodeSet,
-       COUNT(*) [count]
+-- Tim's note: "Sharon determined that the numeric-only SurgicalProcedureEpicId values
+-- (ie, the ones that do not start with “M”) almost always contain the CPT code embedded in the 4th through 8th position"
+-- TODO: check that 'CPT Code' is a CPT Code in omop concept
+SELECT procedure_dim.SurgicalProcedureEpicId AS 'Epic Id',
+       SUBSTRING(procedure_dim.SurgicalProcedureEpicId, 4, 5) AS 'CPT Code',
+       procedure_dim.[Name]
 FROM caboodle.ProcedureDim procedure_dim
-WHERE procedure_dim.IsCurrent = 1
-      AND NOT procedure_dim.SurgicalProcedureEpicId LIKE 'M%'
-      -- AND procedure_dim.Code != '*Unspecified'
-      AND procedure_dim.ProcedureEpicId IS NOT NULL
-      -- These appear to be invalid, deleted or non-procedure codes
-      AND NOT procedure_dim.[Name] LIKE '-----%'
-      AND NOT procedure_dim.[Name] LIKE 'CODE DELETED FOR %'
-      AND NOT procedure_dim.[Name] LIKE 'COPAYMENT % DOLLARS'
-      AND NOT procedure_dim.[Name] LIKE 'DELETED %'
--- todo: add the Avoid non-Clarity data added by Population Health condition
+WHERE NOT procedure_dim.SurgicalProcedureEpicId LIKE 'M%'
+      AND procedure_dim.SurgicalProcedureEpicId NOT IN ('*Not Applicable', '*Unknown')
+      AND 8 <= LEN(procedure_dim.SurgicalProcedureEpicId)
+      AND procedure_dim.IsCurrent = 1
+      -- Avoid non-Clarity data added by Population Health
+      AND procedure_dim._HasSourceClarity = 1 AND procedure_dim._IsDeleted = 0
 GROUP BY procedure_dim.ProcedureEpicId,
          procedure_dim.[Name],
-         procedure_dim.SurgicalProcedureEpicId,
-         procedure_dim.CodeSet
-*/
+         procedure_dim.SurgicalProcedureEpicId
 
 /*
 -- Tim's query; doesn't work as SurgicalProcedureEventFact isn't in caboodle
