@@ -85,7 +85,7 @@ Leaf beta done
             update LeafDB.app.ConceptSqlSet.SqlSetFrom to rpt.LEAF_SCRATCH.person
 
 Leaf beta, synch with MSDW2, 2021-08-27
-    MAKE SINGLE SCRIPT TO UPDATE LEAFDB AFTER CHANGES TO THE CDM
+    x MAKE SINGLE SCRIPT TO UPDATE LEAFDB AFTER CHANGES TO THE CDM
         x incorporate special de-id Sql From sub-queries
         x try to use de-id schema
     x empty the customized LeafDB app tables
@@ -102,9 +102,13 @@ Leaf beta, synch with MSDW2, 2021-08-27
     X (unsure why fixed) fix 'leaf_icd10.sql' Line 74 "Subquery returned more than 1 value. This is not permitted ... when the subquery is used as an expression."
     x reactivate living and Deceased concepts after person and death person_ids are cleaned up
     x run eval_post_concept_creation_tasks.sql
+    x optimization: revise set_rpt_person_ids_to_de_id_ids.sql w Joe's faster code, & re-run
+    joe: in sp_CalculatePatientCounts fix "Error: The identifier that starts with 'pe AS _T WHERE EXISTS ... omop.cdm_deid_std.concept_relationship' is too long. Maximum length is 128."
     recreate rpt.test_omop_conditions.condition_occurrence with deid data
+    optimization: precompute WHERE clause in leaf_icd10.sql: replace the SqlSetWhere in icd10.sql (the UMLS data) with SNOMED codes - must be sets for internal nodes
     switch Leaf API Kerberos account back to service_leaf@MSNYUHEALTH.ORG when omop.cdm_deid_std.condition_occurrence is ready
-    ** test all ConceptSqlFrom clauses
+    test all ConceptSqlFrom clauses
+    set up Leaf for daily maintenance
     use omop.cdm_deid_std.condition_occurrence & REMOVE ALL REFERENCES TO 'TEST_OMOP_CONDITIONS'
     perhaps switch to using the set of vitals that Sharon selected
     have update_leaf.sh exit if any of the sqlcmd runs returns an error
@@ -112,9 +116,12 @@ Leaf beta, synch with MSDW2, 2021-08-27
     configure update_leaf.sh so it can be run automatically nightly
         use user other than goldba06
 
+procedures:
+    find Epic code → CPT4 mappings in src
+    Review Tim's email on "Additional tables desired in src.caboodle"
+
 full report on Leaf results
     Demographics, Age & Vital Status all show 13,166,263 patients == #rows in omop.cdm_std.person
-    all concept ids for Ethnicity, Gender and Race are wrong
     we have this distribution of Encounter counts ()
 
 Leaf beta
@@ -158,10 +165,6 @@ measurements (labs):
     investigate necessary indices on Sema4's columns
     
     Sharon looking for LabComponentDim, LabComponentResultFact
-
-procedures:
-    find Epic code → CPT4 mappings in src
-    Review Tim's email on "Additional tables desired in src.caboodle"
 
 drugs:
     learn how to map ‘EPIC ERX .1’ source concepts in drug_exposure to RxNorm (Q to Sharon on 7/28)
