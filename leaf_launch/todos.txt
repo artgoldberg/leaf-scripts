@@ -1,6 +1,6 @@
 authentication:
     x rm DBeaver networked connections that do not use AD
-    x clean up DBeaver connections, filtering DBMSes & schemas 
+    x clean up DBeaver connections, filtering DBMSes & schemas
     configure Leaf API to use AD authorization for Leaf service account
 x analyze mapping_import:
     x rows that are all NULL in either all source or all target concepts
@@ -84,7 +84,7 @@ Leaf beta done
         configure Leaf to use rpt.leaf_scratch.person
             update LeafDB.app.ConceptSqlSet.SqlSetFrom to rpt.LEAF_SCRATCH.person
 
-Leaf beta, synch with MSDW2, 2021-08-27
+Leaf beta
     x MAKE SINGLE SCRIPT TO UPDATE LEAFDB AFTER CHANGES TO THE CDM
         x incorporate special de-id Sql From sub-queries
         x try to use de-id schema
@@ -103,22 +103,34 @@ Leaf beta, synch with MSDW2, 2021-08-27
     x reactivate living and Deceased concepts after person and death person_ids are cleaned up
     x run eval_post_concept_creation_tasks.sql
     x optimization: revise set_rpt_person_ids_to_de_id_ids.sql w Joe's faster code, & re-run
-    joe: in sp_CalculatePatientCounts fix "Error: The identifier that starts with 'pe AS _T WHERE EXISTS ... omop.cdm_deid_std.concept_relationship' is too long. Maximum length is 128."
-    recreate rpt.test_omop_conditions.condition_occurrence with deid data
-    optimization: precompute WHERE clause in leaf_icd10.sql: replace the SqlSetWhere in icd10.sql (the UMLS data) with SNOMED codes - must be sets for internal nodes
+    x fix in sp_CalculatePatientCounts fix "Error: The identifier that starts with 'pe AS _T WHERE EXISTS ... omop.cdm_deid_std.concept_relationship' is too long. Maximum length is 128."
+    Coverage measurements of Leaf's clinical domains
     switch Leaf API Kerberos account back to service_leaf@MSNYUHEALTH.ORG when omop.cdm_deid_std.condition_occurrence is ready
-    test all ConceptSqlFrom clauses
-    set up Leaf for daily maintenance
     use omop.cdm_deid_std.condition_occurrence & REMOVE ALL REFERENCES TO 'TEST_OMOP_CONDITIONS'
-    perhaps switch to using the set of vitals that Sharon selected
-    have update_leaf.sh exit if any of the sqlcmd runs returns an error
+    Unit tests
+      For mapping similarity scoring
+      for conditions.sql, procedures.sql
+    Procedures map
+    Stop 1 min. timeout
+
+Leaf after Beta
+    with Joe
+        have update_leaf.sh exit if any of the sqlcmd runs returns an error
+    test all ConceptSqlFrom clauses
+    x recreate rpt.test_omop_conditions.condition_occurrence with deid patient_ids
+    optimization: precompute WHERE clause in leaf_icd10.sql: replace the SqlSetWhere in icd10.sql (the UMLS data) with SNOMED codes - must be sets for internal nodes, stop X levels above leaves
+    get reply on Leaf maintenance discussion
+    set up Leaf for daily maintenance
+    switch to using the set of vitals that Sharon selected, perhaps
     Use a Kerberos keytab file so kinit doesn't need to be run by hand before update_leaf.sh
+    make Leaf PR for fix to "DECLARE @DbFrom NVARCHAR(MAX)"
     configure update_leaf.sh so it can be run automatically nightly
         use user other than goldba06
 
 procedures:
-    find Epic code → CPT4 mappings in src
-    Review Tim's email on "Additional tables desired in src.caboodle"
+    x find Epic code → CPT4 mappings in src
+    x Review Tim's email on "Additional tables desired in src.caboodle"
+
 
 full report on Leaf results
     Demographics, Age & Vital Status all show 13,166,263 patients == #rows in omop.cdm_std.person
@@ -163,7 +175,7 @@ measurements (labs):
 
     save & run Sharon's query
     investigate necessary indices on Sema4's columns
-    
+
     Sharon looking for LabComponentDim, LabComponentResultFact
 
 drugs:

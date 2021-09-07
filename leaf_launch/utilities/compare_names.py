@@ -13,8 +13,8 @@ def name_to_words(name):
     # convert text to a common case & remove punctuation
     std_name = name.lower().translate(trans_dict)
 
-    # remove stop words
     # parse into words
+    # remove stop words
     return set(std_name.split()) - stop_words
 
 def naked_words(words):
@@ -37,7 +37,7 @@ def compare_names(name_1, name_2):
     # max score = (min # words) / (# words in union)
     max_score = min(len(words_1), len(words_2)) / len(all_words)
 
-    # return score, max possible score, their ration, words that match, words that don't match
+    # return score, max possible score, their ratio, words that match, words that don't match
     return score, max_score, score/max_score, naked_words(matching_words), naked_words(unmatched_words)
 
 rv = name_to_words("now, the SHIT's gonna hit the fan!")

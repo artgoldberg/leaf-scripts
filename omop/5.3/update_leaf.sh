@@ -5,6 +5,9 @@
 
 # use command ./update_leaf.sql
 
+# exit when any command fails
+set -e
+
 # Preparation: an active Kerberos ticket for Arthur Goldberg (goldba06) must be available to run sqlcmd -E
 # TODO: Use a Kerberos keytab file so kinit doesn't need to be run by hand before this script
 if ! klist 2> /dev/null | grep -q 'Principal: goldba06@MSSMCAMPUS.MSSM.EDU'
