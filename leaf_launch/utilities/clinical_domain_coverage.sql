@@ -26,8 +26,8 @@ GO
  *
  * 2) Used concepts: the denominator includes all concepts in the vocabulary which are used in MSDW2 by the
  * clinical domain. For example, if the domain is conditions, then the denominator will be the
- * number of distinct concepts used in the cdm.condition_occurrence table.
- * This changes over time as both the concept table and the use of concepts in the clinical domain changes.
+ * number of distinct concepts used in the condition_occurrence table.
+ * This changes over time as either the concept table or the use of concepts in the clinical domain changes.
  *
  * The last coverage measurement is
  * 3) Used concepts, weighted by usage: the numerator is the number of occurrences in
@@ -35,6 +35,7 @@ GO
  * And the denominator is the total number of occurrences in the clinical domain in MSDW2.
  */
 
+/*
 CREATE PROCEDURE [app].[sp_calculate_domains_coverage]
 	@schema NVARCHAR(100),              -- Schema containing the domain
 	@domain NVARCHAR(100),              -- Domain's text name
@@ -43,5 +44,74 @@ CREATE PROCEDURE [app].[sp_calculate_domains_coverage]
 	@concept_set_id INT                 -- The Id of the ConceptSqlSet for the domain in the Leaf DB
 AS
 BEGIN
-
 END
+*/
+
+-- Example coverage analysis: conditions in cdm_deid_std
+-- 1) All concepts
+-- TODO: remove "TOP 1 " from similar queries; these SHOULD fail if more than 1 is returned
+DECLARE @false BIT = 0
+
+PRINT 'Conditions:'
+DECLARE @sqlset_condition_occurrence INT = (SELECT Id
+                                            FROM app.ConceptSqlSet
+                                            -- TODO: Change this to '%omop.cdm_deid_std.condition_occurrence%' when it omop ready
+                                            WHERE SqlSetFrom LIKE '%rpt.test_omop_conditions.condition_occurrence_deid%')
+DECLARE @num_Leaf_condition_concepts BIGINT = (SELECT COUNT(*)
+                                               FROM app.Concept
+                                               WHERE SqlSetId = @sqlset_condition_occurrence
+                                                     AND IsParent = @false)
+DECLARE @num_condition_concepts BIGINT = (SELECT COUNT(*)
+                                          FROM omop.cdm_deid_std.concept
+                                          WHERE vocabulary_id = 'ICD10CM')
+PRINT '   1) All concepts: ' +
+      FORMAT(CAST(@num_Leaf_condition_concepts AS float) / CAST(@num_condition_concepts AS float), '##.00%', 'en-US')
+
+PRINT '@sqlset_condition_occurrence: ' + CAST(@sqlset_condition_occurrence AS VARCHAR)
+PRINT '@num_Leaf_condition_concepts: ' + CAST(@num_Leaf_condition_concepts AS VARCHAR)
+PRINT '@num_condition_concepts: ' + CAST(@num_condition_concepts AS VARCHAR)
+
+-- 2) Used concepts
+
+-- Count the ICD10 concepts used in MSDW2
+-- TODO: Replace test_omop_conditions.condition_occurrence_deid with omop.cdm_deid_std.condition_occurrence when it's ready
+/*
+DECLARE @num_ICD10_condition_concepts_used BIGINT =
+        (SELECT COUNT(DISTINCT(concept_ICD10.concept_id))
+         FROM rpt.test_omop_conditions.condition_occurrence_deid condition_occurrence,
+              omop.cdm_deid_std.concept_relationship concept_relationship,
+              omop.cdm_deid_std.concept concept_ICD10,
+              omop.cdm_deid_std.concept concept_SNOMED
+         WHERE
+             -- Get records in rpt.test_omop_conditions.condition_occurrence_deid that use a SNOMED concept
+             condition_occurrence.condition_concept_id = concept_SNOMED.concept_id
+             -- Map the SNOMED concept to ICD10CM
+             AND concept_SNOMED.vocabulary_id = 'SNOMED'
+             AND concept_ICD10.vocabulary_id = 'ICD10CM'
+             AND concept_relationship.relationship_id = 'Maps to'
+             AND concept_SNOMED.concept_id = concept_relationship.concept_id_1
+             AND concept_ICD10.concept_id = concept_relationship.concept_id_2)
+*/
+
+DECLARE @num_ICD10_condition_concepts_used BIGINT =
+        (SELECT COUNT(DISTINCT(concept_ICD10.concept_id))
+         FROM rpt.test_omop_conditions.condition_occurrence_deid condition_occurrence,
+              omop.cdm_deid_std.concept_relationship concept_relationship,
+              omop.cdm_deid_std.concept concept_ICD10,
+              omop.cdm_deid_std.concept concept_SNOMED
+         WHERE
+             -- Get records in rpt.test_omop_conditions.condition_occurrence_deid that use a SNOMED concept
+             condition_occurrence.condition_concept_id = concept_SNOMED.concept_id
+             -- Map the ICD10CM concept to the SNOMED concept
+             AND concept_ICD10.vocabulary_id = 'ICD10CM'
+             AND concept_SNOMED.vocabulary_id = 'SNOMED'
+             AND concept_relationship.relationship_id = 'Maps to'
+             AND concept_ICD10.concept_id = concept_relationship.concept_id_1
+             AND concept_SNOMED.concept_id = concept_relationship.concept_id_2)
+
+PRINT '@num_Leaf_condition_concepts: ' + CAST(@num_ICD10_condition_concepts_used AS VARCHAR)
+PRINT '   2) Used concepts ' +
+      FORMAT(CAST(@num_Leaf_condition_concepts AS float) / CAST(@num_ICD10_condition_concepts_used AS float),
+                                                                '##.00%', 'en-US')
+
+-- 3) Used concepts, weighted by usage
