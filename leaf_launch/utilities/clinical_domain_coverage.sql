@@ -68,7 +68,8 @@ DECLARE @num_condition_concepts BIGINT = (SELECT COUNT(*)
                                           FROM omop.cdm_deid_std.concept
                                           WHERE vocabulary_id = 'ICD10CM')
 PRINT '   1) All concepts: ' +
-      FORMAT(CAST(@num_Leaf_condition_concepts AS float) / CAST(@num_condition_concepts AS float), '##.00%', 'en-US')
+      FORMAT(CAST(@num_Leaf_condition_concepts AS FLOAT) / CAST(@num_condition_concepts AS FLOAT), '##.00%', 'en-US') +
+      ' of all ICD-10-CM concepts in cdm_deid_std.concept are leaves in the Leaf hierarchy'
 
 ----- 2) Used concepts -----
 
@@ -89,14 +90,15 @@ DECLARE @num_ICD10_condition_concepts_used BIGINT =
              AND concept_SNOMED.concept_id = concept_relationship.concept_id_1
              AND concept_ICD10.concept_id = concept_relationship.concept_id_2)
 
-PRINT '   2) Used concepts ' +
-      FORMAT(CAST(@num_Leaf_condition_concepts AS float) / CAST(@num_ICD10_condition_concepts_used AS float),
-                                                                '##.00%', 'en-US')
+PRINT '   2) Used concepts: ' +
+      FORMAT(CAST(@num_Leaf_condition_concepts AS FLOAT) / CAST(@num_ICD10_condition_concepts_used AS FLOAT),
+                                                                '##.00%', 'en-US') +
+      ' of SNOMED concepts used in the CDM''s condition_occurrence map to ICD-10-CM terms in leaves in the Leaf hierarchy'
 
 ----- 3) Used concepts, weighted by usage -----
 
 -- TODO: do this with app.Concept instead of UMLS_ICD10; given the sub-queries required by the BINARY person_ids
--- currently requires complex parsing of SqlSetWhere
+-- in MSDW2 this currently requires complex parsing of SqlSetWhere
 DECLARE @num_searchable_ICD10_condition_occurrences BIGINT =
         (SELECT COUNT(DISTINCT(condition_occurrence_id))
          FROM rpt.test_omop_conditions.condition_occurrence_deid condition_occurrence,
@@ -113,10 +115,22 @@ DECLARE @num_searchable_ICD10_condition_occurrences BIGINT =
                AND UMLS_ICD10.CodeCount = 1
                AND UMLS_ICD10.MinCode = concept_ICD10.concept_code)
 
+-- TODO: when @num_condition_occurrences gets fixed, discard @num_condition_occurrence_ids and use it
+/*
 DECLARE @num_condition_occurrences BIGINT =
         (SELECT COUNT(*)
-         FROM rpt.test_omop_conditions.condition_occurrence_deid condition_occurrence)
+         FROM rpt.test_omop_conditions.condition_occurrence_deid)
 
-PRINT '   3) Used concepts, weighted by usage ' +
-      FORMAT(CAST(@num_searchable_ICD10_condition_occurrences AS float) / CAST(@num_condition_occurrences AS float),
-                                                                               '##.00%', 'en-US')
+PRINT '@num_condition_occurrences: ' + CAST(@num_condition_occurrences AS VARCHAR)
+*/
+
+DECLARE @num_condition_occurrence_ids BIGINT =
+        (SELECT COUNT(DISTINCT(condition_occurrence_id))
+         FROM rpt.test_omop_conditions.condition_occurrence_deid)
+
+-- PRINT '@num_condition_occurrence_ids: ' + CAST(@num_condition_occurrence_ids AS VARCHAR)
+
+PRINT '   3) Used concepts, weighted by usage: ' +
+      FORMAT(CAST(@num_searchable_ICD10_condition_occurrences AS FLOAT) / CAST(@num_condition_occurrence_ids AS FLOAT),
+                                                                               '##.00%', 'en-US') +
+      ' of records in condition_occurrence use SNOMED concepts that map to ICD-10-CM terms in leaves in the Leaf hierarchy'
