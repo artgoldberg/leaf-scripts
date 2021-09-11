@@ -23,6 +23,7 @@ GROUP BY concept.concept_name, concept.concept_id
 ORDER BY concept.concept_name;
 
 -- Gender, assuming Epic codes
+/*
 SELECT 'cdm_deid_std',
        OMOP_concept.concept_name,
        OMOP_concept.concept_id,
@@ -41,6 +42,7 @@ WHERE person.gender_concept_id <> 0
       AND OMOP_concept.vocabulary_id = 'Gender'
 GROUP BY OMOP_concept.concept_name, OMOP_concept.concept_id
 ORDER BY OMOP_concept.concept_name;
+*/
 
 -- Ethnicity
 SELECT 'cdm_deid_std',
@@ -172,7 +174,8 @@ FROM cdm_deid_std.measurement
 WHERE measurement_concept_id IN (@bpSyst, @bpDiast, @height, @weight, @heartRate, @temp, @respRate)
 GROUP BY concept.concept_name, concept.concept_id;
 
--- Visits
+-- All visits
+-- cdm visits
 SELECT 'cdm visits' AS 'Schema',
        concept.concept_name,
        concept.concept_id,
@@ -184,7 +187,7 @@ GROUP BY concept.concept_name, concept.concept_id
 
 UNION ALL
 
--- Visits
+-- cdm_deid visits
 SELECT 'cdm_deid visits' AS 'Schema',
        concept.concept_name,
        concept.concept_id,
@@ -196,7 +199,7 @@ GROUP BY concept.concept_name, concept.concept_id
 
 UNION ALL
 
--- Visits
+-- cdm_deid_std visits
 SELECT 'cdm_deid_std visits' AS 'Schema',
        concept.concept_name,
        concept.concept_id,
