@@ -104,21 +104,24 @@ Leaf beta
     x run eval_post_concept_creation_tasks.sql
     x optimization: revise set_rpt_person_ids_to_de_id_ids.sql w Joe's faster code, & re-run
     x fix in sp_CalculatePatientCounts fix "Error: The identifier that starts with 'pe AS _T WHERE EXISTS ... omop.cdm_deid_std.concept_relationship' is too long. Maximum length is 128."
-    Coverage measurements of Leaf's clinical domains
+    x Renew Kerberos ticket for Leaf API
+    x Coverage measurements of Leaf's clinical domains
+    Joe: Stop 1 min. timeout
     switch Leaf API Kerberos account back to service_leaf@MSNYUHEALTH.ORG when omop.cdm_deid_std.condition_occurrence is ready
     use omop.cdm_deid_std.condition_occurrence & REMOVE ALL REFERENCES TO 'TEST_OMOP_CONDITIONS'
-    Unit tests
-      For mapping similarity scoring
-      for conditions.sql, procedures.sql
-    Procedures map
-    Stop 1 min. timeout
+    Joe: Correct population counts in GUI
+    Screenshots of Leaf for PK, dashboard of data distribution
+    Work w Darshan to have leaf.mssm.edu show up at de-identified.leaf.msdw.mountsinai.org
+    Help debug user on-boarding
 
 Leaf after Beta
+    present coverage measurements in table with each domain a row, and a column for each stage along process -- where does coverage get lost?
     with Joe
         have update_leaf.sh exit if any of the sqlcmd runs returns an error
     test all ConceptSqlFrom clauses
     x recreate rpt.test_omop_conditions.condition_occurrence with deid patient_ids
     optimization: precompute WHERE clause in leaf_icd10.sql: replace the SqlSetWhere in icd10.sql (the UMLS data) with SNOMED codes - must be sets for internal nodes, stop X levels above leaves
+    Unit test mapping similarity scoring
     get reply on Leaf maintenance discussion
     set up Leaf for daily maintenance
     switch to using the set of vitals that Sharon selected, perhaps
@@ -130,7 +133,8 @@ Leaf after Beta
 procedures:
     x find Epic code → CPT4 mappings in src
     x Review Tim's email on "Additional tables desired in src.caboodle"
-
+    Procedures map
+        Could look at mappings on Postgres DBMS -- omop concept mappings - need Joe's help
 
 full report on Leaf results
     Demographics, Age & Vital Status all show 13,166,263 patients == #rows in omop.cdm_std.person
