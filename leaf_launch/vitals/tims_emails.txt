@@ -1,0 +1,10 @@
+From: Timothy Quinn <Timothy.Quinn@mountsinai.org>
+Date: Saturday, September 11, 2021 at 1:49 PM
+
+I know getting the vital signs concepts populated correctly in the OMOP measurement table is still on BlueTree’s to-do list.
+
+But in case it’s helpful for you to plan these future search facets in Leaf, I’m sending you the vital signs mapping file on which Joe and I collaborated.
+
+There are 19 different standard concept_id values.  Each one also has a unit of measure (UOM), so you’ll see those in the file as well with mapping_type = MAPS_TO_UNIT.
+
+BTW, the layout of this spreadsheet matches our new concept mapping import table:  src.usagi.usagi_mapping
