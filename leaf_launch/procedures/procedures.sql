@@ -4,6 +4,7 @@
  * Author: Arthur.Goldberg@mssm.edu
  */
 
+-- todo: revise comments
 /*
 Must be executed as goldba06@MSSMCAMPUS.MSSM.EDU.
 
@@ -245,7 +246,9 @@ WHERE Epic_concept.concept_code = CAST(SurgicalProcedureEpicId AS NVARCHAR(50))
 -- TODO: Re-load contents of #proc_mappings_from_SurgicalProcedureEpicId with annotations that identify good mappings
 -- and stop incorporating them above
 
--- TODO: read sharon's procedure mappings into a table and incorporate them into procedures_map
+-- todo: revise comments
+-- Read sharon's procedure mappings into a table and incorporate them into procedures_map
+
 -- TODO: have Sharon review
 
 -- TODO: have Tim review this code
