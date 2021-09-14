@@ -70,10 +70,10 @@ FROM Leaf_usagi.Leaf_staging
 
 -- Add two primary keys that prevents duplicate source-target mappings in Leaf_usagi.Leaf_staging
 ALTER TABLE Leaf_usagi.Leaf_staging
-ALTER COLUMN source_concept_id int NOT NULL;
+ALTER COLUMN source_concept_id INT NOT NULL;
 
 ALTER TABLE Leaf_usagi.Leaf_staging
-ALTER COLUMN target_concept_id int NOT NULL;
+ALTER COLUMN target_concept_id INT NOT NULL;
 
 ALTER TABLE Leaf_usagi.Leaf_staging
 ADD CONSTRAINT PK_no_dupe_id_mappings UNIQUE (source_concept_id,
