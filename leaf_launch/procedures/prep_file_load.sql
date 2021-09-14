@@ -1,30 +1,33 @@
 -- todo: describe
 DROP TABLE IF EXISTS #curated_concept_mappings;
 
+-- TODO: stop duplicating this table
 CREATE TABLE #curated_concept_mappings
 (
     -- Care about this:
-    SOURCE_CODE VARCHAR(255),
-    -- Care about this, partly:
-    SOURCE_NAME VARCHAR(255),
-    SOURCE_FREQUENCY VARCHAR(255),
-    SOURCE_AUTO_ASSIGNED_CONCEPT_IDS VARCHAR(255),
-    IGNORE_1 VARCHAR(255),
-    IGNORE_2 VARCHAR(255),
-    MATCH_SCORE VARCHAR(255),
-    MAPPING_STATUS VARCHAR(255),
-    EQUIVALENCE VARCHAR(255),
-    STATUS_SET_BY VARCHAR(255),
-    STATUS_SET_ON VARCHAR(255),
-    -- Care about this:
-    CONCEPT_ID VARCHAR(255),
-    -- Care about this, partly:
-    CONCEPT_NAME VARCHAR(1000),
-    DOMAIN_ID VARCHAR(255),
-    MAPPING_TYPE VARCHAR(255),
-    COMMENT VARCHAR(255),
-    CREATED_BY VARCHAR(255),
-    CREATED_ON VARCHAR(255)
+    source_code_type VARCHAR(255),                  -- whether the source code is surgical or not
+    -- care about this:
+    source_code VARCHAR(255),
+    -- care about this, partly:
+    source_name VARCHAR(255),
+    source_frequency VARCHAR(255),
+    source_auto_assigned_concept_ids VARCHAR(255),
+    code_set VARCHAR(255),
+    code VARCHAR(255),
+    match_score VARCHAR(255),
+    mapping_status VARCHAR(255),
+    equivalence VARCHAR(255),
+    status_set_by VARCHAR(255),
+    status_set_on VARCHAR(255),
+    -- care about this:
+    concept_id VARCHAR(255),
+    -- care about this, partly:
+    concept_name VARCHAR(1000),
+    domain_id VARCHAR(255),
+    mapping_type VARCHAR(255),
+    comment VARCHAR(255),
+    created_by VARCHAR(255),
+    created_on VARCHAR(255)
 );
 
 DROP TABLE IF EXISTS rpt.leaf_scratch.temp_curated_procedure_mappings;
