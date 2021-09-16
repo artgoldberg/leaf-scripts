@@ -84,6 +84,10 @@ INSERT INTO @cardinality_epic_to_icd10
      */
     GROUP BY DiagnosisDim.DiagnosisEpicId
 
+SELECT *
+FROM @cardinality_epic_to_icd10
+WHERE 1 < [@cardinality_epic_to_icd10].num_ICD10_concept_codes
+
 DECLARE @num_1_to_many_mappings INT = (SELECT COUNT(*)
                                        FROM @cardinality_epic_to_icd10
                                        WHERE 1 < [@cardinality_epic_to_icd10].num_ICD10_concept_codes)
