@@ -34,9 +34,9 @@ SELECT concept_Epic.concept_id AS 'Epic concept_id',
        concept_Epic.vocabulary_id AS 'RxNorm vocabulary',
        'Sharon Nirenberg',
        GETDATE()    -- todo: should be an earlier date; find and use it
-from omop.cdm_std.concept_relationship,
-     omop.cdm_std.concept concept_Epic,
-     omop.cdm_std.concept concept_RxNorm
+from omop.cdm_phi_std.concept_relationship,
+     omop.cdm_phi_std.concept concept_Epic,
+     omop.cdm_phi_std.concept concept_RxNorm
 WHERE concept_Epic.vocabulary_id = 'EPIC ERX .1'
       AND relationship_id = 'Maps to'
       AND concept_RxNorm.vocabulary_id IN ('RxNorm', 'RxNorm Extension')

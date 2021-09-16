@@ -46,9 +46,9 @@ SELECT concept_EPIC.concept_id,
        'SNOMED',
        'Sharon Nirenberg',
        GETDATE()    -- todo: should be an earlier date; find and use it
-from omop.cdm_std.concept_relationship,
-     omop.cdm_std.concept concept_EPIC,
-     omop.cdm_std.concept concept_SNOMED
+from omop.cdm_phi_std.concept_relationship,
+     omop.cdm_phi_std.concept concept_EPIC,
+     omop.cdm_phi_std.concept concept_SNOMED
 WHERE
     concept_EPIC.vocabulary_id = 'EPIC EDG .1'
     AND relationship_id = 'Maps to'

@@ -130,9 +130,9 @@ WHERE DTD.[Type] = 'ICD-10-CM'
 UPDATE rpt.leaf_scratch.conditions_map
 SET SNOMED_concept_code = concept_SNOMED.concept_code,
     SNOMED_concept_name = concept_SNOMED.concept_name
-FROM omop.cdm_std.concept_relationship cr,
-     omop.cdm_std.concept concept_ICD10,
-     omop.cdm_std.concept concept_SNOMED
+FROM omop.cdm_phi_std.concept_relationship cr,
+     omop.cdm_phi_std.concept concept_ICD10,
+     omop.cdm_phi_std.concept concept_SNOMED
 WHERE
     -- get records in CONCEPT_RELATIONSHIP that map from ICD-10-CM to SNOMED
     concept_ICD10.vocabulary_id = 'ICD10CM'
@@ -231,9 +231,9 @@ SET ICD10_concept_code = concept_ICD10.concept_code,
     ICD10_concept_name = concept_ICD10.concept_name
 FROM #manual_mappings,
      rpt.leaf_scratch.conditions_map conditions_map,
-     omop.cdm_std.concept_relationship cr,
-     omop.cdm_std.concept concept_ICD10,
-     omop.cdm_std.concept concept_SNOMED
+     omop.cdm_phi_std.concept_relationship cr,
+     omop.cdm_phi_std.concept concept_ICD10,
+     omop.cdm_phi_std.concept concept_SNOMED
 WHERE conditions_map.sources = 'MANUAL'
     -- get records in CONCEPT_RELATIONSHIP that map from ICD-10-CM to SNOMED
     AND concept_ICD10.vocabulary_id = 'ICD10CM'
@@ -274,9 +274,9 @@ UPDATE rpt.leaf_scratch.conditions_map
 SET ICD10_concept_code = concept_ICD10.concept_code,
     ICD10_concept_name = concept_ICD10.concept_name
 FROM rpt.leaf_scratch.conditions_map conditions_map,
-    omop.cdm_std.concept_relationship cr,
-    omop.cdm_std.concept concept_ICD10,
-    omop.cdm_std.concept concept_SNOMED
+    omop.cdm_phi_std.concept_relationship cr,
+    omop.cdm_phi_std.concept concept_ICD10,
+    omop.cdm_phi_std.concept concept_SNOMED
 WHERE conditions_map.hand_map_status = 'MISSING'
     -- get records in CONCEPT_RELATIONSHIP that map from ICD-10-CM to SNOMED
     AND concept_ICD10.vocabulary_id = 'ICD10CM'
@@ -310,14 +310,14 @@ WHERE SNOMED_concept_code IS NULL;
 -- Enrich conditions_map with concept ids
 UPDATE rpt.leaf_scratch.conditions_map
 SET Epic_concept_id = concept_Epic.concept_id
-FROM omop.cdm_std.concept concept_Epic,
+FROM omop.cdm_phi_std.concept concept_Epic,
      rpt.leaf_scratch.conditions_map
 WHERE concept_Epic.concept_code = Epic_concept_code
       AND concept_Epic.vocabulary_id = 'EPIC EDG .1'
 
 UPDATE rpt.leaf_scratch.conditions_map
 SET SNOMED_concept_id = concept_SNOMED.concept_id
-FROM omop.cdm_std.concept concept_SNOMED,
+FROM omop.cdm_phi_std.concept concept_SNOMED,
      rpt.leaf_scratch.conditions_map
 WHERE concept_SNOMED.concept_code = SNOMED_concept_code
       AND concept_SNOMED.vocabulary_id = 'SNOMED'

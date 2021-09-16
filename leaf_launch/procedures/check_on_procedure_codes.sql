@@ -18,14 +18,14 @@ WHERE procedure_source_concept_id IS NOT NULL
       AND procedure_source_value IS NOT NULL
 GROUP BY procedure_source_concept_id, procedure_source_value;
 
-SELECT 'cdm_std' AS 'Schema',
+SELECT 'cdm_phi_std' AS 'Schema',
        'Procedures' AS 'Code',
        COUNT(*) AS 'Count',
        procedure_source_concept_id,
        procedure_source_concept_code,
        procedure_source_concept_name,
        procedure_source_value
-FROM cdm_std.procedure_occurrence
+FROM cdm_phi_std.procedure_occurrence
 WHERE procedure_source_concept_id IS NOT NULL
       AND 0 < procedure_source_concept_id
       AND procedure_source_concept_code IS NOT NULL

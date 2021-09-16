@@ -5,9 +5,9 @@ SELECT
 	, C_NDC.vocabulary_id AS 'C_NDC.vocabulary_id'
 	, C_NDC.concept_name AS 'C_NDC.concept_name'
 FROM
-	cdm_std.concept C_EPIC
-	, cdm_std.concept C_NDC
-	, cdm_std.concept_relationship CR
+	cdm_phi_std.concept C_EPIC
+	, cdm_phi_std.concept C_NDC
+	, cdm_phi_std.concept_relationship CR
 WHERE 
 	C_EPIC.vocabulary_id = 'EPIC ERX .1'
 	AND C_NDC.vocabulary_id = 'NDC'
@@ -22,9 +22,9 @@ SELECT
 	, C_RXNORM.vocabulary_id AS 'C_RXNORM.vocabulary_id'
 	, C_RXNORM.concept_name AS 'C_RXNORM.concept_name'
 FROM
-	cdm_std.concept C_EPIC
-	, cdm_std.concept C_RXNORM
-	, cdm_std.concept_relationship CR
+	cdm_phi_std.concept C_EPIC
+	, cdm_phi_std.concept C_RXNORM
+	, cdm_phi_std.concept_relationship CR
 WHERE 
 	C_EPIC.vocabulary_id = 'EPIC ERX .1'
 	AND C_RXNORM.vocabulary_id IN ('RxNorm', 'RxNorm Extension')
@@ -34,8 +34,8 @@ WHERE
 
 -- Concepts in drug_exposure
 SELECT *
-FROM cdm_std.drug_exposure DE
-	, cdm_std.concept C
+FROM cdm_phi_std.drug_exposure DE
+	, cdm_phi_std.concept C
 WHERE DE.drug_source_concept_id = C.concept_id
 
 -- Map from NCD to RxNorm
@@ -43,9 +43,9 @@ SELECT C_NDC.vocabulary_id AS 'C_NDC.vocabulary_id'
 	, C_NDC.concept_name AS 'C_NDC.concept_name'
 	, C_RXNORM.vocabulary_id AS 'C_RXNORM.vocabulary_id'
 	, C_RXNORM.concept_name AS 'C_RXNORM.concept_name'
-FROM cdm_std.concept C_NDC
-	, cdm_std.concept C_RXNORM
-	, cdm_std.concept_relationship CR
+FROM cdm_phi_std.concept C_NDC
+	, cdm_phi_std.concept C_RXNORM
+	, cdm_phi_std.concept_relationship CR
 WHERE C_NDC.vocabulary_id = 'NDC'
 	AND C_RXNORM.vocabulary_id IN ('RxNorm', 'RxNorm Extension')
 	AND CR.relationship_id = 'Maps to'

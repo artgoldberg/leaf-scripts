@@ -11,9 +11,9 @@ SELECT c_source.CONCEPT_ID as EPIC_DIAG_ID
     , c_source.CONCEPT_NAME as EPIC_DIAG_NAME
     , c_dest.CONCEPT_ID as SNOMED_CONCEPT_ID
     , c_dest.CONCEPT_NAME as SNOMED_CONCEPT_NAME
-FROM cdm_std.CONCEPT_RELATIONSHIP cr
-    , cdm_std.CONCEPT c_source
-    , cdm_std.CONCEPT c_dest
+FROM cdm_phi_std.CONCEPT_RELATIONSHIP cr
+    , cdm_phi_std.CONCEPT c_source
+    , cdm_phi_std.CONCEPT c_dest
 WHERE
     c_source.VOCABULARY_ID = 'EPIC EDG .1' AND
     cr.RELATIONSHIP_ID = 'Maps to' AND
@@ -23,9 +23,9 @@ WHERE
 
 
 SELECT COUNT(*)
-FROM cdm_std.CONCEPT_RELATIONSHIP cr
-    , cdm_std.CONCEPT c_source
-    , cdm_std.CONCEPT c_dest
+FROM cdm_phi_std.CONCEPT_RELATIONSHIP cr
+    , cdm_phi_std.CONCEPT c_source
+    , cdm_phi_std.CONCEPT c_dest
 WHERE
     c_source.VOCABULARY_ID = 'EPIC EDG .1' AND
     cr.RELATIONSHIP_ID = 'Maps to' AND

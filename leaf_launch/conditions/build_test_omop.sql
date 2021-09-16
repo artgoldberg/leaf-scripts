@@ -29,7 +29,7 @@ END
 -- 100,000,000 = all
 SELECT TOP 100000000 *
 INTO test_omop_conditions.condition_occurrence
-FROM omop.cdm_std.condition_occurrence
+FROM omop.cdm_phi_std.condition_occurrence
 
 -- index the tables
 IF NOT EXISTS(SELECT *
