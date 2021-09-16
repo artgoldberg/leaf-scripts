@@ -95,7 +95,7 @@ Leaf beta
     x run leaf_icd10.sql
     x run post_concept_creation_tasks.sql, w sp_UpdateSearchIndexTables first, which finishes fast
     x fix "WHERE SqlSetFrom = 'omop.cdm_deid.person'" expressions
-    x change remaining uses of cdm_std to cdm_deid
+    x change remaining uses of cdm_phi_std to cdm_deid
     x make all searches for omop.cdm_deid_std use LIKE
     x empty and run DemographicQuery
     x change ConceptSqlFrom clauses
@@ -106,38 +106,62 @@ Leaf beta
     x fix in sp_CalculatePatientCounts fix "Error: The identifier that starts with 'pe AS _T WHERE EXISTS ... omop.cdm_deid_std.concept_relationship' is too long. Maximum length is 128."
     x Renew Kerberos ticket for Leaf API
     x Coverage measurements of Leaf's clinical domains
+    x Investigate Leaf failure on Conditions search
+    x Investigate Conditions issue Joe identified
+    x Vitals next
+    x Help debug user on-boarding
+    x talk to Chip about condition_occurrence DQ issue
+    x double-check "manual mappings of 'Epic diagnosis ID' to SNOMED contain 1-to-many mappings; record and ignore them" in conditions
+    x switch to the omop standard vitals -- see Tim's email
+    Screenshots of Leaf for PK (timing TBD), dashboard of data distribution
+    review MSDW2 announcement
     Joe: Stop 1 min. timeout
+    switch to using the cdm_deid schema instead of cdm_deid_std
+    Work w Darshan to have leaf.mssm.edu show up at de-identified.leaf.msdw.mountsinai.org
     switch Leaf API Kerberos account back to service_leaf@MSNYUHEALTH.ORG when omop.cdm_deid_std.condition_occurrence is ready
     use omop.cdm_deid_std.condition_occurrence & REMOVE ALL REFERENCES TO 'TEST_OMOP_CONDITIONS'
-    Joe: Correct population counts in GUI
-    Screenshots of Leaf for PK, dashboard of data distribution
-    Work w Darshan to have leaf.mssm.edu show up at de-identified.leaf.msdw.mountsinai.org
-    Help debug user on-boarding
+    Talk with Liyang about bitbucket storage of Achillies output
+
+Vitals for Beta
+    x 1. keep the "Sinai uses" ones
+    x 2. remove the other queries that define vitals
+    x 3. create queries for the remaining Sinai vitals, but skip the gendered pediatric ones for now
+    x 4. use the new list of vitals below
+    x 5. use cdm_deid
+    x next, add units
+    x 1. instead of a variable for each vital, create a temp table with each vital's concept id and units's name
+    x 2. expand "vitals" CTE, with a field for the units, and use the units for UiDisplayUnits
+    x update "data needed for Leaf sql"
 
 Leaf after Beta
+    x Create Bitbucket for OHDSI / DataQualityDashboard results for Fabricio
+    x recreate rpt.test_omop_conditions.condition_occurrence with deid patient_ids
+    Joe: Correct population counts in GUI
     present coverage measurements in table with each domain a row, and a column for each stage along process -- where does coverage get lost?
     with Joe
         have update_leaf.sh exit if any of the sqlcmd runs returns an error
     test all ConceptSqlFrom clauses
-    x recreate rpt.test_omop_conditions.condition_occurrence with deid patient_ids
     optimization: precompute WHERE clause in leaf_icd10.sql: replace the SqlSetWhere in icd10.sql (the UMLS data) with SNOMED codes - must be sets for internal nodes, stop X levels above leaves
     Unit test mapping similarity scoring
     get reply on Leaf maintenance discussion
     set up Leaf for daily maintenance
-    switch to using the set of vitals that Sharon selected, perhaps
     Use a Kerberos keytab file so kinit doesn't need to be run by hand before update_leaf.sh
     make Leaf PR for fix to "DECLARE @DbFrom NVARCHAR(MAX)"
     configure update_leaf.sh so it can be run automatically nightly
         use user other than goldba06
+    Use the LRR to LOINC code mappings in Epic for labs (provides 40%)
+    add Epic to ICD10CM relationships to concept_relationship, to avoid data loss going through SNOMED, and in counts
+    design gendered pediatric vital queries
 
 procedures:
     x find Epic code → CPT4 mappings in src
     x Review Tim's email on "Additional tables desired in src.caboodle"
+    see todos in procedures.sql
     Procedures map
         Could look at mappings on Postgres DBMS -- omop concept mappings - need Joe's help
 
 full report on Leaf results
-    Demographics, Age & Vital Status all show 13,166,263 patients == #rows in omop.cdm_std.person
+    Demographics, Age & Vital Status all show 13,166,263 patients == #rows in omop.cdm_phi_std.person
     we have this distribution of Encounter counts ()
 
 Leaf beta
