@@ -115,6 +115,9 @@ Leaf beta
     x switch to the omop standard vitals -- see Tim's email
     Screenshots of Leaf for PK (timing TBD), dashboard of data distribution
     review MSDW2 announcement
+    rebuild conditions processing to
+        a) use Epic EDG code in condition_source_concept_id
+        b) go directly from EDG to ICD10
     Joe: Stop 1 min. timeout
     switch to using the cdm_deid schema instead of cdm_deid_std
     Work w Darshan to have leaf.mssm.edu show up at de-identified.leaf.msdw.mountsinai.org
