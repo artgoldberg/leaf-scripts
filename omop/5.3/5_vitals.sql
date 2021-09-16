@@ -15,32 +15,32 @@ BEGIN
 
     DECLARE @sqlset_person               INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom LIKE '%cdm_deid_std.person%')
+                                                WHERE SqlSetFrom LIKE '%cdm_deid.person%')
     DECLARE @sqlset_visit_occurrence     INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom LIKE '%cdm_deid_std.visit_occurrence%')
+                                                WHERE SqlSetFrom LIKE '%cdm_deid.visit_occurrence%')
     DECLARE @sqlset_condition_occurrence INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
                                                 -- TODO: Change this to '%[condition_occurrence]%' when it is ready
                                                 WHERE SqlSetFrom LIKE '%rpt.test_omop_conditions.condition_occurrence_deid%')
     DECLARE @sqlset_death                INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom LIKE '%cdm_deid_std.death%')
+                                                WHERE SqlSetFrom LIKE '%cdm_deid.death%')
     DECLARE @sqlset_device_exposure      INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom LIKE '%cdm_deid_std.device_exposure%')
+                                                WHERE SqlSetFrom LIKE '%cdm_deid.device_exposure%')
     DECLARE @sqlset_drug_exposure        INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom LIKE '%cdm_deid_std.drug_exposure%')
+                                                WHERE SqlSetFrom LIKE '%cdm_deid.drug_exposure%')
     DECLARE @sqlset_measurement          INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom LIKE '%cdm_deid_std.measurement%')
+                                                WHERE SqlSetFrom LIKE '%cdm_deid.measurement%')
     DECLARE @sqlset_observation          INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom LIKE '%cdm_deid_std.observation%')
+                                                WHERE SqlSetFrom LIKE '%cdm_deid.observation%')
     DECLARE @sqlset_procedure_occurrence INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom LIKE '%cdm_deid_std.procedure_occurrence%')
+                                                WHERE SqlSetFrom LIKE '%cdm_deid.procedure_occurrence%')
 
     DECLARE @vitals_root   NVARCHAR(50) = 'vitals'
 
@@ -232,8 +232,8 @@ BEGIN
         SELECT concept.concept_name, concept.concept_id, cnt = COUNT(DISTINCT person_id),
                concept_id_string = CONVERT(NVARCHAR(50), concept.concept_id), vital_units
         FROM #vitals_w_units,
-             omop.cdm_deid_std.measurement AS measurement
-			 LEFT JOIN omop.cdm_deid_std.concept AS concept
+             omop.cdm_deid.measurement AS measurement
+			 LEFT JOIN omop.cdm_deid.concept AS concept
 				  ON measurement.measurement_concept_id = concept.concept_id
         WHERE measurement.measurement_concept_id IN (SELECT vital_concept_id
                                                      FROM #vitals_w_units)
@@ -260,7 +260,7 @@ BEGIN
          , UiDisplayUnits        = NULL
          , UiNumericDefaultText  = NULL
          , UiDisplayPatientCount = (SELECT COUNT(DISTINCT person_id)
-                                    FROM omop.cdm_deid_std.measurement
+                                    FROM omop.cdm_deid.measurement
                                     WHERE measurement_concept_id IN (SELECT vital_concept_id
                                                                      FROM #vitals_w_units))
 
