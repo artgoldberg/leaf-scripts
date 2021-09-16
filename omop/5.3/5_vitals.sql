@@ -44,29 +44,207 @@ BEGIN
 
     DECLARE @vitals_root   NVARCHAR(50) = 'vitals'
 
-	DECLARE @tempC         INT = 3020891
-	DECLARE @heartRate     INT = 3027018
-	DECLARE @respRate      INT = 3024171
-	DECLARE @bpDiast       INT = 3012888
-	DECLARE @bpSyst        INT = 3004249
-	DECLARE @weight        INT = 3025315
-	DECLARE @height        INT = 3036277
-	DECLARE @pulse         INT = 3027018
-	DECLARE @bmi           INT = 40540383
+    USE omop;
+    DECLARE @temp INT = (SELECT concept_id
+                         FROM cdm_deid.concept
+                         WHERE concept_name = 'Body temperature'
+                               AND standard_concept = 'S'
+                               AND concept_class_id = 'Clinical Observation'
+                               AND vocabulary_id = 'LOINC')
+
+    DECLARE @respRate INT = (SELECT concept_id
+                             FROM cdm_deid.concept
+                             WHERE concept_name = 'Respiratory rate'
+                                   AND standard_concept = 'S'
+                                   AND concept_class_id = 'Clinical Observation'
+                                   AND vocabulary_id = 'LOINC')
+
+    DECLARE @bpDiast INT = (SELECT concept_id
+                            FROM cdm_deid.concept
+                            WHERE concept_name = 'Diastolic blood pressure'
+                                  AND standard_concept = 'S'
+                                  AND concept_class_id = 'Clinical Observation'
+                                  AND vocabulary_id = 'LOINC')
+
+    DECLARE @bpSyst INT = (SELECT concept_id
+                           FROM cdm_deid.concept
+                           WHERE concept_name = 'Systolic blood pressure'
+                                 AND standard_concept = 'S'
+                                 AND concept_class_id = 'Clinical Observation'
+                                 AND vocabulary_id = 'LOINC')
+
+    DECLARE @weight INT = (SELECT concept_id
+                           FROM cdm_deid.concept
+                           WHERE concept_name = 'Body weight'
+                                 AND standard_concept = 'S'
+                                 AND concept_class_id = 'Clinical Observation'
+                                 AND vocabulary_id = 'LOINC')
+
+    DECLARE @height INT = (SELECT concept_id
+                           FROM cdm_deid.concept
+                           WHERE concept_name = 'Body height'
+                                 AND standard_concept = 'S'
+                                 AND concept_class_id = 'Clinical Observation'
+                                 AND vocabulary_id = 'LOINC')
+
+    DECLARE @coma_score INT = (SELECT concept_id
+                               FROM cdm_deid.concept
+                               WHERE concept_name = 'Glasgow coma score total'
+                                     AND standard_concept = 'S'
+                                     AND concept_class_id = 'Clinical Observation'
+                                     AND vocabulary_id = 'LOINC')
+
+    DECLARE @O2_sat INT = (SELECT concept_id
+                           FROM cdm_deid.concept
+                           WHERE concept_name = 'Oxygen saturation in Blood'
+                                 AND standard_concept = 'S'
+                                 AND concept_class_id = 'Clinical Observation'
+                                 AND vocabulary_id = 'LOINC')
+
+    DECLARE @fetal_head_circum INT = (SELECT concept_id
+                                      FROM cdm_deid.concept
+                                      WHERE concept_name = 'Fetal Head Circumference US'
+                                            AND standard_concept = 'S'
+                                            AND concept_class_id = 'Clinical Observation'
+                                            AND vocabulary_id = 'LOINC')
+
+    DECLARE @pain_severity INT = (SELECT concept_id
+                                  FROM cdm_deid.concept
+                                  WHERE concept_name = 'Pain severity Wong-Baker FACES pain rating scale'
+                                        AND standard_concept = 'S'
+                                        AND concept_class_id = 'Clinical Observation'
+                                        AND vocabulary_id = 'LOINC')
+
+    DECLARE @bmi INT = (SELECT concept_id
+                        FROM cdm_deid.concept
+                        WHERE concept_name = 'Body mass index (bmi) [Ratio]'
+                              AND standard_concept = 'S'
+                              AND concept_class_id = 'Clinical Observation'
+                              AND vocabulary_id = 'LOINC')
+
+    DECLARE @pulse INT = (SELECT concept_id
+                          FROM cdm_deid.concept
+                          WHERE concept_name = 'Pulse rate'
+                                AND standard_concept = 'S'
+                                AND concept_class_id = 'Observable Entity'
+                                AND vocabulary_id = 'SNOMED')
+
+    DECLARE @SOFA_score INT = (SELECT concept_id
+                               FROM cdm_deid.concept
+                               WHERE concept_name = 'SOFA (Sequential Organ Failure Assessment) score'
+                                     AND standard_concept = 'S'
+                                     AND concept_class_id = 'Observable Entity'
+                                     AND vocabulary_id = 'SNOMED')
+
+    DECLARE @peds_diastolic_bp INT = (SELECT concept_id
+                                      FROM cdm_deid.concept
+                                      WHERE concept_name = 'Pediatric diastolic blood pressure percentile [Per age, sex and height]'
+                                            AND standard_concept = 'S'
+                                            AND concept_class_id = 'Survey'
+                                            AND vocabulary_id = 'LOINC')
+
+    DECLARE @peds_systolic_bp INT = (SELECT concept_id
+                                     FROM cdm_deid.concept
+                                     WHERE concept_name = 'Pediatric systolic blood pressure percentile [Per age, sex and height]'
+                                           AND standard_concept = 'S'
+                                           AND concept_class_id = 'Survey'
+                                           AND vocabulary_id = 'LOINC')
+
+    DECLARE @per_minute NVARCHAR(50) = (SELECT concept_name
+                                        FROM cdm_deid.concept
+                                        WHERE concept_name = 'counts per minute'
+                                              AND standard_concept = 'S'
+                                              AND concept_class_id = 'Unit'
+                                              AND vocabulary_id = 'UCUM')
+
+    DECLARE @percent NVARCHAR(50) = (SELECT concept_name
+                                     FROM cdm_deid.concept
+                                     WHERE concept_name = 'percent'
+                                           AND standard_concept = 'S'
+                                           AND concept_class_id = 'Unit'
+                                           AND vocabulary_id = 'UCUM')
+
+    DECLARE @pressure_mm_hg NVARCHAR(50) = (SELECT concept_name
+                                            FROM cdm_deid.concept
+                                            WHERE concept_name = 'millimeter mercury column'
+                                                  AND standard_concept = 'S'
+                                                  AND concept_class_id = 'Unit'
+                                                  AND vocabulary_id = 'UCUM')
+
+    DECLARE @degree_F NVARCHAR(50) = (SELECT concept_name
+                                      FROM cdm_deid.concept
+                                      WHERE concept_name = 'degree Fahrenheit'
+                                            AND standard_concept = 'S'
+                                            AND concept_class_id = 'Unit'
+                                            AND vocabulary_id = 'UCUM')
+
+    DECLARE @inch NVARCHAR(50) = (SELECT concept_name
+                                  FROM cdm_deid.concept
+                                  WHERE concept_name = 'inch (US)'
+                                        AND standard_concept = 'S'
+                                        AND concept_class_id = 'Unit'
+                                        AND vocabulary_id = 'UCUM')
+
+    DECLARE @ounce NVARCHAR(50) = (SELECT concept_name
+                                   FROM cdm_deid.concept
+                                   WHERE concept_name = 'ounce (avoirdupois)'
+                                         AND standard_concept = 'S'
+                                         AND concept_class_id = 'Unit'
+                                         AND vocabulary_id = 'UCUM')
+
+    DECLARE @kg_per_m2 NVARCHAR(50) = (SELECT concept_name
+                                       FROM cdm_deid.concept
+                                       WHERE concept_name = 'kilogram per square meter'
+                                             AND standard_concept = 'S'
+                                             AND concept_class_id = 'Unit'
+                                             AND vocabulary_id = 'UCUM')
+
+    DECLARE @score NVARCHAR(50) = (SELECT concept_name
+                                   FROM cdm_deid.concept
+                                   WHERE concept_name = 'score'
+                                         AND standard_concept = 'S'
+                                         AND concept_class_id = 'Unit'
+                                         AND vocabulary_id = 'UCUM')
+
+    DROP TABLE IF EXISTS #vitals_w_units
+    CREATE TABLE #vitals_w_units (vital_concept_id INT NOT NULL PRIMARY KEY,
+                                  vital_units NVARCHAR(50) NOT NULL)
+    INSERT INTO #vitals_w_units
+    SELECT *
+    FROM (VALUES (@temp,                @degree_F),
+                 (@respRate,            @per_minute),
+                 (@bpDiast,             @pressure_mm_hg),
+                 (@bpSyst,              @pressure_mm_hg),
+                 (@weight,              @ounce),
+                 (@height,              @inch),
+                 (@coma_score,          @score),
+                 (@O2_sat,              @percent),
+                 (@fetal_head_circum,   @inch),
+                 (@pain_severity,       @score),
+                 (@bmi,                 @kg_per_m2),
+                 (@pulse,               @per_minute),
+                 (@SOFA_score,          @score),
+                 (@peds_diastolic_bp,   @percent),
+                 (@peds_systolic_bp,    @percent)) AS X(col1, col2);
 
     ; WITH vitals AS
     (
-        SELECT C.concept_name, C.concept_id, cnt = COUNT(DISTINCT person_id), concept_id_string = CONVERT(NVARCHAR(50), C.concept_id)
-        FROM omop.cdm_deid_std.measurement AS X
-			 LEFT JOIN omop.cdm_deid_std.concept AS C
-				ON X.measurement_concept_id = C.concept_id
-        WHERE X.measurement_concept_id IN (@bpSyst, @bpDiast, @bmi, @height, @weight, @heartRate, @tempC, @pulse, @respRate)
-        GROUP BY C.concept_name, C.concept_id
+        SELECT concept.concept_name, concept.concept_id, cnt = COUNT(DISTINCT person_id),
+               concept_id_string = CONVERT(NVARCHAR(50), concept.concept_id), vital_units
+        FROM #vitals_w_units,
+             omop.cdm_deid_std.measurement AS measurement
+			 LEFT JOIN omop.cdm_deid_std.concept AS concept
+				  ON measurement.measurement_concept_id = concept.concept_id
+        WHERE measurement.measurement_concept_id IN (SELECT vital_concept_id
+                                                     FROM #vitals_w_units)
+              AND vital_concept_id = concept.concept_id
+        GROUP BY concept.concept_name, concept.concept_id, vital_units
     )
 
     /* INSERT */
-    INSERT INTO LeafDB.app.Concept (ExternalId, ExternalParentId, [IsNumeric], IsParent, IsRoot, SqlSetId, SqlSetWhere,
-                                       SqlFieldNumeric, UiDisplayName, UiDisplayText, UiDisplayUnits, UiNumericDefaultText, UiDisplayPatientCount)
+    INSERT INTO LeafDB.app.Concept (ExternalId, ExternalParentId, [IsNumeric], IsParent, IsRoot, SqlSetId,
+                                    SqlSetWhere, SqlFieldNumeric, UiDisplayName, UiDisplayText, UiDisplayUnits,
+                                    UiNumericDefaultText, UiDisplayPatientCount)
 
     /* Root */
     SELECT ExternalId            = @vitals_root
@@ -81,25 +259,28 @@ BEGIN
          , UiDisplayText         = 'Had vitals measured'
          , UiDisplayUnits        = NULL
          , UiNumericDefaultText  = NULL
-         , UiDisplayPatientCount = (SELECT COUNT(DISTINCT person_id) FROM omop.cdm_deid_std.measurement WHERE measurement_concept_id IN (@bpSyst, @bpDiast, @bmi, @height, @weight, @heartRate, @tempC, @pulse, @respRate))
+         , UiDisplayPatientCount = (SELECT COUNT(DISTINCT person_id)
+                                    FROM omop.cdm_deid_std.measurement
+                                    WHERE measurement_concept_id IN (SELECT vital_concept_id
+                                                                     FROM #vitals_w_units))
 
     UNION ALL
 
     /* Vitals */
-    SELECT ExternalId            = 'vitals:' + X.concept_id_string
+    SELECT ExternalId            = 'vitals:' + _vitals.concept_id_string
          , ExternalParentId      = @vitals_root
          , [IsNumeric]           = @yes
          , IsParent              = @no
          , IsRoot                = @no
          , SqlSetId              = @sqlset_measurement
-         , SqlSetWhere           = '@.measurement_concept_id = ' + X.concept_id_string
+         , SqlSetWhere           = '@.measurement_concept_id = ' + _vitals.concept_id_string
          , SqlFieldNumeric       = '@.value_as_number'
-         , UiDisplayName         = X.concept_name
-         , UiDisplayText         = 'Had ' + X.concept_name + ' measured'
-         , UiDisplayUnits        = NULL
+         , UiDisplayName         = _vitals.concept_name
+         , UiDisplayText         = 'Had ' + _vitals.concept_name + ' measured'
+         , UiDisplayUnits        = _vitals.vital_units
          , UiNumericDefaultText  = 'of any result'
-         , UiDisplayPatientCount = X.cnt
-    FROM vitals AS X
+         , UiDisplayPatientCount = _vitals.cnt
+    FROM vitals AS _vitals
 
     /**
     * Set ParentId based on ExternalIds
