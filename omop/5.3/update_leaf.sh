@@ -3,7 +3,7 @@
 # Update the LeafDB after the de-identified schema changes
 # Needed whenever clinical records or concepts are added, deleted or updated
 
-# use command ./update_leaf.sql
+# use command ./update_leaf.sh
 
 # exit when any command fails
 set -e
