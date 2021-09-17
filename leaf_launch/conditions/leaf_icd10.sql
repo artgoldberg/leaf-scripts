@@ -41,6 +41,24 @@ SET @ConstantSqlSetWhere = 'EXISTS
      AND @.condition_concept_id = @C_SNOMED.concept_id
      AND @C_ICD10CM.concept_code '
 
+/*
+Draft code:
+SET @ConstantSqlSetWhere = 'EXISTS
+(SELECT 1
+ FROM
+     omop.cdm_deid_std.concept AS @C_EpicEDG,
+     omop.cdm_deid_std.concept AS @C_ICD10CM,
+     omop.cdm_deid_std.concept_relationship AS @CR
+ WHERE
+     @.condition_source_concept_id = @C_EpicEDG.concept_id
+     AND @C_EpicEDG.vocabulary_id = ''EPIC EDG .1''
+     AND @C_EpicEDG.concept_id = @CR.concept_id_1
+     AND @CR.relationship_id = ''Non-standard maps to''
+     AND @C_ICD10CM.vocabulary_id = ''ICD10CM''
+     AND @C_ICD10CM.concept_id = @CR.concept_id_2
+     AND @C_ICD10CM.concept_code '
+*/
+
 -- Delete existing ICD10 condition records
 DELETE
 FROM LeafDB.app.Concept
