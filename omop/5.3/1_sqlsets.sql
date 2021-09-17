@@ -16,8 +16,7 @@ INSERT INTO LeafDB.app.ConceptSqlSet (SqlSetFrom, IsEncounterBased, IsEventBased
 SELECT *
 FROM (VALUES ('omop.cdm_deid_std.person',               @no,  @no, NULL,                               GETDATE(), @user, GETDATE(), @user),
              ('omop.cdm_deid_std.visit_occurrence',     @yes, @no, '@.visit_start_datetime',           GETDATE(), @user, GETDATE(), @user),
-             -- TODO: Change this to omop.cdm_deid_std.condition_occurrence when it is ready
-             ('rpt.test_omop_conditions.condition_occurrence_deid', @yes, @no, '@.condition_start_datetime',       GETDATE(), @user, GETDATE(), @user),
+             ('omop.cdm_deid_std.condition_occurrence', @yes, @no, '@.condition_start_datetime',       GETDATE(), @user, GETDATE(), @user),
              ('omop.cdm_deid_std.death',                @yes, @no, '@.death_datetime',                 GETDATE(), @user, GETDATE(), @user),
              ('omop.cdm_deid_std.device_exposure',      @yes, @no, '@.device_exposure_start_datetime', GETDATE(), @user, GETDATE(), @user),
              ('omop.cdm_deid_std.drug_exposure',        @yes, @no, '@.drug_exposure_start_datetime',   GETDATE(), @user, GETDATE(), @user),
@@ -91,33 +90,8 @@ SET SqlSetFrom = '(SELECT [condition_occurrence_id],
                           [condition_source_concept_id],
                           [condition_status_source_value],
                           [condition_status_concept_id]
-                   FROM rpt.test_omop_conditions.condition_occurrence_deid)'
-WHERE SqlSetFrom LIKE '%condition_occurrence_deid';
-
-/*
-TODO: Use this when condition_occurrence above can be reverted to use omop.cdm_deid_std.condition_occurrence,
-which can be done when it contains omop concepts in condition_occurrence_id and
-omop.cdm_deid_std.concept_relationship contains Epic diagnosis to SNOMED codes.
-UPDATE LeafDB.app.ConceptSqlSet
-SET SqlSetFrom = '(SELECT [condition_occurrence_id],
-                          [person_id] = CONVERT(NVARCHAR(64), [person_id], 2),
-                          [condition_concept_id],
-                          [condition_start_date],
-                          [condition_start_datetime],
-                          [condition_end_date],
-                          [condition_end_datetime],
-                          [condition_type_concept_id],
-                          [stop_reason],
-                          [provider_id],
-                          [visit_occurrence_id],
-                          [visit_detail_id],
-                          [condition_source_value],
-                          [condition_source_concept_id],
-                          [condition_status_source_value],
-                          [condition_status_concept_id]
                    FROM omop.cdm_deid_std.condition_occurrence)'
 WHERE SqlSetFrom LIKE '%condition_occurrence';
-*/
 
 UPDATE LeafDB.app.ConceptSqlSet
 SET SqlSetFrom = '(SELECT [person_id] = CONVERT(NVARCHAR(64), [person_id], 2),

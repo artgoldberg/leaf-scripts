@@ -21,8 +21,7 @@ BEGIN
                                                 WHERE SqlSetFrom LIKE '%cdm_deid_std.visit_occurrence%')
     DECLARE @sqlset_condition_occurrence INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                -- TODO: Change this to '%[condition_occurrence]%' when it is ready
-                                                WHERE SqlSetFrom LIKE '%rpt.test_omop_conditions.condition_occurrence_deid%')
+                                                WHERE SqlSetFrom LIKE '%cdm_deid_std.condition_occurrence%')
     DECLARE @sqlset_death                INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
                                                 WHERE SqlSetFrom LIKE '%cdm_deid_std.death%')
