@@ -15,38 +15,38 @@ BEGIN
 
     DECLARE @sqlset_person               INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom LIKE '%cdm_deid_std.person%')
+                                                WHERE SqlSetFrom LIKE '%cdm_deid.person%')
     DECLARE @sqlset_visit_occurrence     INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom LIKE '%cdm_deid_std.visit_occurrence%')
+                                                WHERE SqlSetFrom LIKE '%cdm_deid.visit_occurrence%')
     DECLARE @sqlset_condition_occurrence INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom LIKE '%cdm_deid_std.condition_occurrence%')
+                                                WHERE SqlSetFrom LIKE '%cdm_deid.condition_occurrence%')
     DECLARE @sqlset_death                INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom LIKE '%cdm_deid_std.death%')
+                                                WHERE SqlSetFrom LIKE '%cdm_deid.death%')
     DECLARE @sqlset_device_exposure      INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom LIKE '%cdm_deid_std.device_exposure%')
+                                                WHERE SqlSetFrom LIKE '%cdm_deid.device_exposure%')
     DECLARE @sqlset_drug_exposure        INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom LIKE '%cdm_deid_std.drug_exposure%')
+                                                WHERE SqlSetFrom LIKE '%cdm_deid.drug_exposure%')
     DECLARE @sqlset_measurement          INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom LIKE '%cdm_deid_std.measurement%')
+                                                WHERE SqlSetFrom LIKE '%cdm_deid.measurement%')
     DECLARE @sqlset_observation          INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom LIKE '%cdm_deid_std.observation%')
+                                                WHERE SqlSetFrom LIKE '%cdm_deid.observation%')
     DECLARE @sqlset_procedure_occurrence INT = (SELECT TOP 1 Id
                                                 FROM LeafDB.app.ConceptSqlSet
-                                                WHERE SqlSetFrom LIKE '%cdm_deid_std.procedure_occurrence%')
+                                                WHERE SqlSetFrom LIKE '%cdm_deid.procedure_occurrence%')
 
     DECLARE @visit_root NVARCHAR(50) = 'visit'
 
     ; WITH visit_types AS
     (
         SELECT C.concept_name, C.concept_id, cnt = COUNT(DISTINCT person_id), concept_id_string = CONVERT(NVARCHAR(50), C.concept_id)
-        FROM omop.cdm_deid_std.visit_occurrence AS X INNER JOIN omop.cdm_deid_std.concept AS C
+        FROM omop.cdm_deid.visit_occurrence AS X INNER JOIN omop.cdm_deid.concept AS C
              ON X.visit_concept_id = C.concept_id
         WHERE X.visit_concept_id != 0
         GROUP BY C.concept_name, C.concept_id
@@ -69,7 +69,7 @@ BEGIN
          , UiDisplayText         = 'Have had an encounter'
          , UiDisplayUnits        = NULL
          , UiNumericDefaultText  = NULL
-         , UiDisplayPatientCount = (SELECT COUNT(DISTINCT person_id) FROM omop.cdm_deid_std.visit_occurrence)
+         , UiDisplayPatientCount = (SELECT COUNT(DISTINCT person_id) FROM omop.cdm_deid.visit_occurrence)
     UNION ALL
 
     /* Visit types */

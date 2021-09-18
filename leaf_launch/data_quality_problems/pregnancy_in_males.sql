@@ -29,16 +29,16 @@ WITH wrapper (personId) AS (
                         [condition_status_source_value],
                         [condition_status_concept_id]
                     FROM
-                        rpt.test_omop_conditions.condition_occurrence_deid
+                        omop.cdm_deid.condition_occurrence
                 ) AS _S000
             WHERE
                 EXISTS (
                     SELECT
                         1
                     FROM
-                        omop.cdm_deid_std.concept AS _S000C_ICD10CM,
-                        omop.cdm_deid_std.concept_relationship AS _S000CR,
-                        omop.cdm_deid_std.concept AS _S000C_SNOMED
+                        omop.cdm_deid.concept AS _S000C_ICD10CM,
+                        omop.cdm_deid.concept_relationship AS _S000CR,
+                        omop.cdm_deid.concept AS _S000C_SNOMED
                     WHERE
                         _S000C_ICD10CM.vocabulary_id = 'ICD10CM'
                         AND _S000C_ICD10CM.concept_id = _S000CR.concept_id_1
@@ -81,7 +81,7 @@ WITH wrapper (personId) AS (
                         [ethnicity_source_value],
                         [ethnicity_source_concept_id]
                     FROM
-                        omop.cdm_deid_std.person
+                        omop.cdm_deid.person
                 ) AS _S100
             WHERE
                 /* MALE */
@@ -111,7 +111,7 @@ WITH wrapper (personId) AS (
                         [ethnicity_source_value],
                         [ethnicity_source_concept_id]
                     FROM
-                        omop.cdm_deid_std.person
+                        omop.cdm_deid.person
                 ) AS _S101
             WHERE
                 /* Male */

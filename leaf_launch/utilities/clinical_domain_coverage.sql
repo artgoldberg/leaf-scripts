@@ -48,7 +48,7 @@ CREATE PROCEDURE [app].[sp_calculate_domains_coverage]
 AS
 */
 
--- Example coverage analysis: conditions in cdm_deid_std
+-- Example coverage analysis: conditions in cdm_deid
 
 ----- 1) All concepts -----
 -- TODO: remove "TOP 1 " from similar queries in other programs; these SHOULD fail if more than 1 is returned
@@ -57,29 +57,29 @@ DECLARE @false BIT = 0
 PRINT 'Conditions:'
 DECLARE @sqlset_condition_occurrence INT = (SELECT Id
                                             FROM app.ConceptSqlSet
-                                            WHERE SqlSetFrom LIKE '%omop.cdm_deid_std.condition_occurrence%')
+                                            WHERE SqlSetFrom LIKE '%omop.cdm_deid.condition_occurrence%')
 DECLARE @num_Leaf_condition_concepts BIGINT = (SELECT COUNT(*)
                                                FROM app.Concept
                                                WHERE SqlSetId = @sqlset_condition_occurrence
                                                      AND IsParent = @false)
 DECLARE @num_condition_concepts BIGINT = (SELECT COUNT(*)
-                                          FROM omop.cdm_deid_std.concept
+                                          FROM omop.cdm_deid.concept
                                           WHERE vocabulary_id = 'ICD10CM')
 PRINT '   1) All concepts: ' +
       FORMAT(CAST(@num_Leaf_condition_concepts AS FLOAT) / CAST(@num_condition_concepts AS FLOAT), '##.00%', 'en-US') +
-      ' of all ICD-10-CM concepts in cdm_deid_std.concept are leaves in the Leaf hierarchy'
+      ' of all ICD-10-CM concepts in cdm_deid.concept are leaves in the Leaf hierarchy'
 
 ----- 2) Used concepts -----
 
 -- Count the ICD10 concepts used in MSDW2
 DECLARE @num_ICD10_condition_concepts_used BIGINT =
         (SELECT COUNT(DISTINCT(concept_ICD10.concept_id))
-         FROM omop.cdm_deid_std.condition_occurrence condition_occurrence,
-              omop.cdm_deid_std.concept_relationship concept_relationship,
-              omop.cdm_deid_std.concept concept_ICD10,
-              omop.cdm_deid_std.concept concept_SNOMED
+         FROM omop.cdm_deid.condition_occurrence condition_occurrence,
+              omop.cdm_deid.concept_relationship concept_relationship,
+              omop.cdm_deid.concept concept_ICD10,
+              omop.cdm_deid.concept concept_SNOMED
          WHERE
-             -- Get records in omop.cdm_deid_std.condition_occurrence that use a SNOMED concept
+             -- Get records in omop.cdm_deid.condition_occurrence that use a SNOMED concept
              condition_occurrence.condition_concept_id = concept_SNOMED.concept_id
              -- Map the SNOMED concept to ICD10CM
              AND concept_SNOMED.vocabulary_id = 'SNOMED'
@@ -99,10 +99,10 @@ PRINT '   2) Used concepts: ' +
 -- in MSDW2 this currently requires complex parsing of SqlSetWhere
 DECLARE @num_searchable_ICD10_condition_occurrences BIGINT =
         (SELECT COUNT(DISTINCT(condition_occurrence_id))
-         FROM omop.cdm_deid_std.condition_occurrence condition_occurrence,
-              omop.cdm_deid_std.concept_relationship concept_relationship,
-              omop.cdm_deid_std.concept concept_ICD10,
-              omop.cdm_deid_std.concept concept_SNOMED,
+         FROM omop.cdm_deid.condition_occurrence condition_occurrence,
+              omop.cdm_deid.concept_relationship concept_relationship,
+              omop.cdm_deid.concept concept_ICD10,
+              omop.cdm_deid.concept concept_SNOMED,
               rpt.leaf_scratch.UMLS_ICD10 AS UMLS_ICD10
          WHERE condition_occurrence.condition_concept_id = concept_SNOMED.concept_id
                AND concept_SNOMED.vocabulary_id = 'SNOMED'
@@ -115,7 +115,7 @@ DECLARE @num_searchable_ICD10_condition_occurrences BIGINT =
 
 DECLARE @num_condition_occurrences BIGINT =
         (SELECT COUNT(*)
-         FROM omop.cdm_deid_std.condition_occurrence)
+         FROM omop.cdm_deid.condition_occurrence)
 
 PRINT '@num_condition_occurrences: ' + CAST(@num_condition_occurrences AS VARCHAR)
 

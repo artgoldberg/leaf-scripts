@@ -34,16 +34,16 @@ DECLARE @sql NVARCHAR(MAX)     =
     , name              = CONVERT(NVARCHAR(1),NULL) /* Not in OMOP */
     , race              = c_race.concept_name
     , religion          = CONVERT(NVARCHAR(1),NULL) /* Not in OMOP */
-    FROM [omop].[cdm_deid_std].[person] AS P
-        LEFT JOIN omop.cdm_deid_std.concept AS c_gender
+    FROM [omop].[cdm_deid].[person] AS P
+        LEFT JOIN omop.cdm_deid.concept AS c_gender
             ON P.gender_concept_id = c_gender.concept_id
-        LEFT JOIN omop.cdm_deid_std.concept AS c_race
+        LEFT JOIN omop.cdm_deid.concept AS c_race
             ON P.race_concept_id = c_race.concept_id
-        LEFT JOIN omop.cdm_deid_std.concept AS c_ethnicity
+        LEFT JOIN omop.cdm_deid.concept AS c_ethnicity
             ON p.ethnicity_concept_id = c_ethnicity.concept_id
-        LEFT JOIN omop.cdm_deid_std.[location] AS L
+        LEFT JOIN omop.cdm_deid.[location] AS L
             ON P.location_id = L.location_id
-        LEFT JOIN omop.cdm_deid_std.death AS D
+        LEFT JOIN omop.cdm_deid.death AS D
             ON P.person_id = D.person_id'
 
 INSERT INTO LeafDB.app.DemographicQuery ([Lock],[SqlStatement],[Shape],[LastChanged],[ChangedBy])

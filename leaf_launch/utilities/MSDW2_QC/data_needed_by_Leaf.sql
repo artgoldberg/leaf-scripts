@@ -10,13 +10,13 @@ SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 USE omop;
 
 -- Gender, assuming omop codes
-SELECT 'cdm_deid_std',
+SELECT 'cdm_deid',
        concept.concept_name,
        concept.concept_id,
        [count] = COUNT(DISTINCT person_id),
        concept_id_string = CONVERT(NVARCHAR(50), concept.concept_id)
-FROM cdm_deid_std.person AS person
-     INNER JOIN cdm_deid_std.concept AS concept
+FROM cdm_deid.person AS person
+     INNER JOIN cdm_deid.concept AS concept
      ON person.gender_concept_id = concept.concept_id
 WHERE person.gender_concept_id <> 0
 GROUP BY concept.concept_name, concept.concept_id
@@ -24,16 +24,16 @@ ORDER BY concept.concept_name;
 
 -- Gender, assuming Epic codes
 /*
-SELECT 'cdm_deid_std',
+SELECT 'cdm_deid',
        OMOP_concept.concept_name,
        OMOP_concept.concept_id,
        [count] = COUNT(DISTINCT person_id),
        concept_id_string = CONVERT(NVARCHAR(50), OMOP_concept.concept_id)
-FROM cdm_deid_std.person AS person
-     INNER JOIN cdm_deid_std.concept AS Epic_concept
+FROM cdm_deid.person AS person
+     INNER JOIN cdm_deid.concept AS Epic_concept
      ON person.gender_concept_id = Epic_concept.concept_id,
-     cdm_deid_std.concept AS OMOP_concept,
-     cdm_deid_std.concept_relationship concept_relationship
+     cdm_deid.concept AS OMOP_concept,
+     cdm_deid.concept_relationship concept_relationship
 WHERE person.gender_concept_id <> 0
       AND Epic_concept.vocabulary_id LIKE 'EPIC%'
       AND Epic_concept.concept_id = concept_relationship.concept_id_1
@@ -45,26 +45,26 @@ ORDER BY OMOP_concept.concept_name;
 */
 
 -- Ethnicity
-SELECT 'cdm_deid_std',
+SELECT 'cdm_deid',
        concept.concept_name,
        concept.concept_id,
        [count] = COUNT(DISTINCT person_id),
        concept_id_string = CONVERT(NVARCHAR(50), concept.concept_id)
-FROM cdm_deid_std.person AS person
-     INNER JOIN cdm_deid_std.concept AS concept
+FROM cdm_deid.person AS person
+     INNER JOIN cdm_deid.concept AS concept
      ON person.ethnicity_concept_id = concept.concept_id
 WHERE person.ethnicity_concept_id <> 0
 GROUP BY concept.concept_name, concept.concept_id
 ORDER BY concept.concept_name;
 
 -- Race
-SELECT 'cdm_deid_std',
+SELECT 'cdm_deid',
        concept.concept_name,
        concept.concept_id,
        [count] = COUNT(DISTINCT person_id),
        concept_id_string = CONVERT(NVARCHAR(50), concept.concept_id)
-FROM cdm_deid_std.person AS person
-     INNER JOIN cdm_deid_std.concept AS concept
+FROM cdm_deid.person AS person
+     INNER JOIN cdm_deid.concept AS concept
      ON person.race_concept_id = concept.concept_id
 WHERE person.race_concept_id <> 0
 GROUP BY concept.concept_name, concept.concept_id
@@ -80,16 +80,16 @@ FROM cdm.death death,
 WHERE death.person_id = person.person_id;
 
 -- whereas this returned "Deceased	0".
-SELECT COUNT_BIG(*) AS 'Deceased in cdm_deid_std'
-FROM cdm_deid_std.death death,
-     cdm_deid_std.person person
+SELECT COUNT_BIG(*) AS 'Deceased in cdm_deid'
+FROM cdm_deid.death death,
+     cdm_deid.person person
 WHERE death.person_id = person.person_id;
 
 -- The problem was that all the person_ids in death are the same.
 -- This returns one row: "                                	31065":
 -- FIXED
 SELECT person_id, COUNT(*)
-FROM cdm_deid_std.death
+FROM cdm_deid.death
 GROUP BY person_id
 
 -- Vitals
@@ -330,10 +330,10 @@ GROUP BY concept.concept_name, concept.concept_id;
 -- Fixed!
 -- TODO: PRINT the result
 SELECT COUNT(person_id)
-FROM cdm_deid_std.person;
+FROM cdm_deid.person;
 
 SELECT COUNT(DISTINCT person_id)
-FROM cdm_deid_std.person;
+FROM cdm_deid.person;
 
 -- Procedure codes
 SELECT 'cdm' AS 'Schema',
@@ -349,14 +349,14 @@ WHERE procedure_source_concept_id IS NOT NULL
       AND procedure_source_value IS NOT NULL
 GROUP BY procedure_source_concept_id, procedure_source_value;
 
-SELECT 'cdm_deid_std' AS 'Schema',
+SELECT 'cdm_deid' AS 'Schema',
        'Procedures' AS 'Code',
        COUNT(*) AS 'Count',
        procedure_source_concept_id,
        procedure_source_concept_code,
        procedure_source_concept_name,
        procedure_source_value
-FROM cdm_deid_std.procedure_occurrence
+FROM cdm_deid.procedure_occurrence
 WHERE procedure_source_concept_id IS NOT NULL
       AND 0 < procedure_source_concept_id
       AND procedure_source_concept_code IS NOT NULL

@@ -14,20 +14,20 @@ DECLARE @no  BIT = 0
  */
 INSERT INTO LeafDB.app.ConceptSqlSet (SqlSetFrom, IsEncounterBased, IsEventBased, SqlFieldDate, Created, CreatedBy, Updated, UpdatedBy)
 SELECT *
-FROM (VALUES ('omop.cdm_deid_std.person',               @no,  @no, NULL,                               GETDATE(), @user, GETDATE(), @user),
-             ('omop.cdm_deid_std.visit_occurrence',     @yes, @no, '@.visit_start_datetime',           GETDATE(), @user, GETDATE(), @user),
-             ('omop.cdm_deid_std.condition_occurrence', @yes, @no, '@.condition_start_datetime',       GETDATE(), @user, GETDATE(), @user),
-             ('omop.cdm_deid_std.death',                @yes, @no, '@.death_datetime',                 GETDATE(), @user, GETDATE(), @user),
-             ('omop.cdm_deid_std.device_exposure',      @yes, @no, '@.device_exposure_start_datetime', GETDATE(), @user, GETDATE(), @user),
-             ('omop.cdm_deid_std.drug_exposure',        @yes, @no, '@.drug_exposure_start_datetime',   GETDATE(), @user, GETDATE(), @user),
-             ('omop.cdm_deid_std.measurement',          @yes, @no, '@.measurement_datetime',           GETDATE(), @user, GETDATE(), @user),
-             ('omop.cdm_deid_std.observation',          @yes, @no, '@.observation_datetime',           GETDATE(), @user, GETDATE(), @user),
-             ('omop.cdm_deid_std.procedure_occurrence', @yes, @no, '@.procedure_datetime',             GETDATE(), @user, GETDATE(), @user)
+FROM (VALUES ('omop.cdm_deid.person',               @no,  @no, NULL,                               GETDATE(), @user, GETDATE(), @user),
+             ('omop.cdm_deid.visit_occurrence',     @yes, @no, '@.visit_start_datetime',           GETDATE(), @user, GETDATE(), @user),
+             ('omop.cdm_deid.condition_occurrence', @yes, @no, '@.condition_start_datetime',       GETDATE(), @user, GETDATE(), @user),
+             ('omop.cdm_deid.death',                @yes, @no, '@.death_datetime',                 GETDATE(), @user, GETDATE(), @user),
+             ('omop.cdm_deid.device_exposure',      @yes, @no, '@.device_exposure_start_datetime', GETDATE(), @user, GETDATE(), @user),
+             ('omop.cdm_deid.drug_exposure',        @yes, @no, '@.drug_exposure_start_datetime',   GETDATE(), @user, GETDATE(), @user),
+             ('omop.cdm_deid.measurement',          @yes, @no, '@.measurement_datetime',           GETDATE(), @user, GETDATE(), @user),
+             ('omop.cdm_deid.observation',          @yes, @no, '@.observation_datetime',           GETDATE(), @user, GETDATE(), @user),
+             ('omop.cdm_deid.procedure_occurrence', @yes, @no, '@.procedure_datetime',             GETDATE(), @user, GETDATE(), @user)
      ) AS X(col1,col2,col3,col4,col5,col6,col7,col8);
 
 /*
 Replace all SqlSetFrom tables with sub-queries that transform the person_id into NVARCHAR, which
-is needed because they're stored as BINARY(32) in omop.cdm_deid_std; remove these if the person_id
+is needed because they're stored as BINARY(32) in omop.cdm_deid; remove these if the person_id
 type reverts to an int (or to a bigint and Leaf can support bigints).
 */
 UPDATE LeafDB.app.ConceptSqlSet
@@ -49,7 +49,7 @@ SET SqlSetFrom = '(SELECT [person_id] = CONVERT(NVARCHAR(64), [person_id], 2),
                           [race_source_concept_id],
                           [ethnicity_source_value],
                           [ethnicity_source_concept_id]
-                   FROM omop.cdm_deid_std.person)'
+                   FROM omop.cdm_deid.person)'
 WHERE SqlSetFrom LIKE '%person';
 
 UPDATE LeafDB.app.ConceptSqlSet
@@ -70,7 +70,7 @@ SET SqlSetFrom = '(SELECT [visit_occurrence_id],
                           [discharge_to_concept_id],
                           [discharge_to_source_value],
                           [preceding_visit_occurrence_id]
-                   FROM omop.cdm_deid_std.visit_occurrence)'
+                   FROM omop.cdm_deid.visit_occurrence)'
 WHERE SqlSetFrom LIKE '%visit_occurrence';
 
 UPDATE LeafDB.app.ConceptSqlSet
@@ -90,7 +90,7 @@ SET SqlSetFrom = '(SELECT [condition_occurrence_id],
                           [condition_source_concept_id],
                           [condition_status_source_value],
                           [condition_status_concept_id]
-                   FROM omop.cdm_deid_std.condition_occurrence)'
+                   FROM omop.cdm_deid.condition_occurrence)'
 WHERE SqlSetFrom LIKE '%condition_occurrence';
 
 UPDATE LeafDB.app.ConceptSqlSet
@@ -108,7 +108,7 @@ SET SqlSetFrom = '(SELECT [person_id] = CONVERT(NVARCHAR(64), [person_id], 2),
                           [cause_source_value],
                           [death_date],
                           [death_datetime]
-                   FROM omop.cdm_deid_std.death)'
+                   FROM omop.cdm_deid.death)'
 WHERE SqlSetFrom LIKE '%death';
 
 UPDATE LeafDB.app.ConceptSqlSet
@@ -133,7 +133,7 @@ SET SqlSetFrom = '(SELECT [device_exposure_id],
                           [device_exposure_end_date],
                           [device_exposure_end_datetime],
                           [quantity]
-                   FROM omop.cdm_deid_std.device_exposure)'
+                   FROM omop.cdm_deid.device_exposure)'
 WHERE SqlSetFrom LIKE '%device_exposure';
 
 UPDATE LeafDB.app.ConceptSqlSet
@@ -160,7 +160,7 @@ SET SqlSetFrom = '(SELECT [drug_exposure_id],
                           [drug_source_concept_id],
                           [route_source_value],
                           [dose_unit_source_value]
-                   FROM omop.cdm_deid_std.drug_exposure)'
+                   FROM omop.cdm_deid.drug_exposure)'
 WHERE SqlSetFrom LIKE '%drug_exposure';
 
 UPDATE LeafDB.app.ConceptSqlSet
@@ -184,7 +184,7 @@ SET SqlSetFrom = '(SELECT [measurement_id],
                           [measurement_source_concept_id],
                           [unit_source_value],
                           [value_source_value]
-                   FROM omop.cdm_deid_std.measurement)'
+                   FROM omop.cdm_deid.measurement)'
 WHERE SqlSetFrom LIKE '%measurement';
 
 UPDATE LeafDB.app.ConceptSqlSet
@@ -206,7 +206,7 @@ SET SqlSetFrom = '(SELECT [observation_id],
                           [observation_source_concept_id],
                           [unit_source_value],
                           [qualifier_source_value]
-                   FROM omop.cdm_deid_std.observation)'
+                   FROM omop.cdm_deid.observation)'
 WHERE SqlSetFrom LIKE '%observation';
 
 UPDATE LeafDB.app.ConceptSqlSet
@@ -224,5 +224,5 @@ SET SqlSetFrom = '(SELECT [procedure_occurrence_id],
                           [procedure_source_value],
                           [procedure_source_concept_id],
                           [modifier_source_value]
-                  FROM omop.cdm_deid_std.procedure_occurrence)'
+                  FROM omop.cdm_deid.procedure_occurrence)'
 WHERE SqlSetFrom LIKE '%procedure_occurrence';
