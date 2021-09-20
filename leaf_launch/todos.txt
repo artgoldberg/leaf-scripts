@@ -113,16 +113,16 @@ Leaf beta
     x talk to Chip about condition_occurrence DQ issue
     x double-check "manual mappings of 'Epic diagnosis ID' to SNOMED contain 1-to-many mappings; record and ignore them" in conditions
     x switch to the omop standard vitals -- see Tim's email
-    Screenshots of Leaf for PK (timing TBD), dashboard of data distribution
-    review MSDW2 announcement
+    x Screenshots of Leaf for PK (timing TBD)
+    x review MSDW2 announcement
+    x use omop.cdm_deid_std.condition_occurrence & REMOVE ALL REFERENCES TO 'TEST_OMOP_CONDITIONS'
+    x switch to using the cdm_deid schema instead of cdm_deid_std
+    x rm test_omop_conditions.condition_occurrence and test_omop_conditions.condition_occurrence_deid
     rebuild conditions processing to
         a) use Epic EDG code in condition_source_concept_id
         b) go directly from EDG to ICD10
     Joe: Stop 1 min. timeout
-    switch to using the cdm_deid schema instead of cdm_deid_std
-    Work w Darshan to have leaf.mssm.edu show up at de-identified.leaf.msdw.mountsinai.org
     switch Leaf API Kerberos account back to service_leaf@MSNYUHEALTH.ORG when omop.cdm_deid_std.condition_occurrence is ready
-    use omop.cdm_deid_std.condition_occurrence & REMOVE ALL REFERENCES TO 'TEST_OMOP_CONDITIONS'
     Talk with Liyang about bitbucket storage of Achillies output
 
 Vitals for Beta
@@ -136,9 +136,14 @@ Vitals for Beta
     x 2. expand "vitals" CTE, with a field for the units, and use the units for UiDisplayUnits
     x update "data needed for Leaf sql"
 
+other
+    Annual Reporting of Outside Relationships 
+
 Leaf after Beta
     x Create Bitbucket for OHDSI / DataQualityDashboard results for Fabricio
     x recreate rpt.test_omop_conditions.condition_occurrence with deid patient_ids
+    create a dev version of Leaf
+    Work w Darshan to have leaf.mssm.edu show up at de-identified.leaf.msdw.mountsinai.org
     Joe: Correct population counts in GUI
     present coverage measurements in table with each domain a row, and a column for each stage along process -- where does coverage get lost?
     with Joe
@@ -166,6 +171,15 @@ procedures:
 full report on Leaf results
     Demographics, Age & Vital Status all show 13,166,263 patients == #rows in omop.cdm_phi_std.person
     we have this distribution of Encounter counts ()
+
+Better understand and fix Leaf
+    1. Understand more deeply how Leaf works; better explain Leaf to our users
+    2. Identify & fix problems
+        2a. Problems with our Leaf configuration
+        2b. Problems with MSDW2
+        2c. Problems with Leaf, i.e., features that don't work as advertised
+    3. Identify important improvement we want made to Leaf
+        3a. Decide whether we or UW should make the improvements
 
 Leaf beta
     x try cdm_deid - what about NULLs in person.birth_datetime (3.4 M of them)?
