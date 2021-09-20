@@ -118,12 +118,10 @@ Leaf beta
     x use omop.cdm_deid_std.condition_occurrence & REMOVE ALL REFERENCES TO 'TEST_OMOP_CONDITIONS'
     x switch to using the cdm_deid schema instead of cdm_deid_std
     x rm test_omop_conditions.condition_occurrence and test_omop_conditions.condition_occurrence_deid
-    rebuild conditions processing to
-        a) use Epic EDG code in condition_source_concept_id
-        b) go directly from EDG to ICD10
-    Joe: Stop 1 min. timeout
+    x rebuild conditions processing to
+        x a) use Epic EDG code in condition_source_concept_id
+        x b) go directly from EDG to ICD10
     switch Leaf API Kerberos account back to service_leaf@MSNYUHEALTH.ORG when omop.cdm_deid_std.condition_occurrence is ready
-    Talk with Liyang about bitbucket storage of Achillies output
 
 Vitals for Beta
     x 1. keep the "Sinai uses" ones
@@ -137,12 +135,23 @@ Vitals for Beta
     x update "data needed for Leaf sql"
 
 other
-    Annual Reporting of Outside Relationships 
+    Annual Reporting of Outside Relationships
 
 Leaf after Beta
     x Create Bitbucket for OHDSI / DataQualityDashboard results for Fabricio
     x recreate rpt.test_omop_conditions.condition_occurrence with deid patient_ids
     create a dev version of Leaf
+        Wei create another VM
+            put at leaf-dev.mssm.edu
+            and at omop-leaf-dev.chimera.hpc.mssm.edu
+            get uid, password, & SSH host keys
+        create LeafDB_dev on msdw2-mssql-prd.msnyuhealth.org
+            (want dev version of Leaf that accesses same cdm as Leaf prod)
+        make dev branch for leaf-install
+        clone leaf and leaf-install to leaf-dev.mssm.edu
+        have Darshan make Azure AD for Leaf dev
+    Talk with Liyang about bitbucket storage of Achillies output
+    Joe: Stop 1 min. timeout
     Work w Darshan to have leaf.mssm.edu show up at de-identified.leaf.msdw.mountsinai.org
     Joe: Correct population counts in GUI
     present coverage measurements in table with each domain a row, and a column for each stage along process -- where does coverage get lost?
