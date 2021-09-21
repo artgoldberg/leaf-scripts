@@ -1,6 +1,7 @@
-DROP TABLE IF EXISTS #curated_concept_mappings;
+-- Create schema for the curated procedure mappings in temp table
+DROP TABLE IF EXISTS rpt.leaf_scratch.temp_curated_procedure_mappings_schema;
 
-CREATE TABLE #curated_concept_mappings
+CREATE TABLE rpt.leaf_scratch.temp_curated_procedure_mappings_schema
 (
     -- Care about this:
     source_code_type VARCHAR(255),                  -- whether the source code is surgical or not
@@ -28,8 +29,9 @@ CREATE TABLE #curated_concept_mappings
     created_on VARCHAR(255)
 );
 
+-- Make table to hold curated procedure mappings
 DROP TABLE IF EXISTS rpt.leaf_scratch.curated_procedure_mappings;
 
 SELECT *
 INTO rpt.leaf_scratch.curated_procedure_mappings
-FROM #curated_concept_mappings;
+FROM rpt.leaf_scratch.temp_curated_procedure_mappings_schema;

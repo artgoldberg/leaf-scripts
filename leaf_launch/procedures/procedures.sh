@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Create mappings from 'Epic procedure codes' to CPT
+# Create mappings from 'Epic procedure codes' to CPT4
 # Results are new entries in the Leaf_usagi.Leaf_staging table
 
 # use command: ./procedures.sh
@@ -16,13 +16,14 @@ then
    exit 1
 fi
 
+### Read sharon's procedure mappings into rpt.leaf_scratch.curated_procedure_mappings ###
 # Hosts for the MSDW2 SQL Server database
 MSDW2_PROD=msdw2-mssql-prd.msnyuhealth.org
 MSDW2_SERVER=$MSDW2_PROD
 
 echo "$(date +%Y-%m-%d\ %T): starting 'procedures.sh'"
 
-sqlcmd -E -S $MSDW2_SERVER -i init_file_loads.sql
+sqlcmd -E -S $MSDW2_SERVER -i load_files/init_file_loads.sql
 
 CURATED_PROCEDURE_MAPPINGS_DIR='/Users/arthur_at_sinai/gitOnMyLaptopLocal/sc_repos/leaf-scripts/leaf_launch/procedures/sharons_manual_mappings/tab_delimited/'
 
@@ -30,14 +31,17 @@ for MAPPING_FILE in Usagi_Procedure_1_SN_MAPPED.txt Usagi_SurgicalProcedures_1_S
 
     echo "loading $MAPPING_FILE ..."
 
-    sqlcmd -E -S $MSDW2_SERVER -i prep_file_load.sql
+    sqlcmd -E -S $MSDW2_SERVER -i load_files/prep_file_load.sql
     BCP rpt.leaf_scratch.temp_curated_procedure_mappings in "$CURATED_PROCEDURE_MAPPINGS_DIR$MAPPING_FILE" -S $MSDW2_SERVER -T \
         -F 2 -m 10 -c -r0x0A -e errors.log
-    sqlcmd -E -S $MSDW2_SERVER -i finish_file_load.sql
+    sqlcmd -E -S $MSDW2_SERVER -i load_files/finish_file_load.sql
 
 done
 
-# todo: Discard rows with equivalence = 'UNMATCHED'
-# todo: Cast or convert fields as needed
+sqlcmd -E -S $MSDW2_SERVER -i load_files/cleanup_file_loads.sql
 
+### Finish creating mappings from 'Epic procedure codes' to CPT ###
+# echo "$(date +%Y-%m-%d\ %T): running 'procedures.sql'"
+# sqlcmd -E -S $MSDW2_SERVER -i procedures.sql -r1 2> 'procedures_errors.log'
+# 
 echo "$(date +%Y-%m-%d\ %T): finishing 'procedures.sh'"
