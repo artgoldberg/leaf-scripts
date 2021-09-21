@@ -4,30 +4,30 @@
  * Author: Arthur.Goldberg@mssm.edu
  */
 
--- todo: revise comments
 /*
 Must be executed as goldba06@MSSMCAMPUS.MSSM.EDU.
 
 Steps
-0. Create procedures_map table
-1. Map 'Epic procedure codes' to CPT, from the Epic concept table src.caboodle.ProcedureDim 
-2. Integrate Sharon's existing manual mappings of 'Epic procedure codes' to CPT, from rpt.Leaf_usagi.mapping_import
-2a. If manual mapping is consistent, mark procedures_map.hand_map_status 'CONSISTENT'
-2b. If manual mapping conflicts, mark procedures_map.hand_map_status 'CONFLICTED',
+1. Create procedures_map table
+2. Clean up rpt.leaf_scratch.curated_procedure_mappings
+3. Map 'Epic procedure codes' to CPT, from the Epic concepts in src.caboodle.ProcedureDim
+4. Integrate Sharon's existing manual mappings of 'Epic procedure codes' to CPT, from leaf_scratch.curated_procedure_mappings
+4a. If manual mapping is consistent, mark procedures_map.hand_map_status 'CONSISTENT'
+4b. If manual mapping conflicts, mark procedures_map.hand_map_status 'CONFLICTED',
     use the manual value selected for CPT, and update sources
-2c. If manual mapping is missing, mark procedures_map.hand_map_status 'MISSING',
+4c. If manual mapping is missing, mark procedures_map.hand_map_status 'MISSING',
     add 'Epic procedure codes' and CPT values, and update sources
-3. Validate the procedures_map
-4. Insert new mappings into rpt.Leaf_usagi.Leaf_staging
+5. Validate the procedures_map
+6. Insert new mappings into rpt.Leaf_usagi.Leaf_staging
 */
 
 PRINT CONVERT(VARCHAR, GETDATE(), 120) + ': starting ''procedures.sql'''
 
 USE rpt;
 
--- 0. Create procedures_map table
+-- 1. Create procedures_map table
 
--- TODO: create temporary procedures_map table with fewer constraints (e.g. no UNIQUE on CPT4_concept_id)
+-- TODO: create temporary procedures_map table with fewer constraints
 -- and then clean up data and transfer it to a fully-constrained table
 IF (NOT EXISTS (SELECT *
                 FROM information_schema.tables
@@ -51,7 +51,70 @@ IF (NOT EXISTS (SELECT *
 ELSE
     TRUNCATE TABLE leaf_scratch.procedures_map
 
--- 1. Map 'Epic procedure codes' to CPT, from the Epic concepts in src.caboodle.ProcedureDim
+-- 2. Clean up curated procedure mappings in rpt.leaf_scratch.curated_procedure_mappings
+-- Discard rows that do not have a match, those with equivalence = 'UNMATCHED'
+DELETE FROM leaf_scratch.curated_procedure_mappings
+WHERE equivalence = 'UNMATCHED';
+
+-- Convert types of fields in curated_procedure_mappings as needed
+-- Initially, all fields are VARCHAR(255)
+-- Conversions:
+-- source_code: -> NVARCHAR(50), matching cdm.concept.concept_code
+-- source_frequency: -> INT
+-- match_score: -> FLOAT
+-- concept_id: -> INT, matching cdm.concept.concept_id
+
+-- Copy curated_procedure_mappings to a temp table, and copy back converted types
+DROP TABLE IF EXISTS #temp_curated_procedure_mappings;
+
+SELECT *
+INTO #temp_curated_procedure_mappings
+FROM leaf_scratch.curated_procedure_mappings;
+
+DELETE FROM leaf_scratch.curated_procedure_mappings;
+
+ALTER TABLE leaf_scratch.curated_procedure_mappings
+ALTER COLUMN source_code NVARCHAR(50) NOT NULL;
+
+ALTER TABLE leaf_scratch.curated_procedure_mappings
+ALTER COLUMN source_frequency INT NOT NULL;
+
+ALTER TABLE leaf_scratch.curated_procedure_mappings
+ALTER COLUMN match_score FLOAT NOT NULL;
+
+ALTER TABLE leaf_scratch.curated_procedure_mappings
+ALTER COLUMN concept_id INT NOT NULL;
+
+INSERT INTO leaf_scratch.curated_procedure_mappings
+SELECT source_code_type,
+       CONVERT(NVARCHAR(50), source_code),
+       source_name,
+       CONVERT(INT, source_frequency),
+       source_auto_assigned_concept_ids,
+       code_set,
+       code,
+       CONVERT(FLOAT, match_score),
+       mapping_status,
+       equivalence,
+       status_set_by,
+       status_set_on,
+       CONVERT(INT, concept_id),
+       concept_name,
+       domain_id,
+       mapping_type,
+       comment,
+       created_by,
+       created_on
+FROM #temp_curated_procedure_mappings;
+
+/*
+todo: other clean-up of leaf_scratch.curated_procedure_mappings
+remove quotes around strings (which contain comma) -- perhaps just get name from concept, & check that it matches
+get right values for dates
+*/
+
+-- 3. Map 'Epic procedure codes' to CPT, from the Epic concepts in src.caboodle.ProcedureDim
+/*
 USE src;
 
 DROP TABLE IF EXISTS #proc_mappings_from_code;
@@ -126,6 +189,7 @@ FROM #proc_mappings_from_cpt_code,
      #proc_mappings_from_code
 WHERE #proc_mappings_from_cpt_code.ProcedureEpicId = #proc_mappings_from_code.ProcedureEpicId
       AND #proc_mappings_from_cpt_code.Code <> #proc_mappings_from_code.Code;
+*/
 
 /*
 Data review:
@@ -141,8 +205,7 @@ ProcedureEpicId Epic_name CptCode_code Code_code
 
 We ignore these mappings, which look they might be typos.
 */
--- TODO: Ask Sharon to hand-resolve the conflicts in #conflicting_proc_mappings
-
+/*
 DROP TABLE IF EXISTS #mappings_in_code_not_in_cpt_code;
 
 SELECT *
@@ -196,8 +259,6 @@ WHERE ProcedureEpicId NOT IN (SELECT ProcedureEpicId
       AND CPT4_concept.concept_code = Code
       AND CPT4_concept.vocabulary_id = 'CPT4';
 
--- TODO: ask Sharon to review proc_mappings_of_Epic_EAP_from_cpt_code_scored.csv
-
 -- Map 'EPIC ORP .1' codes
 -- Leverage Sharon's observation: the SurgicalProcedureEpicId values that do not start with 'M'
 -- almost always contain the CPT code embedded in the 4th through 8th position.
@@ -243,15 +304,12 @@ WHERE Epic_concept.concept_code = CAST(SurgicalProcedureEpicId AS NVARCHAR(50))
       AND CPT4_concept.concept_code = [CPT4 Code]
       AND CPT4_concept.vocabulary_id = 'CPT4';
 
--- TODO: Re-load contents of #proc_mappings_from_SurgicalProcedureEpicId with annotations that identify good mappings
--- and stop incorporating them above
-
--- todo: revise comments
--- Read sharon's procedure mappings into a table and incorporate them into procedures_map
-
--- TODO: have Sharon review
+-- TODO: Do steps 4 - 6
+-- TODO: After they've been annotated, re-load contents of #proc_mappings_from_SurgicalProcedureEpicId
+-- with annotations that identify good mappings and stop incorporating them above
 
 -- TODO: have Tim review this code
 -- TODO: use stored procedures to reduce code duplication
+*/
 
 PRINT CONVERT(VARCHAR, GETDATE(), 120) + ': finishing ''procedures.sql'''

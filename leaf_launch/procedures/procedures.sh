@@ -41,7 +41,7 @@ done
 sqlcmd -E -S $MSDW2_SERVER -i load_files/cleanup_file_loads.sql
 
 ### Finish creating mappings from 'Epic procedure codes' to CPT ###
-# echo "$(date +%Y-%m-%d\ %T): running 'procedures.sql'"
-# sqlcmd -E -S $MSDW2_SERVER -i procedures.sql -r1 2> 'procedures_errors.log'
-# 
+echo "$(date +%Y-%m-%d\ %T): running 'procedures.sql'"
+sqlcmd -E -S $MSDW2_SERVER -i procedures.sql -r1 2> 'procedures_errors.log'
+
 echo "$(date +%Y-%m-%d\ %T): finishing 'procedures.sh'"
