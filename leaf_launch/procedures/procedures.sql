@@ -51,6 +51,7 @@ IF (NOT EXISTS (SELECT *
 ELSE
     TRUNCATE TABLE leaf_scratch.procedures_map
 
+-- TODO: move 2. to after 3.
 -- 2. Clean up curated procedure mappings in rpt.leaf_scratch.curated_procedure_mappings
 -- Discard rows that do not have a match, those with equivalence = 'UNMATCHED'
 DELETE FROM leaf_scratch.curated_procedure_mappings
@@ -110,7 +111,7 @@ FROM #temp_curated_procedure_mappings;
 /*
 todo: other clean-up of leaf_scratch.curated_procedure_mappings
 remove quotes around strings (which contain comma) -- perhaps just get name from concept, & check that it matches
-get right values for dates
+convert created_on & status_set_on to datetimes
 */
 
 -- 3. Map 'Epic procedure codes' to CPT, from the Epic concepts in src.caboodle.ProcedureDim

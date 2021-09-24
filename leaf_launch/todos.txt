@@ -121,7 +121,6 @@ Leaf beta
     x rebuild conditions processing to
         x a) use Epic EDG code in condition_source_concept_id
         x b) go directly from EDG to ICD10
-    switch Leaf API Kerberos account back to service_leaf@MSNYUHEALTH.ORG when omop.cdm_deid_std.condition_occurrence is ready
 
 Vitals for Beta
     x 1. keep the "Sinai uses" ones
@@ -140,6 +139,14 @@ other
 Leaf after Beta
     x Create Bitbucket for OHDSI / DataQualityDashboard results for Fabricio
     x recreate rpt.test_omop_conditions.condition_occurrence with deid patient_ids
+    x use new conditions query approach
+    x switch Leaf API Kerberos account back to service_leaf@MSNYUHEALTH.ORG when omop.cdm_deid_std.condition_occurrence is ready
+    x Talk with Liyang about bitbucket storage of Achillies output
+    x have update_leaf.sh exit if any of the sqlcmd runs returns an error
+    discuss src.usagi.mapping_import again with BT and Tim
+    get Sharon's to review proc_mappings_of_Epic_EAP_from_cpt_code_scored.csv
+    Ask Sharon to hand-resolve the conflicts in #conflicting_proc_mappings
+    fix SSL ciphers; see Wei's emails RE "Leaf  ssl ciphers"
     create a dev version of Leaf
         Wei create another VM
             put at leaf-dev.mssm.edu
@@ -150,13 +157,11 @@ Leaf after Beta
         make dev branch for leaf-install
         clone leaf and leaf-install to leaf-dev.mssm.edu
         have Darshan make Azure AD for Leaf dev
-    Talk with Liyang about bitbucket storage of Achillies output
+
     Joe: Stop 1 min. timeout
-    Work w Darshan to have leaf.mssm.edu show up at de-identified.leaf.msdw.mountsinai.org
     Joe: Correct population counts in GUI
+    Work w Darshan to have leaf.mssm.edu show up at de-identified.leaf.msdw.mountsinai.org
     present coverage measurements in table with each domain a row, and a column for each stage along process -- where does coverage get lost?
-    with Joe
-        have update_leaf.sh exit if any of the sqlcmd runs returns an error
     test all ConceptSqlFrom clauses
     optimization: precompute WHERE clause in leaf_icd10.sql: replace the SqlSetWhere in icd10.sql (the UMLS data) with SNOMED codes - must be sets for internal nodes, stop X levels above leaves
     Unit test mapping similarity scoring
@@ -169,6 +174,9 @@ Leaf after Beta
     Use the LRR to LOINC code mappings in Epic for labs (provides 40%)
     add Epic to ICD10CM relationships to concept_relationship, to avoid data loss going through SNOMED, and in counts
     design gendered pediatric vital queries
+
+Planning next steps MSDW2, Leaf and ATLAS
+
 
 procedures:
     x find Epic code → CPT4 mappings in src
