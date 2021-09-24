@@ -143,8 +143,11 @@ Leaf after Beta
     x switch Leaf API Kerberos account back to service_leaf@MSNYUHEALTH.ORG when omop.cdm_deid_std.condition_occurrence is ready
     x Talk with Liyang about bitbucket storage of Achillies output
     x have update_leaf.sh exit if any of the sqlcmd runs returns an error
+    x get reply on Leaf maintenance discussion
+    x update_leaf.sh use user other than goldba06 -- service_leaf
+    x add Epic to ICD10CM relationships to concept_relationship, to avoid data loss going through SNOMED, and in counts
     discuss src.usagi.mapping_import again with BT and Tim
-    get Sharon's to review proc_mappings_of_Epic_EAP_from_cpt_code_scored.csv
+    Sharon review proc_mappings_of_Epic_EAP_from_cpt_code_scored.csv
     Ask Sharon to hand-resolve the conflicts in #conflicting_proc_mappings
     fix SSL ciphers; see Wei's emails RE "Leaf  ssl ciphers"
     create a dev version of Leaf
@@ -165,14 +168,11 @@ Leaf after Beta
     test all ConceptSqlFrom clauses
     optimization: precompute WHERE clause in leaf_icd10.sql: replace the SqlSetWhere in icd10.sql (the UMLS data) with SNOMED codes - must be sets for internal nodes, stop X levels above leaves
     Unit test mapping similarity scoring
-    get reply on Leaf maintenance discussion
     set up Leaf for daily maintenance
     Use a Kerberos keytab file so kinit doesn't need to be run by hand before update_leaf.sh
     make Leaf PR for fix to "DECLARE @DbFrom NVARCHAR(MAX)"
     configure update_leaf.sh so it can be run automatically nightly
-        use user other than goldba06
     Use the LRR to LOINC code mappings in Epic for labs (provides 40%)
-    add Epic to ICD10CM relationships to concept_relationship, to avoid data loss going through SNOMED, and in counts
     design gendered pediatric vital queries
 
 Planning next steps MSDW2, Leaf and ATLAS

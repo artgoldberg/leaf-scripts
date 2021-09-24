@@ -1,5 +1,5 @@
 /*
- * Create mappings from 'Epic procedure codes' to CPT
+ * Create mappings from Epic's EAP and ORP procedure codes to CPT4
  * Results are new entries in the Leaf_usagi.Leaf_staging table
  * Author: Arthur.Goldberg@mssm.edu
  */
@@ -9,14 +9,14 @@ Must be executed as goldba06@MSSMCAMPUS.MSSM.EDU.
 
 Steps
 1. Create procedures_map table
-2. Clean up rpt.leaf_scratch.curated_procedure_mappings
-3. Map 'Epic procedure codes' to CPT, from the Epic concepts in src.caboodle.ProcedureDim
-4. Integrate Sharon's existing manual mappings of 'Epic procedure codes' to CPT, from leaf_scratch.curated_procedure_mappings
+2. Map Epic's EAP and ORP procedure codes to CPT, from the Epic concepts in src.caboodle.ProcedureDim
+3. Clean up rpt.leaf_scratch.curated_procedure_mappings
+4. Integrate Sharon's existing manual mappings of Epic's EAP and ORP procedure codes to CPT, from leaf_scratch.curated_procedure_mappings
 4a. If manual mapping is consistent, mark procedures_map.hand_map_status 'CONSISTENT'
 4b. If manual mapping conflicts, mark procedures_map.hand_map_status 'CONFLICTED',
     use the manual value selected for CPT, and update sources
 4c. If manual mapping is missing, mark procedures_map.hand_map_status 'MISSING',
-    add 'Epic procedure codes' and CPT values, and update sources
+    add Epic's EAP and ORP procedure codes and CPT values, and update sources
 5. Validate the procedures_map
 6. Insert new mappings into rpt.Leaf_usagi.Leaf_staging
 */
@@ -51,71 +51,7 @@ IF (NOT EXISTS (SELECT *
 ELSE
     TRUNCATE TABLE leaf_scratch.procedures_map
 
--- TODO: move 2. to after 3.
--- 2. Clean up curated procedure mappings in rpt.leaf_scratch.curated_procedure_mappings
--- Discard rows that do not have a match, those with equivalence = 'UNMATCHED'
-DELETE FROM leaf_scratch.curated_procedure_mappings
-WHERE equivalence = 'UNMATCHED';
-
--- Convert types of fields in curated_procedure_mappings as needed
--- Initially, all fields are VARCHAR(255)
--- Conversions:
--- source_code: -> NVARCHAR(50), matching cdm.concept.concept_code
--- source_frequency: -> INT
--- match_score: -> FLOAT
--- concept_id: -> INT, matching cdm.concept.concept_id
-
--- Copy curated_procedure_mappings to a temp table, and copy back converted types
-DROP TABLE IF EXISTS #temp_curated_procedure_mappings;
-
-SELECT *
-INTO #temp_curated_procedure_mappings
-FROM leaf_scratch.curated_procedure_mappings;
-
-DELETE FROM leaf_scratch.curated_procedure_mappings;
-
-ALTER TABLE leaf_scratch.curated_procedure_mappings
-ALTER COLUMN source_code NVARCHAR(50) NOT NULL;
-
-ALTER TABLE leaf_scratch.curated_procedure_mappings
-ALTER COLUMN source_frequency INT NOT NULL;
-
-ALTER TABLE leaf_scratch.curated_procedure_mappings
-ALTER COLUMN match_score FLOAT NOT NULL;
-
-ALTER TABLE leaf_scratch.curated_procedure_mappings
-ALTER COLUMN concept_id INT NOT NULL;
-
-INSERT INTO leaf_scratch.curated_procedure_mappings
-SELECT source_code_type,
-       CONVERT(NVARCHAR(50), source_code),
-       source_name,
-       CONVERT(INT, source_frequency),
-       source_auto_assigned_concept_ids,
-       code_set,
-       code,
-       CONVERT(FLOAT, match_score),
-       mapping_status,
-       equivalence,
-       status_set_by,
-       status_set_on,
-       CONVERT(INT, concept_id),
-       concept_name,
-       domain_id,
-       mapping_type,
-       comment,
-       created_by,
-       created_on
-FROM #temp_curated_procedure_mappings;
-
-/*
-todo: other clean-up of leaf_scratch.curated_procedure_mappings
-remove quotes around strings (which contain comma) -- perhaps just get name from concept, & check that it matches
-convert created_on & status_set_on to datetimes
-*/
-
--- 3. Map 'Epic procedure codes' to CPT, from the Epic concepts in src.caboodle.ProcedureDim
-/*
+-- 2. Map Epic's EAP and ORP procedure codes to CPT, from the Epic concepts in src.caboodle.ProcedureDim
 USE src;
 
 DROP TABLE IF EXISTS #proc_mappings_from_code;
@@ -206,7 +142,7 @@ ProcedureEpicId Epic_name CptCode_code Code_code
 
 We ignore these mappings, which look they might be typos.
 */
-/*
+
 DROP TABLE IF EXISTS #mappings_in_code_not_in_cpt_code;
 
 SELECT *
@@ -305,6 +241,67 @@ WHERE Epic_concept.concept_code = CAST(SurgicalProcedureEpicId AS NVARCHAR(50))
       AND CPT4_concept.concept_code = [CPT4 Code]
       AND CPT4_concept.vocabulary_id = 'CPT4';
 
+
+-- 3. Clean up curated procedure mappings in rpt.leaf_scratch.curated_procedure_mappings
+-- Discard rows that do not have a match, those with equivalence = 'UNMATCHED'
+DELETE FROM leaf_scratch.curated_procedure_mappings
+WHERE equivalence = 'UNMATCHED';
+
+-- Convert types of fields in curated_procedure_mappings as needed
+-- Initially, all fields are VARCHAR(255)
+-- Conversions:
+-- source_code: -> NVARCHAR(50), matching cdm.concept.concept_code
+-- source_frequency: -> INT
+-- match_score: -> FLOAT
+-- concept_id: -> INT, matching cdm.concept.concept_id
+
+-- Copy curated_procedure_mappings to a temp table, and copy back converted types
+DROP TABLE IF EXISTS #temp_curated_procedure_mappings;
+
+SELECT *
+INTO #temp_curated_procedure_mappings
+FROM leaf_scratch.curated_procedure_mappings;
+
+DELETE FROM leaf_scratch.curated_procedure_mappings;
+
+ALTER TABLE leaf_scratch.curated_procedure_mappings
+ALTER COLUMN source_code NVARCHAR(50) NOT NULL;
+
+ALTER TABLE leaf_scratch.curated_procedure_mappings
+ALTER COLUMN source_frequency INT NOT NULL;
+
+ALTER TABLE leaf_scratch.curated_procedure_mappings
+ALTER COLUMN match_score FLOAT NOT NULL;
+
+ALTER TABLE leaf_scratch.curated_procedure_mappings
+ALTER COLUMN concept_id INT NOT NULL;
+
+INSERT INTO leaf_scratch.curated_procedure_mappings
+SELECT source_code_type,
+       CONVERT(NVARCHAR(50), source_code),
+       source_name,
+       CONVERT(INT, source_frequency),
+       source_auto_assigned_concept_ids,
+       code_set,
+       code,
+       CONVERT(FLOAT, match_score),
+       mapping_status,
+       equivalence,
+       status_set_by,
+       status_set_on,
+       CONVERT(INT, concept_id),
+       concept_name,
+       domain_id,
+       mapping_type,
+       comment,
+       created_by,
+       created_on
+FROM #temp_curated_procedure_mappings;
+-- TODO: other possible clean-up of leaf_scratch.curated_procedure_mappings
+-- Remove quotes around strings (which contain comma) -- perhaps just get name from concept, & check that it matches
+-- Convert created_on & status_set_on to datetimes
+
+/*
 -- TODO: Do steps 4 - 6
 -- TODO: After they've been annotated, re-load contents of #proc_mappings_from_SurgicalProcedureEpicId
 -- with annotations that identify good mappings and stop incorporating them above
