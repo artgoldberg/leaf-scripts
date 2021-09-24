@@ -126,7 +126,7 @@ FROM #proc_mappings_from_cpt_code,
      #proc_mappings_from_code
 WHERE #proc_mappings_from_cpt_code.ProcedureEpicId = #proc_mappings_from_code.ProcedureEpicId
       AND #proc_mappings_from_cpt_code.Code <> #proc_mappings_from_code.Code;
-*/
+
 
 /*
 Data review:
@@ -157,17 +157,23 @@ FROM (SELECT *
 WHERE code_except_cpt_code.ProcedureEpicId NOT IN (SELECT ProcedureEpicId
                                                    FROM #conflicting_proc_mappings)
 
+DECLARE @max_num_conflicting_mappings INT = 5
 IF (NOT EXISTS(SELECT 1
-                FROM #mappings_in_code_not_in_cpt_code))
+                FROM #mappings_in_code_not_in_cpt_code)
+    AND @max_num_conflicting_mappings >=
+        (SELECT COUNT(*)
+         FROM #conflicting_proc_mappings))
     BEGIN
         PRINT 'Mappings that use CptCode in procedure_dim are a superset of those from Code, except ' +
-              'for a few conflicts in #conflicting_proc_mappings'
+              'for a handful of conflicts in #conflicting_proc_mappings'
     END
 ELSE
-    PRINT 'Examine #mappings_in_code_not_in_cpt_code, which contains mappings available exclusively ' +
-          'in procedure_dim.Code'
-    SELECT *
-    FROM #mappings_in_code_not_in_cpt_code
+    BEGIN
+        PRINT 'Examine #mappings_in_code_not_in_cpt_code, which contains mappings available exclusively ' +
+              'in procedure_dim.Code'
+        SELECT *
+        FROM #mappings_in_code_not_in_cpt_code
+    END
 
 USE rpt;
 
@@ -196,6 +202,7 @@ WHERE ProcedureEpicId NOT IN (SELECT ProcedureEpicId
       AND CPT4_concept.concept_code = Code
       AND CPT4_concept.vocabulary_id = 'CPT4';
 
+
 -- Map 'EPIC ORP .1' codes
 -- Leverage Sharon's observation: the SurgicalProcedureEpicId values that do not start with 'M'
 -- almost always contain the CPT code embedded in the 4th through 8th position.
@@ -218,7 +225,7 @@ WHERE NOT procedure_dim.SurgicalProcedureEpicId LIKE 'M%'
       AND CPT4_concept.vocabulary_id = 'CPT4'
       AND CPT4_concept.concept_code = SUBSTRING(procedure_dim.SurgicalProcedureEpicId, 4, 5);
 
--- Temporarily incorporate these 'EPIC ORP .1' codes into procedures_map
+-- Incorporate these 'EPIC ORP .1' codes into procedures_map
 INSERT INTO leaf_scratch.procedures_map (Epic_concept_id,
                                          Epic_concept_code,
                                          Epic_concept_name,
@@ -243,6 +250,7 @@ WHERE Epic_concept.concept_code = CAST(SurgicalProcedureEpicId AS NVARCHAR(50))
 
 
 -- 3. Clean up curated procedure mappings in rpt.leaf_scratch.curated_procedure_mappings
+-- which were loaded by procedures.sh.
 -- Discard rows that do not have a match, those with equivalence = 'UNMATCHED'
 DELETE FROM leaf_scratch.curated_procedure_mappings
 WHERE equivalence = 'UNMATCHED';
@@ -297,6 +305,7 @@ SELECT source_code_type,
        created_by,
        created_on
 FROM #temp_curated_procedure_mappings;
+
 -- TODO: other possible clean-up of leaf_scratch.curated_procedure_mappings
 -- Remove quotes around strings (which contain comma) -- perhaps just get name from concept, & check that it matches
 -- Convert created_on & status_set_on to datetimes
