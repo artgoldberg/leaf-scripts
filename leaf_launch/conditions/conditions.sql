@@ -333,8 +333,8 @@ IF EXISTS (SELECT *
            FROM @cardinality_Epic_2_SNOMED_mappings
            WHERE 1 < num_SNOMED_concept_codes)
 BEGIN
-   DECLARE @msg VARCHAR = 'Some EPIC EDG .1 to SNOMED mappings are 1-to-many, so condition_concept_id ' +
-                          'cannot be unambiguously initialized'
+   DECLARE @msg NVARCHAR(MAX) = 'Some EPIC EDG .1 to SNOMED mappings are 1-to-many, so condition_concept_id ' +
+                                'cannot be unambiguously initialized'
    RAISERROR(@msg, 16, 0)
 END
 
@@ -352,7 +352,7 @@ IF EXISTS (SELECT *
            FROM Leaf_usagi.Leaf_staging
            WHERE mapping_creation_user = 'Arthur Goldberg''s conditions.sql script')
 BEGIN
-   DECLARE @msg VARCHAR = 'Leaf_usagi.Leaf_staging contains records from this conditions.sql script'
+   DECLARE @msg NVARCHAR(MAX) = 'Leaf_usagi.Leaf_staging contains records from this conditions.sql script'
    RAISERROR(@msg, 16, 0)
 END
 

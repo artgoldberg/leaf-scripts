@@ -162,6 +162,7 @@ Leaf after Beta
         have Darshan make Azure AD for Leaf dev
 
     Joe: Stop 1 min. timeout
+        perhaps Alona or Liyang
     Joe: Correct population counts in GUI
     Work w Darshan to have leaf.mssm.edu show up at de-identified.leaf.msdw.mountsinai.org
     present coverage measurements in table with each domain a row, and a column for each stage along process -- where does coverage get lost?
@@ -174,14 +175,21 @@ Leaf after Beta
     configure update_leaf.sh so it can be run automatically nightly
     Use the LRR to LOINC code mappings in Epic for labs (provides 40%)
     design gendered pediatric vital queries
+    get sc_repos/leaf-scripts
 
 Planning next steps MSDW2, Leaf and ATLAS
-
+    separate Leaf scripts work and codes mapping work into two repos
 
 procedures:
     x find Epic code → CPT4 mappings in src
     x Review Tim's email on "Additional tables desired in src.caboodle"
     see todos in procedures.sql
+    mapping discussion with Tim, Sharon & Fabricio
+        present procedures mappings
+        ask about scoring of automated mappings
+        talk about src.usagi.mapping_import
+        invariants
+        talk about transferring mapping effort to Fabricio
     Procedures map
         Could look at mappings on Postgres DBMS -- omop concept mappings - need Joe's help
 

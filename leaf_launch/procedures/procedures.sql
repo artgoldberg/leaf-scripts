@@ -17,7 +17,7 @@ Steps
     use the manual value selected for CPT, and update sources
 4c. If manual mapping is missing, mark procedures_map.hand_map_status 'MISSING',
     add Epic's EAP and ORP procedure codes and CPT values, and update sources
-5. Validate the procedures_map
+5. Validate procedures_map
 6. Insert new mappings into rpt.Leaf_usagi.Leaf_staging
 */
 
@@ -249,7 +249,7 @@ WHERE Epic_concept.concept_code = CAST(SurgicalProcedureEpicId AS NVARCHAR(50))
       AND CPT4_concept.vocabulary_id = 'CPT4';
 
 
--- 3. Clean up curated procedure mappings in rpt.leaf_scratch.curated_procedure_mappings
+-- 3. Clean up curated procedure mappings in rpt.leaf_scratch.curated_procedure_mappings,
 -- which were loaded by procedures.sh.
 -- Discard rows that do not have a match, those with equivalence = 'UNMATCHED'
 DELETE FROM leaf_scratch.curated_procedure_mappings
@@ -284,6 +284,12 @@ ALTER COLUMN match_score FLOAT NOT NULL;
 ALTER TABLE leaf_scratch.curated_procedure_mappings
 ALTER COLUMN concept_id INT NOT NULL;
 
+ALTER TABLE leaf_scratch.curated_procedure_mappings
+ADD source_concept_vocab NVARCHAR(100);
+
+ALTER TABLE leaf_scratch.curated_procedure_mappings
+ADD target_concept_vocabulary NVARCHAR(100);
+
 INSERT INTO leaf_scratch.curated_procedure_mappings
 SELECT source_code_type,
        CONVERT(NVARCHAR(50), source_code),
@@ -303,15 +309,72 @@ SELECT source_code_type,
        mapping_type,
        comment,
        created_by,
-       created_on
+       created_on,
+       NULL,
+       NULL
 FROM #temp_curated_procedure_mappings;
+-- Need to batch so stupid SQL Server complier understands source_concept_vocab column below
+GO
 
 -- TODO: other possible clean-up of leaf_scratch.curated_procedure_mappings
 -- Remove quotes around strings (which contain comma) -- perhaps just get name from concept, & check that it matches
 -- Convert created_on & status_set_on to datetimes
 
+-- 4. Integrate the curated mappings of Epic's EAP and ORP procedure codes to CPT
+
+-- 4 alpha. Check the curated mappings
+-- Which surgical mappings are in concept with vocabulary_id = 'EPIC ORP .1'?
+UPDATE leaf_scratch.curated_procedure_mappings
+SET source_concept_vocab = 'EPIC ORP .1'
+FROM omop.cdm.concept AS concept
+WHERE source_code_type = 'surgical'
+      AND concept.vocabulary_id = 'EPIC ORP .1'
+      AND concept.concept_code = source_code;
+
+-- Which non-surgical mappings are in concept with vocabulary_id = 'EPIC EAP .1'?
+UPDATE leaf_scratch.curated_procedure_mappings
+SET source_concept_vocab = 'EPIC EAP .1'
+FROM omop.cdm.concept AS concept
+WHERE source_code_type = 'non-surgical'
+      AND concept.vocabulary_id = 'EPIC EAP .1'
+      AND concept.concept_code = source_code;
+
+-- Ensure that all source concept vocabulary_ids are either 'EPIC ORP .1' or 'EPIC EAP .1'
+IF (EXISTS(SELECT 1
+           FROM leaf_scratch.curated_procedure_mappings
+           WHERE source_concept_vocab NOT IN ('EPIC ORP .1', 'EPIC EAP .1')))
+    BEGIN
+        DECLARE @msg NVARCHAR(MAX) = 'Error: leaf_scratch.curated_procedure_mappings contains mappings from ' +
+                                      ' source concepts whose vocabulary ids are not ''EPIC ORP .1'' or ''EPIC EAP .1'''
+        RAISERROR(@msg, 16, 0)
+    END
+
+-- Check on vocabulary_ids of target concept_ids
+UPDATE curated_procedure_mappings
+SET target_concept_vocabulary = concept.vocabulary_id
+FROM leaf_scratch.curated_procedure_mappings AS curated_procedure_mappings,
+     omop.cdm.concept AS concept
+WHERE curated_procedure_mappings.concept_id = concept.concept_id
+
+-- Unfortunately, 33 of the curated mappings map to SNOMED or HCPCS, not CPT4; delete and ignore these
+-- TODO: ask Sharon to remap these to CPT4
+DELETE leaf_scratch.curated_procedure_mappings
+WHERE concept_id IN
+    (SELECT curated_procedure_mappings.concept_id
+     FROM leaf_scratch.curated_procedure_mappings AS curated_procedure_mappings,
+          omop.cdm.concept AS concept
+     WHERE curated_procedure_mappings.concept_id = concept.concept_id
+           AND concept.vocabulary_id <> 'CPT4')
+
+-- 4a. If manual mapping is consistent, mark procedures_map.hand_map_status 'CONSISTENT'
+-- 4b. If manual mapping conflicts, mark procedures_map.hand_map_status 'CONFLICTED',
+--     use the manual value selected for CPT, and update sources
+-- 4c. If manual mapping is missing, mark procedures_map.hand_map_status 'MISSING',
+--     add Epic's EAP and ORP procedure codes and CPT values, and update sources
+
+
 /*
--- TODO: Do steps 4 - 6
+-- TODO: Do steps 5 - 6
 -- TODO: After they've been annotated, re-load contents of #proc_mappings_from_SurgicalProcedureEpicId
 -- with annotations that identify good mappings and stop incorporating them above
 
