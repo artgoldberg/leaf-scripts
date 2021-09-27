@@ -146,6 +146,8 @@ Leaf after Beta
     x get reply on Leaf maintenance discussion
     x update_leaf.sh use user other than goldba06 -- service_leaf
     x add Epic to ICD10CM relationships to concept_relationship, to avoid data loss going through SNOMED, and in counts
+    todos into Jira, ugh!
+    delegate "Renew Kerberos ticket for Leaf API" while I'm on vacation
     discuss src.usagi.mapping_import again with BT and Tim
     Sharon review proc_mappings_of_Epic_EAP_from_cpt_code_scored.csv
     Ask Sharon to hand-resolve the conflicts in #conflicting_proc_mappings
@@ -184,6 +186,8 @@ procedures:
     x find Epic code → CPT4 mappings in src
     x Review Tim's email on "Additional tables desired in src.caboodle"
     see todos in procedures.sql
+    Sharon remap the 33 curated mappings that map to SNOMED or HCPCS, not CPT4
+    make complete list of curated mapping and review needed
     mapping discussion with Tim, Sharon & Fabricio
         present procedures mappings
         ask about scoring of automated mappings

@@ -1,10 +1,12 @@
 /*
  * Create mappings from Epic's EAP and ORP procedure codes to CPT4
- * Results are new entries in the Leaf_usagi.Leaf_staging table
+ * Results are entries in the Leaf_usagi.Leaf_staging table with
+ * mapping_creation_user = 'Arthur Goldberg's procedures.sql script'
  * Author: Arthur.Goldberg@mssm.edu
  */
 
 /*
+TODO: revise:
 Must be executed as goldba06@MSSMCAMPUS.MSSM.EDU.
 
 Steps
@@ -16,7 +18,7 @@ Steps
 4b. If manual mapping conflicts, mark procedures_map.hand_map_status 'CONFLICTED',
     use the manual value selected for CPT, and update sources
 4c. If manual mapping is missing, mark procedures_map.hand_map_status 'MISSING',
-    add Epic's EAP and ORP procedure codes and CPT values, and update sources
+    add Epic's EAP or ORP procedure codes and CPT values, and update sources
 5. Validate procedures_map
 6. Insert new mappings into rpt.Leaf_usagi.Leaf_staging
 */
@@ -26,9 +28,6 @@ PRINT CONVERT(VARCHAR, GETDATE(), 120) + ': starting ''procedures.sql'''
 USE rpt;
 
 -- 1. Create procedures_map table
-
--- TODO: create temporary procedures_map table with fewer constraints
--- and then clean up data and transfer it to a fully-constrained table
 IF (NOT EXISTS (SELECT *
                 FROM information_schema.tables
                 WHERE table_schema = 'leaf_scratch'
@@ -37,11 +36,13 @@ IF (NOT EXISTS (SELECT *
         CREATE TABLE leaf_scratch.procedures_map
         (
             Epic_concept_id INT NOT NULL PRIMARY KEY,
+            -- Caution: Epic_concept_code values may not be UNIQUE, as they're EAP OR ORP procedure codes
             Epic_concept_code NVARCHAR(50) NOT NULL,
             Epic_concept_name NVARCHAR(255) NOT NULL,
-            CPT4_concept_id INT NOT NULL,
-            CPT4_concept_code NVARCHAR(50) NOT NULL,
-            CPT4_concept_name NVARCHAR(255) NOT NULL,
+            -- TODO: make this unique for step 4:
+            CPT4_concept_id INT NOT NULL UNIQUE,
+            CPT4_concept_code NVARCHAR(50),
+            CPT4_concept_name NVARCHAR(255),
             -- Relationship of Sharon's hand-coded Epic -> CPT4 mapping to automated mapping
             hand_map_status NVARCHAR(50),
             sources NVARCHAR(200) NOT NULL,     -- Sources for a record
@@ -113,6 +114,23 @@ WHERE procedure_dim.IsCurrent = 1
       -- The code for the Epic concept is a decimal in ProcedureEpicId
       AND Epic_concept.concept_code = CAST(procedure_dim.ProcedureEpicId AS NVARCHAR(50));
 
+-- Duplicate ProcedureEpicId codes?
+check NVARCHAR(50)
+DECLARE @cardinality_EpicId_codes TABLE (ProcedureEpicId NVARCHAR(50) PRIMARY KEY,
+                                         num_ProcedureEpicId_codes INT)
+
+INSERT INTO @cardinality_EpicId_codes
+SELECT DiagnosisDim.DiagnosisEpicId, COUNT(DTD.Value)
+FROM #proc_mappings_from_cpt_code
+
+
+SELECT #proc_mappings_from_cpt_code.ProcedureEpicId,
+       #proc_mappings_from_cpt_code.Epic_name,
+       #proc_mappings_from_cpt_code.Code AS 'CptCode_code',
+       #proc_mappings_from_code.Code AS 'Code_code'
+FROM #proc_mappings_from_cpt_code
+WHERE 
+
 -- Conflicting codes from the two methods, which can be reconciled or ignored
 -- Join on ProcedureEpicId, showing both Code and CptCode
 DROP TABLE IF EXISTS #conflicting_proc_mappings;
@@ -174,6 +192,7 @@ ELSE
         SELECT *
         FROM #mappings_in_code_not_in_cpt_code
     END
+-- TODO: ignore mappings in #proc_mappings_from_cpt_code which have different 
 
 USE rpt;
 
@@ -357,7 +376,6 @@ FROM leaf_scratch.curated_procedure_mappings AS curated_procedure_mappings,
 WHERE curated_procedure_mappings.concept_id = concept.concept_id
 
 -- Unfortunately, 33 of the curated mappings map to SNOMED or HCPCS, not CPT4; delete and ignore these
--- TODO: ask Sharon to remap these to CPT4
 DELETE leaf_scratch.curated_procedure_mappings
 WHERE concept_id IN
     (SELECT curated_procedure_mappings.concept_id
@@ -367,11 +385,64 @@ WHERE concept_id IN
            AND concept.vocabulary_id <> 'CPT4')
 
 -- 4a. If manual mapping is consistent, mark procedures_map.hand_map_status 'CONSISTENT'
+UPDATE leaf_scratch.procedures_map
+SET hand_map_status = 'CONSISTENT',
+    sources = 'Caboodle and MANUAL'
+FROM leaf_scratch.procedures_map procedures_map,
+     leaf_scratch.curated_procedure_mappings curated_procedure_mappings
+WHERE procedures_map.Epic_concept_code = curated_procedure_mappings.source_code
+      AND procedures_map.CPT4_concept_id = curated_procedure_mappings.concept_id
+
 -- 4b. If manual mapping conflicts, mark procedures_map.hand_map_status 'CONFLICTED',
 --     use the manual value selected for CPT, and update sources
--- 4c. If manual mapping is missing, mark procedures_map.hand_map_status 'MISSING',
---     add Epic's EAP and ORP procedure codes and CPT values, and update sources
+UPDATE leaf_scratch.procedures_map
+SET hand_map_status = 'CONFLICTED',
+    CPT4_concept_id = curated_procedure_mappings.concept_id,
+    sources = 'MANUAL'
+FROM leaf_scratch.procedures_map procedures_map,
+     leaf_scratch.curated_procedure_mappings curated_procedure_mappings
+WHERE procedures_map.Epic_concept_code = curated_procedure_mappings.source_code
+      AND NOT procedures_map.CPT4_concept_id = curated_procedure_mappings.concept_id
 
+-- 4c. If manual mapping is missing, mark procedures_map.hand_map_status 'MISSING',
+--     add Epic's EAP or ORP procedure codes and CPT values, and update sources
+INSERT INTO leaf_scratch.procedures_map(Epic_concept_id,
+                                        Epic_concept_code,
+                                        Epic_concept_name,
+                                        CPT4_concept_id,
+                                        hand_map_status,
+                                        sources)
+SELECT EAP_or_ORP_concept.concept_id,
+       EAP_or_ORP_concept.concept_code,
+       EAP_or_ORP_concept.concept_name,
+       curated_procedure_mappings.concept_id,
+       'MISSING',
+       'MANUAL'
+FROM leaf_scratch.curated_procedure_mappings curated_procedure_mappings,
+     omop.cdm.concept EAP_or_ORP_concept
+WHERE curated_procedure_mappings.source_code NOT IN (SELECT Epic_concept_code
+                                                     FROM leaf_scratch.procedures_map)
+      AND curated_procedure_mappings.source_code = EAP_or_ORP_concept.concept_code
+      AND curated_procedure_mappings.source_concept_vocab = EAP_or_ORP_concept.vocabulary_id
+
+-- 4c. continued; to ensure that all codes and names are consistent with the concept table
+--     update CPT4_concept_code and CPT4_concept_name as a function of CPT4_concept_id
+UPDATE leaf_scratch.procedures_map
+SET CPT4_concept_code = CPT4_concept.concept_code,
+    CPT4_concept_name = CPT4_concept.concept_name
+FROM leaf_scratch.procedures_map procedures_map,
+     omop.cdm.concept CPT4_concept
+WHERE procedures_map.CPT4_concept_id = CPT4_concept.concept_id
+
+-- Print counts of the hand_map_status values
+SELECT hand_map_status, COUNT(hand_map_status)
+FROM leaf_scratch.procedures_map
+GROUP BY hand_map_status
+
+/*
+TODO: check invariants from step 4
+create a 'MISSING' leaf_scratch.procedures_map to test 4c
+*/
 
 /*
 -- TODO: Do steps 5 - 6

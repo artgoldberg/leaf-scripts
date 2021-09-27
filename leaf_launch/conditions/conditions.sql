@@ -1,6 +1,7 @@
 /*
  * Create mappings from 'Epic diagnosis IDs' to SNOMED
- * Results are new entries in the Leaf_usagi.Leaf_staging table
+ * Results are entries in the Leaf_usagi.Leaf_staging table with
+ * mapping_creation_user = 'Arthur Goldberg's conditions.sql script'
  * Author: Arthur.Goldberg@mssm.edu
  */
 
@@ -203,7 +204,6 @@ PRINT CAST(@num_manual_mappings_2 AS VARCHAR) +
 
 
 -- 3a. If manual mapping is consistent with conditions_map, mark conditions_map.hand_map_status as 'CONSISTENT', and update sources
-
 UPDATE rpt.leaf_scratch.conditions_map
 SET hand_map_status = 'CONSISTENT',
     sources = 'Caboodle and MANUAL'
