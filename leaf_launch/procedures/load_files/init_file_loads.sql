@@ -1,9 +1,18 @@
--- Create schema for the curated procedure mappings in temp table
-DROP TABLE IF EXISTS rpt.leaf_scratch.temp_curated_procedure_mappings_schema;
+-- Create SQL Server schema for various procedure tables
+USE rpt;
 
-CREATE TABLE rpt.leaf_scratch.temp_curated_procedure_mappings_schema
+IF (SCHEMA_ID('leaf_procedures') IS NULL)
+BEGIN
+    EXEC ('CREATE SCHEMA [leaf_procedures]')
+END
+GO
+
+-- Create table schema for the curated procedure mappings in temp table
+DROP TABLE IF EXISTS leaf_procedures.temp_curated_procedure_mappings_schema;
+
+CREATE TABLE leaf_procedures.temp_curated_procedure_mappings_schema
 (
-    -- Care about this:
+    -- care about this:
     source_code_type VARCHAR(255),                  -- whether the source code is surgical or not
     -- care about this:
     source_code VARCHAR(255),
@@ -30,8 +39,8 @@ CREATE TABLE rpt.leaf_scratch.temp_curated_procedure_mappings_schema
 );
 
 -- Make table to hold curated procedure mappings
-DROP TABLE IF EXISTS rpt.leaf_scratch.curated_procedure_mappings;
+DROP TABLE IF EXISTS rpt.leaf_procedures.curated_procedure_mappings;
 
 SELECT *
-INTO rpt.leaf_scratch.curated_procedure_mappings
-FROM rpt.leaf_scratch.temp_curated_procedure_mappings_schema;
+INTO rpt.leaf_procedures.curated_procedure_mappings
+FROM rpt.leaf_procedures.temp_curated_procedure_mappings_schema;

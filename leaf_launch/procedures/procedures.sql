@@ -6,14 +6,13 @@
  */
 
 /*
-TODO: revise:
-Must be executed as goldba06@MSSMCAMPUS.MSSM.EDU.
+Must be executed by a user that has UPDATE access to rpt, and SELECT access to omop and src.
 
 Steps
 1. Create procedures_map table
 2. Map Epic's EAP and ORP procedure codes to CPT, from the Epic concepts in src.caboodle.ProcedureDim
-3. Clean up rpt.leaf_scratch.curated_procedure_mappings
-4. Integrate Sharon's existing manual mappings of Epic's EAP and ORP procedure codes to CPT, from leaf_scratch.curated_procedure_mappings
+3. Clean up rpt.leaf_procedures.curated_procedure_mappings
+4. Integrate Sharon's existing manual mappings of Epic's EAP and ORP procedure codes to CPT, from leaf_procedures.curated_procedure_mappings
 4a. If manual mapping is consistent, mark procedures_map.hand_map_status 'CONSISTENT'
 4b. If manual mapping conflicts, mark procedures_map.hand_map_status 'CONFLICTED',
     use the manual value selected for CPT, and update sources
@@ -35,19 +34,26 @@ IF (NOT EXISTS (SELECT *
     BEGIN
         CREATE TABLE leaf_scratch.procedures_map
         (
-            Epic_concept_id INT NOT NULL PRIMARY KEY,
+            Epic_concept_id INT NOT NULL,
             -- Caution: Epic_concept_code values may not be UNIQUE, as they're EAP OR ORP procedure codes
             Epic_concept_code NVARCHAR(50) NOT NULL,
             Epic_concept_name NVARCHAR(255) NOT NULL,
-            -- TODO: make this unique for step 4:
-            CPT4_concept_id INT NOT NULL UNIQUE,
+            CPT4_concept_id INT NOT NULL,
             CPT4_concept_code NVARCHAR(50),
             CPT4_concept_name NVARCHAR(255),
             -- Relationship of Sharon's hand-coded Epic -> CPT4 mapping to automated mapping
+            -- 'CONSISTENT' <=> a curated mapping is consistent with an automated mapping
+            -- 'CONFLICTED' <=> a curated mapping conflicts with an automated mapping; the curated one takes precedence
+            -- 'MISSING' <=> the source code of a curated mapping isn't used by any automated mapping; the curated one is used
             hand_map_status NVARCHAR(50),
             sources NVARCHAR(200) NOT NULL,     -- Sources for a record
             comment NVARCHAR(200)
         )
+
+        ALTER TABLE leaf_scratch.procedures_map
+        ADD CONSTRAINT PK_no_dupe_id_mappings UNIQUE (Epic_concept_id,
+                                                      CPT4_concept_id)
+
     END
 ELSE
     TRUNCATE TABLE leaf_scratch.procedures_map
@@ -113,23 +119,6 @@ WHERE procedure_dim.IsCurrent = 1
       AND Epic_concept.vocabulary_id = 'EPIC EAP .1'
       -- The code for the Epic concept is a decimal in ProcedureEpicId
       AND Epic_concept.concept_code = CAST(procedure_dim.ProcedureEpicId AS NVARCHAR(50));
-
--- Duplicate ProcedureEpicId codes?
-check NVARCHAR(50)
-DECLARE @cardinality_EpicId_codes TABLE (ProcedureEpicId NVARCHAR(50) PRIMARY KEY,
-                                         num_ProcedureEpicId_codes INT)
-
-INSERT INTO @cardinality_EpicId_codes
-SELECT DiagnosisDim.DiagnosisEpicId, COUNT(DTD.Value)
-FROM #proc_mappings_from_cpt_code
-
-
-SELECT #proc_mappings_from_cpt_code.ProcedureEpicId,
-       #proc_mappings_from_cpt_code.Epic_name,
-       #proc_mappings_from_cpt_code.Code AS 'CptCode_code',
-       #proc_mappings_from_code.Code AS 'Code_code'
-FROM #proc_mappings_from_cpt_code
-WHERE 
 
 -- Conflicting codes from the two methods, which can be reconciled or ignored
 -- Join on ProcedureEpicId, showing both Code and CptCode
@@ -268,10 +257,10 @@ WHERE Epic_concept.concept_code = CAST(SurgicalProcedureEpicId AS NVARCHAR(50))
       AND CPT4_concept.vocabulary_id = 'CPT4';
 
 
--- 3. Clean up curated procedure mappings in rpt.leaf_scratch.curated_procedure_mappings,
+-- 3. Clean up curated procedure mappings in rpt.leaf_procedures.curated_procedure_mappings,
 -- which were loaded by procedures.sh.
 -- Discard rows that do not have a match, those with equivalence = 'UNMATCHED'
-DELETE FROM leaf_scratch.curated_procedure_mappings
+DELETE FROM leaf_procedures.curated_procedure_mappings
 WHERE equivalence = 'UNMATCHED';
 
 -- Convert types of fields in curated_procedure_mappings as needed
@@ -287,29 +276,29 @@ DROP TABLE IF EXISTS #temp_curated_procedure_mappings;
 
 SELECT *
 INTO #temp_curated_procedure_mappings
-FROM leaf_scratch.curated_procedure_mappings;
+FROM leaf_procedures.curated_procedure_mappings;
 
-DELETE FROM leaf_scratch.curated_procedure_mappings;
+DELETE FROM leaf_procedures.curated_procedure_mappings;
 
-ALTER TABLE leaf_scratch.curated_procedure_mappings
+ALTER TABLE leaf_procedures.curated_procedure_mappings
 ALTER COLUMN source_code NVARCHAR(50) NOT NULL;
 
-ALTER TABLE leaf_scratch.curated_procedure_mappings
+ALTER TABLE leaf_procedures.curated_procedure_mappings
 ALTER COLUMN source_frequency INT NOT NULL;
 
-ALTER TABLE leaf_scratch.curated_procedure_mappings
+ALTER TABLE leaf_procedures.curated_procedure_mappings
 ALTER COLUMN match_score FLOAT NOT NULL;
 
-ALTER TABLE leaf_scratch.curated_procedure_mappings
+ALTER TABLE leaf_procedures.curated_procedure_mappings
 ALTER COLUMN concept_id INT NOT NULL;
 
-ALTER TABLE leaf_scratch.curated_procedure_mappings
+ALTER TABLE leaf_procedures.curated_procedure_mappings
 ADD source_concept_vocab NVARCHAR(100);
 
-ALTER TABLE leaf_scratch.curated_procedure_mappings
+ALTER TABLE leaf_procedures.curated_procedure_mappings
 ADD target_concept_vocabulary NVARCHAR(100);
 
-INSERT INTO leaf_scratch.curated_procedure_mappings
+INSERT INTO leaf_procedures.curated_procedure_mappings
 SELECT source_code_type,
        CONVERT(NVARCHAR(50), source_code),
        source_name,
@@ -332,10 +321,11 @@ SELECT source_code_type,
        NULL,
        NULL
 FROM #temp_curated_procedure_mappings;
--- Need to batch so stupid SQL Server complier understands source_concept_vocab column below
+
+-- Must start new batch so stupid SQL Server complier understands source_concept_vocab column below
 GO
 
--- TODO: other possible clean-up of leaf_scratch.curated_procedure_mappings
+-- TODO: other possible clean-up of leaf_procedures.curated_procedure_mappings
 -- Remove quotes around strings (which contain comma) -- perhaps just get name from concept, & check that it matches
 -- Convert created_on & status_set_on to datetimes
 
@@ -343,7 +333,7 @@ GO
 
 -- 4 alpha. Check the curated mappings
 -- Which surgical mappings are in concept with vocabulary_id = 'EPIC ORP .1'?
-UPDATE leaf_scratch.curated_procedure_mappings
+UPDATE leaf_procedures.curated_procedure_mappings
 SET source_concept_vocab = 'EPIC ORP .1'
 FROM omop.cdm.concept AS concept
 WHERE source_code_type = 'surgical'
@@ -351,7 +341,7 @@ WHERE source_code_type = 'surgical'
       AND concept.concept_code = source_code;
 
 -- Which non-surgical mappings are in concept with vocabulary_id = 'EPIC EAP .1'?
-UPDATE leaf_scratch.curated_procedure_mappings
+UPDATE leaf_procedures.curated_procedure_mappings
 SET source_concept_vocab = 'EPIC EAP .1'
 FROM omop.cdm.concept AS concept
 WHERE source_code_type = 'non-surgical'
@@ -360,10 +350,10 @@ WHERE source_code_type = 'non-surgical'
 
 -- Ensure that all source concept vocabulary_ids are either 'EPIC ORP .1' or 'EPIC EAP .1'
 IF (EXISTS(SELECT 1
-           FROM leaf_scratch.curated_procedure_mappings
+           FROM leaf_procedures.curated_procedure_mappings
            WHERE source_concept_vocab NOT IN ('EPIC ORP .1', 'EPIC EAP .1')))
     BEGIN
-        DECLARE @msg NVARCHAR(MAX) = 'Error: leaf_scratch.curated_procedure_mappings contains mappings from ' +
+        DECLARE @msg NVARCHAR(MAX) = 'Error: leaf_procedures.curated_procedure_mappings contains mappings from ' +
                                       ' source concepts whose vocabulary ids are not ''EPIC ORP .1'' or ''EPIC EAP .1'''
         RAISERROR(@msg, 16, 0)
     END
@@ -371,15 +361,15 @@ IF (EXISTS(SELECT 1
 -- Check on vocabulary_ids of target concept_ids
 UPDATE curated_procedure_mappings
 SET target_concept_vocabulary = concept.vocabulary_id
-FROM leaf_scratch.curated_procedure_mappings AS curated_procedure_mappings,
+FROM leaf_procedures.curated_procedure_mappings AS curated_procedure_mappings,
      omop.cdm.concept AS concept
 WHERE curated_procedure_mappings.concept_id = concept.concept_id
 
 -- Unfortunately, 33 of the curated mappings map to SNOMED or HCPCS, not CPT4; delete and ignore these
-DELETE leaf_scratch.curated_procedure_mappings
+DELETE leaf_procedures.curated_procedure_mappings
 WHERE concept_id IN
     (SELECT curated_procedure_mappings.concept_id
-     FROM leaf_scratch.curated_procedure_mappings AS curated_procedure_mappings,
+     FROM leaf_procedures.curated_procedure_mappings AS curated_procedure_mappings,
           omop.cdm.concept AS concept
      WHERE curated_procedure_mappings.concept_id = concept.concept_id
            AND concept.vocabulary_id <> 'CPT4')
@@ -389,7 +379,7 @@ UPDATE leaf_scratch.procedures_map
 SET hand_map_status = 'CONSISTENT',
     sources = 'Caboodle and MANUAL'
 FROM leaf_scratch.procedures_map procedures_map,
-     leaf_scratch.curated_procedure_mappings curated_procedure_mappings
+     leaf_procedures.curated_procedure_mappings curated_procedure_mappings
 WHERE procedures_map.Epic_concept_code = curated_procedure_mappings.source_code
       AND procedures_map.CPT4_concept_id = curated_procedure_mappings.concept_id
 
@@ -400,7 +390,7 @@ SET hand_map_status = 'CONFLICTED',
     CPT4_concept_id = curated_procedure_mappings.concept_id,
     sources = 'MANUAL'
 FROM leaf_scratch.procedures_map procedures_map,
-     leaf_scratch.curated_procedure_mappings curated_procedure_mappings
+     leaf_procedures.curated_procedure_mappings curated_procedure_mappings
 WHERE procedures_map.Epic_concept_code = curated_procedure_mappings.source_code
       AND NOT procedures_map.CPT4_concept_id = curated_procedure_mappings.concept_id
 
@@ -412,18 +402,21 @@ INSERT INTO leaf_scratch.procedures_map(Epic_concept_id,
                                         CPT4_concept_id,
                                         hand_map_status,
                                         sources)
-SELECT EAP_or_ORP_concept.concept_id,
+SELECT DISTINCT EAP_or_ORP_concept.concept_id,
        EAP_or_ORP_concept.concept_code,
        EAP_or_ORP_concept.concept_name,
        curated_procedure_mappings.concept_id,
        'MISSING',
        'MANUAL'
-FROM leaf_scratch.curated_procedure_mappings curated_procedure_mappings,
-     omop.cdm.concept EAP_or_ORP_concept
-WHERE curated_procedure_mappings.source_code NOT IN (SELECT Epic_concept_code
-                                                     FROM leaf_scratch.procedures_map)
-      AND curated_procedure_mappings.source_code = EAP_or_ORP_concept.concept_code
+FROM leaf_procedures.curated_procedure_mappings curated_procedure_mappings,
+     omop.cdm.concept EAP_or_ORP_concept,
+     (SELECT Epic_concept_id,
+             CPT4_concept_id
+      FROM leaf_scratch.procedures_map) existing_mappings
+WHERE curated_procedure_mappings.source_code = EAP_or_ORP_concept.concept_code
       AND curated_procedure_mappings.source_concept_vocab = EAP_or_ORP_concept.vocabulary_id
+      AND EAP_or_ORP_concept.concept_id <> existing_mappings.Epic_concept_id
+      AND curated_procedure_mappings.concept_id <> existing_mappings.CPT4_concept_id
 
 -- 4c. continued; to ensure that all codes and names are consistent with the concept table
 --     update CPT4_concept_code and CPT4_concept_name as a function of CPT4_concept_id
@@ -440,17 +433,50 @@ FROM leaf_scratch.procedures_map
 GROUP BY hand_map_status
 
 /*
-TODO: check invariants from step 4
-create a 'MISSING' leaf_scratch.procedures_map to test 4c
+TODO: invariants that should be checked in leaf_scratch.procedures_map
+2,000,000,000 <= Epic_concept_id
+Epic_concept_id is an FK to a concept, whose vocabulary_id is IN ('EPIC ORP .1', 'EPIC EAP .1')
+Epic_concept_code and Epic_concept_name are consistent with the concept entry Epic_concept_id points to
+CPT4_concept_id < 2,000,000,000
+CPT4_concept_id is an FK to a concept, whose vocabulary_id is 'CPT4'
+CPT4_concept_code and CPT4_concept_name are consistent with the concept entry CPT4_concept_id points to
 */
 
+-- 6. Insert new mappings into rpt.Leaf_usagi.Leaf_staging
+DELETE FROM Leaf_usagi.Leaf_staging
+WHERE mapping_creation_user = 'Arthur Goldberg''s procedures.sql script'
+
+-- Insert new Epic to CPT4 procedure mappings into Leaf_staging
+INSERT INTO Leaf_usagi.Leaf_staging(source_concept_id,
+                                    source_concept_code,
+                                    source_concept_name,
+                                    source_concept_vocabulary_id,
+                                    target_concept_id,
+                                    target_concept_code,
+                                    target_concept_name,
+                                    target_concept_vocabulary_id,
+                                    mapping_creation_user,
+                                    mapping_creation_datetime)
+SELECT Epic_concept_id,
+       Epic_concept_code,
+       Epic_concept_name,
+       Epic_concept.vocabulary_id,
+       CPT4_concept_id,
+       CPT4_concept_code,
+       CPT4_concept_name,
+       'CPT4',
+       'Arthur Goldberg''s procedures.sql script',
+       GETDATE()
+FROM leaf_scratch.procedures_map procedures_map,
+     omop.cdm.concept Epic_concept
+WHERE procedures_map.Epic_concept_id = Epic_concept.concept_id
+
 /*
--- TODO: Do steps 5 - 6
 -- TODO: After they've been annotated, re-load contents of #proc_mappings_from_SurgicalProcedureEpicId
 -- with annotations that identify good mappings and stop incorporating them above
 
 -- TODO: have Tim review this code
--- TODO: use stored procedures to reduce code duplication
+-- TODO: use stored procedures to reduce code duplication between this and conditions.sql
 */
 
 PRINT CONVERT(VARCHAR, GETDATE(), 120) + ': finishing ''procedures.sql'''
