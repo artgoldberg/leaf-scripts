@@ -378,6 +378,7 @@ SELECT Epic_concept_id,
        'Arthur Goldberg''s conditions.sql script',
        GETDATE()
 FROM leaf_scratch.conditions_map
+-- TODO: perhaps remove this condition
 WHERE -- Do not insert mappings that would duplicate manual mappings already in Leaf_usagi.mapping_import
       NOT sources LIKE '%MANUAL%'
 

@@ -1,5 +1,5 @@
 /*
- * Create mappings from Epic's EAP and ORP procedure codes to CPT4
+ * Create mappings from Epic EAP and ORP procedure codes to CPT4
  * Results are entries in the Leaf_usagi.Leaf_staging table with
  * mapping_creation_user = 'Arthur Goldberg's procedures.sql script'
  * Author: Arthur.Goldberg@mssm.edu
@@ -41,7 +41,7 @@ IF (NOT EXISTS (SELECT *
             CPT4_concept_id INT NOT NULL,
             CPT4_concept_code NVARCHAR(50),
             CPT4_concept_name NVARCHAR(255),
-            -- Relationship of Sharon's hand-coded Epic -> CPT4 mapping to automated mapping
+            -- Relationship of Sharon's curated Epic -> CPT4 mapping to automated mapping
             -- 'CONSISTENT' <=> a curated mapping is consistent with an automated mapping
             -- 'CONFLICTED' <=> a curated mapping conflicts with an automated mapping; the curated one takes precedence
             -- 'MISSING' <=> the source code of a curated mapping isn't used by any automated mapping; the curated one is used
@@ -426,19 +426,60 @@ WHERE procedures_map.CPT4_concept_id = CPT4_concept.concept_id
 -- Print counts of the hand_map_status values
 SELECT hand_map_status, COUNT(hand_map_status)
 FROM leaf_scratch.procedures_map
-GROUP BY hand_map_status
+GROUP BY hand_map_status;
 
 /*
-TODO: invariants that should be checked in leaf_scratch.procedures_map
-2,000,000,000 <= Epic_concept_id
-Epic_concept_id is an FK to a concept, whose vocabulary_id is IN ('EPIC ORP .1', 'EPIC EAP .1')
+-- TODO: additional constraints
+The Epic_concept_id concept vocabulary_id is IN ('EPIC ORP .1', 'EPIC EAP .1')
 Epic_concept_code and Epic_concept_name are consistent with the concept entry Epic_concept_id points to
-CPT4_concept_id < 2,000,000,000
-CPT4_concept_id is an FK to a concept, whose vocabulary_id is 'CPT4'
+The CPT4_concept_id concept vocabulary_id is 'CPT4'
 CPT4_concept_code and CPT4_concept_name are consistent with the concept entry CPT4_concept_id points to
 */
 
--- 6. Insert new mappings into rpt.Leaf_usagi.Leaf_staging
+-- Need to copy omop.cdm.concept because it lacks a PRIMARY KEY constraint on concept_id; why?
+DROP TABLE IF EXISTS leaf_procedures.omop_concept
+
+SELECT *
+INTO leaf_procedures.omop_concept
+FROM omop.cdm.concept;
+
+ALTER TABLE leaf_procedures.omop_concept
+ADD PRIMARY KEY (concept_id);
+
+-- TODO: make this stable: have DROP CONSTRAINT operations execute independent of prior error
+-- Constraints on leaf_scratch.procedures_map
+-- Constraint: 2,000,000,000 <= Epic_concept_id
+ALTER TABLE leaf_scratch.procedures_map
+ADD CONSTRAINT CHK_Epic_concept_id CHECK (2000000000 <= Epic_concept_id);
+
+-- Constraint: Epic_concept_id is an FK to a concept
+ALTER TABLE leaf_scratch.procedures_map
+ADD CONSTRAINT FK_Epic_concept_id
+FOREIGN KEY (Epic_concept_id) REFERENCES leaf_procedures.omop_concept(concept_id);
+
+-- Constraint: CPT4_concept_id < 2,000,000,000
+ALTER TABLE leaf_scratch.procedures_map
+ADD CONSTRAINT CHK_CPT4_concept_id CHECK (CPT4_concept_id < 2000000000);
+
+-- Constraint: CPT4_concept_id is an FK to a concept
+ALTER TABLE leaf_scratch.procedures_map
+ADD CONSTRAINT FK_CPT4_concept_id
+FOREIGN KEY (CPT4_concept_id) REFERENCES leaf_procedures.omop_concept(concept_id);
+
+-- Drop these constraints on leaf_scratch.procedures_map
+ALTER TABLE leaf_scratch.procedures_map
+DROP CONSTRAINT IF EXISTS CHK_Epic_concept_id
+
+ALTER TABLE leaf_scratch.procedures_map
+DROP CONSTRAINT IF EXISTS FK_Epic_concept_id
+
+ALTER TABLE leaf_scratch.procedures_map
+DROP CONSTRAINT IF EXISTS CHK_CPT4_concept_id
+
+ALTER TABLE leaf_scratch.procedures_map
+DROP CONSTRAINT IF EXISTS FK_CPT4_concept_id
+
+-- 6. Insert new procedures.sql mappings into rpt.Leaf_usagi.Leaf_staging
 DELETE FROM Leaf_usagi.Leaf_staging
 WHERE mapping_creation_user = 'Arthur Goldberg''s procedures.sql script'
 
@@ -474,5 +515,10 @@ WHERE procedures_map.Epic_concept_id = Epic_concept.concept_id
 -- TODO: have Tim review this code
 -- TODO: use stored procedures to reduce code duplication between this and conditions.sql
 */
+DECLARE @num_mapping_import_records INT = (SELECT COUNT(*)
+                                           FROM Leaf_usagi.Leaf_staging
+                                           WHERE mapping_creation_user = 'Arthur Goldberg''s procedures.sql script')
+PRINT CAST(@num_mapping_import_records AS VARCHAR) + ' procedure mapping records in Leaf_usagi.Leaf_staging'
 
 PRINT CONVERT(VARCHAR, GETDATE(), 120) + ': finishing ''procedures.sql'''
+PRINT ''
