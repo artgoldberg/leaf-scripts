@@ -152,6 +152,7 @@ Leaf after Beta
     Sharon review proc_mappings_of_Epic_EAP_from_cpt_code_scored.csv
     Ask Sharon to hand-resolve the conflicts in #conflicting_proc_mappings
     fix SSL ciphers; see Wei's emails RE "Leaf  ssl ciphers"
+    automated diffs for changes to concept mappings
     create a dev version of Leaf
         Wei create another VM
             put at leaf-dev.mssm.edu
@@ -185,6 +186,19 @@ Planning next steps MSDW2, Leaf and ATLAS
 procedures:
     x find Epic code → CPT4 mappings in src
     x Review Tim's email on "Additional tables desired in src.caboodle"
+    prepare to present procedures mapping to colleagues
+        statistics
+            coverage, as for conditions
+        presentation
+            discuss interpretation of curated mappings
+        confluence description
+        curation tasks
+            review discarded duplicates from curation, if desired
+            review 3 EPIC EAP codes in #conflicting_proc_mappings
+            review EPIC EAP mappings obtained using CptCode
+            review EPIC ORP mappings obtained from procedure_dim.SurgicalProcedureEpicId
+            review the 33 curated mappings that map to SNOMED or HCPCS, which are ignored
+            review relationships of curated mappings to automated mappings in hand_map_status
     see todos in procedures.sql
     Sharon remap the 33 curated mappings that map to SNOMED or HCPCS, not CPT4
     make complete list of curated mapping and review needed

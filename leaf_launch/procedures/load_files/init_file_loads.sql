@@ -1,3 +1,8 @@
+/*
+ * Prepare to load files with curated mappings into leaf_procedures.curated_procedure_mappings
+ * Author: Arthur.Goldberg@mssm.edu
+ */
+
 -- Create SQL Server schema for various procedure tables
 USE rpt;
 

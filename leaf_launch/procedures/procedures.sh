@@ -5,6 +5,8 @@
 
 # use command: ./procedures.sh
 
+# TODO: make a logging temp directory, and write errors.log and procedures_errors.log there
+
 # exit when any command fails; requires -b option on sqlcmd
 set -e
 

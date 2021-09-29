@@ -1,3 +1,8 @@
+/*
+ * Clean up from loading files with curated mappings into leaf_procedures.curated_procedure_mappings
+ * Author: Arthur.Goldberg@mssm.edu
+ */
+
 USE rpt;
 
 -- Drop temp table for the schema for the curated procedure mappings
@@ -47,7 +52,26 @@ SELECT *,
 INTO leaf_procedures.curated_procedure_mappings_full_duplicates
 FROM leaf_procedures.curated_procedure_mappings
 
--- TODO: procedure to print table name, number unique rows, number duplicated rows
+-- TODO: finish this
+-- Procedure to print table name, number unique rows, number duplicated rows
+-- IF OBJECT_ID('tempdb..#evaluate_mapping_duplicates') IS NOT NULL
+-- BEGIN
+--     DROP PROC #evaluate_mapping_duplicates
+-- END
+-- GO
+--
+-- CREATE PROCEDURE #evaluate_mapping_duplicates
+-- 	@table_name NVARCHAR(MAX)
+-- AS
+-- BEGIN
+--     DECLARE @nl CHAR = CHAR(10) -- new line char
+--     DECLARE @sql NVARCHAR(MAX) = CONCAT('SELECT COUNT(*)', @nl,
+-- 						    			'FROM leaf_procedures.',
+-- 						    			 @table_name, @nl,
+-- 						    			 'WHERE row_number <= 1', @nl)
+--     EXEC (@sql)
+--
+-- END
 
 DELETE FROM leaf_procedures.curated_procedure_mappings_full_duplicates
 WHERE row_number <= 1
@@ -92,3 +116,5 @@ FROM leaf_procedures.curated_procedure_mappings
 DELETE FROM leaf_procedures.curated_procedure_mappings_primary_key_duplicates_remaining
 WHERE row_number <= 1
 -- TODO: report that this finds no duplicates in leaf_procedures.curated_procedure_mappings
+
+-- TODO: delete tables that aren't needed

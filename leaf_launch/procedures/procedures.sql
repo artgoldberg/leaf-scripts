@@ -51,9 +51,8 @@ IF (NOT EXISTS (SELECT *
         )
 
         ALTER TABLE leaf_scratch.procedures_map
-        ADD CONSTRAINT PK_no_dupe_id_mappings UNIQUE (Epic_concept_id,
-                                                      CPT4_concept_id)
-
+        ADD CONSTRAINT UNIQUE_concept_id_mappings UNIQUE (Epic_concept_id,
+                                                          CPT4_concept_id)
     END
 ELSE
     TRUNCATE TABLE leaf_scratch.procedures_map
@@ -134,7 +133,6 @@ FROM #proc_mappings_from_cpt_code,
 WHERE #proc_mappings_from_cpt_code.ProcedureEpicId = #proc_mappings_from_code.ProcedureEpicId
       AND #proc_mappings_from_cpt_code.Code <> #proc_mappings_from_code.Code;
 
-
 /*
 Data review:
 We're using caboodle.ProcedureDim to map Epic procedure codes into CPT4 codes.
@@ -171,17 +169,17 @@ IF (NOT EXISTS(SELECT 1
         (SELECT COUNT(*)
          FROM #conflicting_proc_mappings))
     BEGIN
-        PRINT 'Mappings that use CptCode in procedure_dim are a superset of those from Code, except ' +
-              'for a handful of conflicts in #conflicting_proc_mappings'
+        PRINT 'Mappings that use CptCode in procedure_dim are a superset of those from Code, except for at most ' +
+              CONVERT(VARCHAR, @max_num_conflicting_mappings) + ' conflicts in #conflicting_proc_mappings.'
     END
 ELSE
     BEGIN
-        PRINT 'Examine #mappings_in_code_not_in_cpt_code, which contains mappings available exclusively ' +
-              'in procedure_dim.Code'
+        PRINT 'WARNING: Examine #mappings_in_code_not_in_cpt_code, which contains more than ' +
+               CONVERT(VARCHAR, @max_num_conflicting_mappings) +
+               ' mappings available exclusively in procedure_dim.Code.'
         SELECT *
         FROM #mappings_in_code_not_in_cpt_code
     END
--- TODO: ignore mappings in #proc_mappings_from_cpt_code which have different 
 
 USE rpt;
 
@@ -402,21 +400,19 @@ INSERT INTO leaf_scratch.procedures_map(Epic_concept_id,
                                         CPT4_concept_id,
                                         hand_map_status,
                                         sources)
-SELECT DISTINCT EAP_or_ORP_concept.concept_id,
+SELECT EAP_or_ORP_concept.concept_id,
        EAP_or_ORP_concept.concept_code,
        EAP_or_ORP_concept.concept_name,
        curated_procedure_mappings.concept_id,
        'MISSING',
        'MANUAL'
 FROM leaf_procedures.curated_procedure_mappings curated_procedure_mappings,
-     omop.cdm.concept EAP_or_ORP_concept,
-     (SELECT Epic_concept_id,
-             CPT4_concept_id
-      FROM leaf_scratch.procedures_map) existing_mappings
+     omop.cdm.concept EAP_or_ORP_concept
 WHERE curated_procedure_mappings.source_code = EAP_or_ORP_concept.concept_code
       AND curated_procedure_mappings.source_concept_vocab = EAP_or_ORP_concept.vocabulary_id
-      AND EAP_or_ORP_concept.concept_id <> existing_mappings.Epic_concept_id
-      AND curated_procedure_mappings.concept_id <> existing_mappings.CPT4_concept_id
+      AND NOT EXISTS(SELECT 1
+                     FROM leaf_scratch.procedures_map inner_procedures_map
+                     WHERE EAP_or_ORP_concept.concept_id = inner_procedures_map.Epic_concept_id)
 
 -- 4c. continued; to ensure that all codes and names are consistent with the concept table
 --     update CPT4_concept_code and CPT4_concept_name as a function of CPT4_concept_id
