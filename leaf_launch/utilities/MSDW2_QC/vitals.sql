@@ -8,6 +8,8 @@ SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 
 USE omop;
+
+-- Define concept id variables for vitals, using cdm_deid.concept
 DECLARE @temp INT = (SELECT concept_id
                      FROM cdm_deid.concept
                      WHERE concept_name = 'Body temperature'
@@ -113,6 +115,9 @@ DECLARE @peds_systolic_bp INT = (SELECT concept_id
                                        AND concept_class_id = 'Survey'
                                        AND vocabulary_id = 'LOINC')
 
+-- Define string values of units used by vitals, using cdm_deid.concept
+-- These queries are deliberately stupid, as they simply query for a concept name value, and then save the name in a variable
+-- In doing so, they confirm that the concept with the given name exists
 DECLARE @per_minute NVARCHAR(50) = (SELECT concept_name
                                     FROM cdm_deid.concept
                                     WHERE concept_name = 'counts per minute'
@@ -169,6 +174,7 @@ DECLARE @score NVARCHAR(50) = (SELECT concept_name
                                      AND concept_class_id = 'Unit'
                                      AND vocabulary_id = 'UCUM')
 
+-- Create a table that pairs each vital with its units
 DROP TABLE IF EXISTS #vitals_w_units
 CREATE TABLE #vitals_w_units (vital_concept_id INT NOT NULL PRIMARY KEY,
                               vital_units NVARCHAR(50) NOT NULL)
@@ -190,14 +196,13 @@ FROM (VALUES (@temp,                @degree_F),
              (@peds_diastolic_bp,   @percent),
              (@peds_systolic_bp,    @percent)) AS X(col1, col2);
 
-SELECT *
-FROM #vitals_w_units
-
+-- Show that all units are in the concepts table, which is redundant with the code above
 SELECT concept.concept_name, concept.concept_id,
        concept_id_string = CONVERT(NVARCHAR(50), concept.concept_id), vital_units
 FROM #vitals_w_units, omop.cdm_deid.concept AS concept
 WHERE vital_concept_id = concept.concept_id;
 
+-- Show that all but 3 (as of 2021-09-29 19:20) vital concept ids are not present in omop.cdm_deid.measurement.measurement_concept_id
 SELECT concept.concept_name, concept.concept_id, [count] = COUNT(DISTINCT person_id)
 FROM omop.cdm_deid.measurement AS measurement,
      omop.cdm_deid.concept AS concept
