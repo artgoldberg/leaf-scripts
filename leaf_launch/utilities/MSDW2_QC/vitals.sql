@@ -210,3 +210,37 @@ WHERE measurement.measurement_concept_id = concept.concept_id
       AND concept.concept_id IN (SELECT vital_concept_id
                                  FROM #vitals_w_units)
 GROUP BY concept.concept_name, concept.concept_id
+
+-- Examine the Epic source codes for vitals
+CREATE TABLE #vitals_source_codes (source_code NVARCHAR(50) NOT NULL)
+
+INSERT INTO #vitals_source_codes
+SELECT *
+FROM (VALUES ('5'),
+             ('5'),
+             ('6'),
+             ('8'),
+             ('9'),
+             ('10'),
+             ('11'),
+             ('13'),
+             ('14'),
+             ('16'),
+             ('3029'),
+             ('888401001'),
+             ('1572140201'),
+             ('1572140202'),
+             ('1572140203'),
+             ('1572140204'),
+             ('1572140205'),
+             ('1572140206'),
+             ('3040100950')) AS X(col1);
+
+SELECT concept_name, COUNT(person_id)
+FROM omop.cdm_deid.concept AS concept,
+     #vitals_source_codes,
+     omop.cdm_deid.measurement AS measurement
+WHERE concept.vocabulary_id = 'EPIC FLO .1'
+      AND concept.concept_code = source_code
+      AND measurement.measurement_source_concept_id = concept.concept_id
+GROUP BY concept.concept_name
