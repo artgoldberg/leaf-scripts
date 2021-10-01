@@ -153,16 +153,6 @@ Leaf after Beta
     Ask Sharon to hand-resolve the conflicts in #conflicting_proc_mappings
     fix SSL ciphers; see Wei's emails RE "Leaf  ssl ciphers"
     automated diffs for changes to concept mappings
-    create a dev version of Leaf
-        Wei create another VM
-            put at leaf-dev.mssm.edu
-            and at omop-leaf-dev.chimera.hpc.mssm.edu
-            get uid, password, & SSH host keys
-        create LeafDB_dev on msdw2-mssql-prd.msnyuhealth.org
-            (want dev version of Leaf that accesses same cdm as Leaf prod)
-        make dev branch for leaf-install
-        clone leaf and leaf-install to leaf-dev.mssm.edu
-        have Darshan make Azure AD for Leaf dev
 
     Joe: Stop 1 min. timeout
         perhaps Alona or Liyang
