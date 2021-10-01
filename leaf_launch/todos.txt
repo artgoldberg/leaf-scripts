@@ -146,7 +146,7 @@ Leaf after Beta
     x get reply on Leaf maintenance discussion
     x update_leaf.sh use user other than goldba06 -- service_leaf
     x add Epic to ICD10CM relationships to concept_relationship, to avoid data loss going through SNOMED, and in counts
-    todos into Jira, ugh!
+    these todos into Jira, ugh!
     delegate "Renew Kerberos ticket for Leaf API" while I'm on vacation
     discuss src.usagi.mapping_import again with BT and Tim
     Sharon review proc_mappings_of_Epic_EAP_from_cpt_code_scored.csv
@@ -311,6 +311,8 @@ later:
     control over order of Leaf facets; might like Demographics, Encounters, and Vitals; then clinical domains
     why isn't ICD10 N18.6 in UMLS MRHIER.RRF?
     enable DBeaver connection via AD without trustServerCertificate=true for Leaf service account
+    Apache for Leaf should redirect http requests to https
+    For procedures, add HPCS procedure codes where CPT4 is missing
     add to Leaf suggestions: Leaf concept table should be renamed to leaf_concept, to avoid confusion with CDM concept
     remove (or set aside) small programs in leaf-scripts/leaf_launch/conditions no longer being used, like map_Epic_to_ICD10.sql
     Share Leaf_ideas.txt with Nic
