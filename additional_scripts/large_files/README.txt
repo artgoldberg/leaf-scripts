@@ -1,1 +1,3 @@
-The files in large_files are too big for github.com and hard for BBedit to handle. We will only store them on the local repo. Good enough for now.
+version https://git-lfs.github.com/spec/v1
+oid sha256:7ee7382a41a6c86f114e7907419b590d254d5404be5ec886c18bd56b0581c728
+size 147

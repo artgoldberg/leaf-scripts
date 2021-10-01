@@ -1,1 +1,5 @@
 GEMs/LeafDB.GEMs.sql filter=lfs diff=lfs merge=lfs -text
+additional_scripts/large_files/icd10.sql filter=lfs diff=lfs merge=lfs -text
+additional_scripts/large_files/ICD10PCS.sql filter=lfs diff=lfs merge=lfs -text
+additional_scripts/large_files/LOINC.sql filter=lfs diff=lfs merge=lfs -text
+additional_scripts/large_files/README.txt filter=lfs diff=lfs merge=lfs -text
